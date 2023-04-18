@@ -1,14 +1,13 @@
 package fr.jatchwork.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 /**
  * Represent a piece of patch.
+ * @param shape The user shold be able to access a tile using a (x, y) coordinate like shape.get(x).get(y)
  */
 public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Boolean>> shape) {
   
@@ -29,20 +28,24 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
     this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
   }
   
+  public Patch(int timeCost, int buttonCost, int buttonIncome, String shape) {
+    this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
+  }
+  
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     
-    for (int i = 0; i < shape.size() || i < 3; i++) {
-      if (i < shape.size()) {
+    for (int y = 0; y < shape.get(0).size() || y < 3; y++) {
+      if (y < shape.size()) {
         // Draw shape
-        for (int j = 0; j < shape.get(i).size(); j++) {
-          builder.append(shape.get(i).get(j) ? '#' : ' ');
+        for (int x = 0; x < shape.size(); x++) {
+          builder.append(shape.get(x).get(y) ? '#' : ' ');
         }
       }
-      if (i < 3) {
+      if (y < 3) {
         builder.append('\t');
-        switch (i) {
+        switch (y) {
           case 0 -> builder.append("time cost :     ").append(timeCost);
           case 1 -> builder.append("button cost :   ").append(buttonCost);
           case 2 -> builder.append("button income : ").append(buttonIncome);
@@ -68,17 +71,35 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
     }
     return Collections.unmodifiableList(result);
   }
+  
+  /**
+   * Transforme a text to a matrix
+   * The text format should look like that :
+   * ##.
+   * .##
+   * ..#
+   */
+  private static List<List<Boolean>> toImmutable(String text) {
+    var result = new ArrayList<List<Boolean>>();
+    var lines = text.split("\n");
+    // Construct shape by reading text column by column, not line by line
+    for (int x = 0; x < lines[0].length(); x++) {
+      var column = new ArrayList<Boolean>();
+      for (int y = 0; y < lines.length; y++) {
+        column.add(lines[y].charAt(x) == '#' ? true : false);
+      }
+      result.add(Collections.unmodifiableList(column));
+    }
+    return Collections.unmodifiableList(result);
+  }
 
   public static void main(String[] args) {
     // To test patch
-    Patch p = new Patch(4, 3, 1, new boolean[][] {
-      { true , false },
-      { true , true  },
-      { true , true  },
-      { false, true  },
-      { true , true  },
-      { true , true  },
-    });
+    Patch p = new Patch(4, 3, 1, """
+        ##.
+        .##
+        ##.
+        """);
     System.out.println(p);
   }
 
