@@ -38,8 +38,19 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * @param y Vertical position
    */
   public boolean getTile(int x, int y) {
+    if (x < 0 || y < 0 || x >= shape.size() || y >= shape.get(0).size()) return false;
     return shape.get(x).get(y);
   }
+  
+  /**
+   * The horizontal size of a patch.
+   */
+  public int width() { return shape.size(); }
+  
+  /**
+   * The vertical size of a patch.
+   */
+  public int height() { return shape.get(0).size(); }
   
   @Override
   public String toString() {

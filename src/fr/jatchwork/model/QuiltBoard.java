@@ -20,7 +20,16 @@ public class QuiltBoard {
   public int remainingSpace() { return remainingSpace; }
   
   public void add(Patch patch, int x, int y) {
+    if (!fit(patch, x, y)) throw new RuntimeException("The patch did not fit in the quilt board.");
     patchs.add(new PatchCoord(patch, x, y));
+    buttonIncome += patch.buttonIncome();
+    for (int xp = 0; xp < patch.width(); xp++) {
+      for (int yp = 0; yp < patch.height(); yp++) {
+        if (!patch.getTile(xp, yp)) continue;
+        board[x + xp][y + yp] = true;
+        remainingSpace--;
+      }
+    }
   }
   
   public int buttonIncome() {
@@ -38,7 +47,16 @@ public class QuiltBoard {
   }
   
   public boolean fit(Patch patch, int x, int y) {
-    return false;
+    for (int xp = 0; xp < patch.width(); xp++) {
+      for (int yp = 0; yp < patch.height(); yp++) {
+        if (patch.getTile(xp, yp)
+            && (!isInside(x + xp, y + yp) || board[x + xp][y + yp])) {
+          return false;
+        }
+      }
+    }
+    // All part of the patch fit in the board
+    return true;
   }
   
   @Override
@@ -47,10 +65,10 @@ public class QuiltBoard {
     builder.append("Quilt board (remaining space : ").append(remainingSpace).append(")\n\n");
 
     builder.append(line());
-    for (int i = 0; i < board.length; i++) {
+    for (int y = 0; y < board.length; y++) {
       builder.append('|');
-      for (int j = 0; j < board[i].length; j++) {
-        builder.append(board[i][j] ? '#' : ' ');
+      for (int x = 0; x < board[y].length; x++) {
+        builder.append(board[x][y] ? '#' : ' ');
       }
       builder.append("|\n");
     }
@@ -59,8 +77,37 @@ public class QuiltBoard {
     return builder.toString();
   }
   
+  /**
+   * True if position is inside the quiltboard, whatever the content.
+   */
+  private boolean isInside(int x, int y) {
+    return x < board.length
+        && y < board[x].length
+        && x >= 0
+        && y >= 0;
+  }
+  
   public static void main(String[] args) {
     QuiltBoard board = new QuiltBoard(7);
     System.out.println(board);
+    
+    var p = new Patch(2, 3, 1, """
+        ##.
+        .##
+        ##.
+        """);
+    board.add(p, 0, 0);
+    
+    System.out.println(board);
+
+    var p2 = new Patch(2, 3, 3, """
+        .#.
+        ###
+        .#.
+        """);
+    board.add(p2, 1, 2);
+    
+    System.out.println(board);
+    System.out.println("buttonIncome : " + board.buttonIncome());
   }
 }
