@@ -32,6 +32,15 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
     this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
   }
   
+  /**
+   * Return true if a tile in the shape is occuped by the patch
+   * @param x Horizontal position
+   * @param y Vertical position
+   */
+  public boolean getTile(int x, int y) {
+    return shape.get(x).get(y);
+  }
+  
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
