@@ -9,13 +9,8 @@ public class Game {
   public static final int PLAYER_COUNT = 2;
   public static final int PATCH_AVAILABLE = 3;
   
-  private static Game instance = null;;
-  
-  /**
-   * Delete the old game if it exist and create a new one, accessible with instance().
-   */
-  public static void newGame() { instance = new Game(); }
-  
+  private static Game instance = new Game();
+
   /**
    * The only instance of the game.
    */
@@ -61,8 +56,8 @@ public class Game {
   
   private Game() {
     players = new Player[] {
-        new Player(7, 5),
-        new Player(7, 5)
+        new Player(1, 7, 5),
+        new Player(2, 7, 5)
     };
     timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
     // Generate patchs
@@ -123,7 +118,6 @@ public class Game {
   public static void main(String[] args) {
     // Test
     System.out.println(instance());
-    newGame();
     System.out.println(instance());
     var game = instance();
     System.out.println(game.player(0));

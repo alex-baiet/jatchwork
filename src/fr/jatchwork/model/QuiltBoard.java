@@ -62,7 +62,7 @@ public class QuiltBoard {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("Quilt board (remaining space : ").append(remainingSpace).append(")\n\n");
+    builder.append("Quilt board (remaining space : ").append(remainingSpace).append(")\n");
 
     builder.append(line());
     for (int y = 0; y < board.length; y++) {
