@@ -45,6 +45,7 @@ public class Player {
     Patch patch = game.buyPatch(numPatch);
     buttonCount -= patch.buttonCost();
     if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
+    move(patch.timeCost());
     
     // Place on the quiltboard
     board.add(patch, x, y);
@@ -69,9 +70,11 @@ public class Player {
    * @param tileCount
    */
   private void move(int tileCount) {
-    var incomes = Game.instance().timeBoard().containsIncome(position, position + tileCount);
+    var timeBoard = Game.instance().timeBoard();
+    var incomes = timeBoard.containsIncome(position, position + tileCount);
     buttonCount += incomes * board.buttonIncome();
     position += tileCount;
+    if (position >= timeBoard.size()) position = timeBoard.size() - 1;
   }
   
   public static void main(String[] args) {

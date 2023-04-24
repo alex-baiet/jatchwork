@@ -109,10 +109,24 @@ public class Game {
    */
   public String patchsToString() {
     var builder = new StringBuilder();
+    int i = 0;
     for (var patch : patchs) {
+      if (i++ == PATCH_AVAILABLE) builder.append("(inaccessible)\n\n");
       builder.append(patch).append('\n');
     }
     return builder.toString();
+  }
+  
+  @Override
+  public String toString() {
+    var b = new StringBuilder("-- GAME --\n\n");
+    b.append(" ".repeat(players[0].position())).append("|p1\n");
+    b.append(timeBoard).append('\n');
+    b.append(" ".repeat(players[1].position())).append("|p2\n\n");
+    b.append("*o are button incomes\n\n");
+    b.append(players[0]);
+    b.append(players[1]);
+    return b.toString();
   }
   
   public static void main(String[] args) {
