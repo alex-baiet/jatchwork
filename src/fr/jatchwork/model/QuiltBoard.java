@@ -14,6 +14,8 @@ public class QuiltBoard {
     remainingSpace = size * size;
   }
   
+  public int size() { return board.length; }
+  
   /**
    * How many empty tiles remains
    */
@@ -57,6 +59,15 @@ public class QuiltBoard {
     }
     // All part of the patch fit in the board
     return true;
+  }
+  
+  public Coord findSpace(Patch patch) {
+    for (int x = 0; x < size(); x++) {
+      for (int y = 0; y < size(); y++) {
+        if (fit(patch, x, y)) return new Coord(x, y);
+      }
+    }
+    return null;
   }
   
   @Override

@@ -25,6 +25,7 @@ public final class ViewConsole {
    */
   public static void displayMenu() {
     System.out.println("\n-- ACTIONS --\n");
+    System.out.println("Player " + Game.instance().playing().numero() + " turn");
     System.out.println("Choose an action :");
     System.out.println("- b (board) : Show current state of board game");
     System.out.println("- p (patches) : Show list of available patches");

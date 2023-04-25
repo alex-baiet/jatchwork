@@ -1,6 +1,6 @@
 package fr.jatchwork.model;
 
-public class Player {
+public class Player {  
   private final int num;
   private final QuiltBoard board;
   private int buttonCount;
@@ -11,6 +11,8 @@ public class Player {
     board = new QuiltBoard(quiltBoardSize);
     this.buttonCount = buttonCount;
   }
+  
+  public int numero() { return num; }
   
   public int position() { return position; }
   
@@ -49,6 +51,13 @@ public class Player {
     
     // Place on the quiltboard
     board.add(patch, x, y);
+  }
+  
+  public void buyPatch(int numPatch) {
+    Patch patch = Game.instance().getPatch(numPatch);
+    Coord coord = board.findSpace(patch);
+    if (coord == null) throw new RuntimeException("No place available to place patch.");
+    buyPatch(numPatch, coord.x(), coord.y());
   }
   
   public int score() {

@@ -3,6 +3,7 @@ package fr.jatchwork.model;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Game {
@@ -51,6 +52,7 @@ public class Game {
   }
   
   private final Player[] players;
+  private Player playing;
   private final TimeBoard timeBoard;
   private final ArrayDeque<Patch> patchs;
   
@@ -59,6 +61,7 @@ public class Game {
         new Player(1, 7, 5),
         new Player(2, 7, 5)
     };
+    playing = players[0];
     timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
     // Generate patchs
     // TODO: all phase have different implementation of generating patchs, find a solution better than hard-coding
@@ -72,6 +75,17 @@ public class Game {
    * @return The wanted player
    */
   public Player player(int i) { return players[i]; }
+  
+  /**
+   * Player which is the turn.
+   */
+  public Player playing() {
+    Player opponent = players[0] == playing ? players[1] : players[0];
+    if (opponent.position() < playing.position()) {
+      playing = opponent;
+    }
+    return playing;
+  }
   
   /**
    * Get the time board of the game.
@@ -102,6 +116,14 @@ public class Game {
     
     // Get the choosen patch
     return patchs.removeFirst();
+  }
+  
+  public Patch getPatch(int index) {
+    int i = 0;
+    for (var patch : patchs) {
+      if (i++ == index) return patch;
+    }
+    throw new ArrayIndexOutOfBoundsException(index);
   }
   
   /**
