@@ -54,27 +54,72 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
   
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
-    
-    for (int y = 0; y < shape.get(0).size() || y < 3; y++) {
-      if (y < shape.size()) {
-        // Draw shape
-        for (int x = 0; x < shape.size(); x++) {
-          builder.append(shape.get(x).get(y) ? '#' : ' ');
+	  StringBuilder builder = new StringBuilder();
+
+	  for (int y = 0; y < shape.get(0).size() || y < 3; y++) {
+	    if (y < shape.get(0).size()) {
+	      // Draw shape
+	      for (int x = 0; x < shape.size(); x++) {
+	        builder.append(shape.get(x).get(y) ? '#' : ' ');
+	      }
+	    }
+	    if (y < 3) {
+	      builder.append('\t');
+	      switch (y) {
+	        case 0 -> builder.append("time cost :     ").append(timeCost);
+	        case 1 -> builder.append("button cost :   ").append(buttonCost);
+	        case 2 -> builder.append("button income : ").append(buttonIncome);
+	      }
+	    }
+	    builder.append('\n');
+	  }
+
+	  return builder.toString();
+	}
+
+  /**
+   * Returns a new patch which is a 90 degree clockwise rotation of this patch.
+   * @return A new patch object representing the 90 degree clockwise rotation of this patch.
+   */
+  
+   public Patch rotate() {
+    int width = shape.size();
+    int height = shape.get(0).size();
+    List<List<Boolean>> newShape = new ArrayList<>();
+    for (int i = 0; i < height; i++) {
+        List<Boolean> newRow = new ArrayList<>();
+        for (int j = 0; j < width; j++) {
+            newRow.add(shape.get(j).get(height - i - 1));
         }
-      }
-      if (y < 3) {
-        builder.append('\t');
-        switch (y) {
-          case 0 -> builder.append("time cost :     ").append(timeCost);
-          case 1 -> builder.append("button cost :   ").append(buttonCost);
-          case 2 -> builder.append("button income : ").append(buttonIncome);
-        }
-      }
-      builder.append('\n');
+        newShape.add(newRow);
     }
-    
-    return builder.toString();
+    return new Patch(timeCost, buttonCost, buttonIncome, newShape);
+}
+
+/**
+ * Returns a new patch which is a horizontally flipped version of this patch.
+ * @return A new patch object representing the horizontally flipped version of this patch.
+ */
+
+public Patch flipHorizontally() {
+    List<List<Boolean>> newShape = new ArrayList<>();
+    for (var row : shape) {
+      List<Boolean> newRow = new ArrayList<>(row);
+      Collections.reverse(newRow);
+      newShape.add(newRow);
+    }
+    return new Patch(timeCost, buttonCost, buttonIncome, newShape);
+  }
+
+/**
+ * Returns a new patch which is a vertically flipped version of this patch.
+ * @return A new patch object representing the vertically flipped version of this patch.
+ */
+
+public Patch flipVertically() {
+    List<List<Boolean>> newShape = new ArrayList<>(shape);
+    Collections.reverse(newShape);
+    return new Patch(timeCost, buttonCost, buttonIncome, newShape);
   }
 
   /**

@@ -3,19 +3,42 @@ package fr.jatchwork.model;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
   public static final int PLAYER_COUNT = 2;
   public static final int PATCH_AVAILABLE = 3;
   
-  private static Game instance = new Game();
+  private static Game instance = null;
 
   /**
    * The only instance of the game.
    */
-  public static Game instance() { return instance; }
+  public static Game instance() {
+    if (instance == null) {
+      instance = new Game();
+      instance.askUserForVersion();
+    }
+    return instance;
+  }
+
+  private void askUserForVersion() {
+    try (Scanner scanner = new Scanner(System.in)) {
+		System.out.println("Which version of the game do you want to play ?");
+		System.out.println("1. Base version");
+		System.out.println("2. Full version");
+		int choice = scanner.nextInt();
+		if (choice == 1) {
+		  patchs = generatePatchs();
+		} else if (choice == 2) {
+		  patchs = generateAllPatches();
+		} else {
+		  System.out.println("Invalid choice, defaulting to base version.");
+		  patchs = generatePatchs();
+		}
+	}
+  }
 
   /**
    * Generate all patchs for phase 1 only.
@@ -50,11 +73,159 @@ public class Game {
     }
     return patchs;
   }
+
+  private static ArrayDeque<Patch> generateAllPatches() {
+    // Init values
+    var patchs = new ArrayDeque<Patch>();
+
+    // Patchs with 1 button
+    patchs.add(new Patch(1, 2, 0, """
+        ##
+        """));
+    patchs.add(new Patch(2, 2, 0, """
+        ###
+        """));
+    patchs.add(new Patch(3, 3, 1, """
+        ####
+        """));
+    patchs.add(new Patch(1, 7, 1, """
+        #####
+        """));
+    patchs.add(new Patch(3, 1, 0, """
+        #.
+        ##
+        """));
+    patchs.add(new Patch(1, 3, 0, """
+        #.
+        ##
+        """));
+    patchs.add(new Patch(2, 3, 1, """
+        .##
+        ##.
+        """));
+    patchs.add(new Patch(6, 7, 3, """
+        ##.
+        .##
+        """));
+    patchs.add(new Patch(2, 4, 1, """
+        ..#
+        ###
+        """));
+    patchs.add(new Patch(6, 4, 2, """
+        ..#
+        ###
+        """));
+    patchs.add(new Patch(5, 6, 2, """
+        ##
+        ##
+        """));
+    patchs.add(new Patch(2, 2, 0, """
+        .#.
+        ###
+        """));
+    patchs.add(new Patch(2, 1, 0, """
+        #.#
+        ###
+        """));
+    patchs.add(new Patch(3, 2, 1, """
+        .###
+        ##..
+        """));
+    patchs.add(new Patch(3, 10, 2, """
+        ...#
+        ####
+        """));
+    patchs.add(new Patch(2, 2, 0, """
+        ##.
+        ###
+        """));
+    patchs.add(new Patch(4, 3, 1, """
+        ..#.
+        ####
+        """));
+    patchs.add(new Patch(4, 7, 2, """
+        .##.
+        ####
+        """));
+    patchs.add(new Patch(5, 1, 1, """
+        #.#
+        ###
+        """));
+    patchs.add(new Patch(5, 10, 3, """
+        ##..
+        ####
+        """));
+    patchs.add(new Patch(2, 4, 0, """
+        ###.
+        .###
+        """));
+    patchs.add(new Patch(6, 3, 2, """
+        .#.
+        ###
+        #.#
+        """));
+    patchs.add(new Patch(4, 5, 2, """
+        .#.
+        ###
+        .#.
+        """));
+    patchs.add(new Patch(3, 0, 1, """
+        ..#.
+        ####
+        ..#.
+        """));
+    patchs.add(new Patch(1, 2, 0, """
+        ..#.
+        ####
+          .#..
+        """));
+    patchs.add(new Patch(3, 2, 0, """
+        #.#
+        ###
+        #.#
+        """));
+    patchs.add(new Patch(4, 10, 3, """
+        ..#
+        .##
+        ##.
+        """));
+    patchs.add(new Patch(3, 5, 1, """
+        .##.
+        ####
+        .##.
+        """));
+    patchs.add(new Patch(5, 5, 2, """
+        .#.
+        .#.
+        ###
+        """));
+    patchs.add(new Patch(2, 1, 0, """
+        ...#
+        ####
+        #...
+        """));
+    patchs.add(new Patch(4, 1, 1, """
+        ..#..
+        #####
+        ..#..
+        """));
+    patchs.add(new Patch(6, 8, 3, """
+        ##.
+        ##.
+        .##
+        """));
+    patchs.add(new Patch(2, 7, 2, """
+        #...
+        ####
+        #...
+        """));
+    return patchs;
+  }
   
   private final Player[] players;
   private Player playing;
   private final TimeBoard timeBoard;
-  private final ArrayDeque<Patch> patchs;
+  private ArrayDeque<Patch> patchs;
   
   private Game() {
     players = new Player[] {
@@ -65,7 +236,6 @@ public class Game {
     timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
     // Generate patchs
     // TODO: all phase have different implementation of generating patchs, find a solution better than hard-coding
-    patchs = generatePatchs();
   }
   
   /**
