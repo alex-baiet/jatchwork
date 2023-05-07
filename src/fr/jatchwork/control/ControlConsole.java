@@ -7,6 +7,13 @@ import fr.jatchwork.view.ViewConsole;
 
 public class ControlConsole {
   private static final Scanner scanner = new Scanner(System.in);
+  
+  public static int chooseVersion() {
+    System.out.println("Which version of the game do you want to play ?");
+    System.out.println("1. Base version");
+    System.out.println("2. Full version");
+    return scanner.nextInt();
+  }
 
   public static void manageInput() {
     String input = scanner.next();

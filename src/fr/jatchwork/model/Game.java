@@ -6,10 +6,12 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+import fr.jatchwork.control.ControlConsole;
+
 public class Game {
   public static final int PLAYER_COUNT = 2;
   public static final int PATCH_AVAILABLE = 3;
-  
+
   private static Game instance = null;
 
   /**
@@ -24,25 +26,20 @@ public class Game {
   }
 
   private void askUserForVersion() {
-    try (Scanner scanner = new Scanner(System.in)) {
-		System.out.println("Which version of the game do you want to play ?");
-		System.out.println("1. Base version");
-		System.out.println("2. Full version");
-		int choice = scanner.nextInt();
-		if (choice == 1) {
-		  patchs = generatePatchs();
-		} else if (choice == 2) {
-		  patchs = generateAllPatches();
-		} else {
-		  System.out.println("Invalid choice, defaulting to base version.");
-		  patchs = generatePatchs();
-		}
-	}
+      switch (ControlConsole.chooseVersion()) {
+      case 1 -> patchs = generatePatchs();
+      case 2 -> patchs = generateAllPatches();
+      default -> {
+        System.out.println("Invalid choice, defaulting to base version.");
+        patchs = generatePatchs();
+      }
+    }
   }
 
   /**
-   * Generate all patchs for phase 1 only.
-   * There is 2 type of patch, each with 20 duplicates.
+   * Generate all patchs for phase 1 only. There is 2 type of patch, each with 20
+   * duplicates.
+   * 
    * @return
    */
   private static ArrayDeque<Patch> generatePatchs() {
@@ -59,7 +56,7 @@ public class Game {
     int remains1 = 20;
     int remains2 = 20;
     var rand = new Random();
-    
+
     // Shuffle patchs in the deque
     while (remains1 > 0 && remains2 > 0) {
       var value = rand.nextInt(remains1 + remains2);
@@ -68,7 +65,7 @@ public class Game {
         remains1--;
       } else {
         patchs.add(patch2);
-        remains2--;        
+        remains2--;
       }
     }
     return patchs;
@@ -221,31 +218,31 @@ public class Game {
         """));
     return patchs;
   }
-  
+
   private final Player[] players;
   private Player playing;
   private final TimeBoard timeBoard;
   private ArrayDeque<Patch> patchs;
-  
+
   private Game() {
-    players = new Player[] {
-        new Player(1, 7, 5),
-        new Player(2, 7, 5)
-    };
+    players = new Player[] { new Player(1, 7, 5), new Player(2, 7, 5) };
     playing = players[0];
     timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
     // Generate patchs
-    // TODO: all phase have different implementation of generating patchs, find a solution better than hard-coding
+    // TODO: all phase have different implementation of generating patchs, find a
+    // solution better than hard-coding
   }
-  
+
   /**
-   * Get a player from the game.
-   * The number of available player is PLAYER_COUNT.
+   * Get a player from the game. The number of available player is PLAYER_COUNT.
+   * 
    * @param i number of the player
    * @return The wanted player
    */
-  public Player player(int i) { return players[i]; }
-  
+  public Player player(int i) {
+    return players[i];
+  }
+
   /**
    * Player which is the turn.
    */
@@ -256,21 +253,24 @@ public class Game {
     }
     return playing;
   }
-  
+
   /**
    * Get the time board of the game.
    */
-  public TimeBoard timeBoard() { return timeBoard; }
-  
+  public TimeBoard timeBoard() {
+    return timeBoard;
+  }
+
   /**
    * All available patchs in order.
    */
   public Collection<Patch> patchs() {
     return Collections.unmodifiableCollection(patchs);
   }
-  
+
   /**
    * Move the pawn and take (remove) a patch from the available patchs.
+   * 
    * @param index Index of the patchs to take, must be < to PATCH_AVAILABLE
    * @return Wanted patch
    */
@@ -278,24 +278,25 @@ public class Game {
     if (index < 0 || index >= PATCH_AVAILABLE) {
       throw new IllegalArgumentException("You must choose a patch numero < Game.PATCH_AVAILABLE");
     }
-    
+
     // Simulate the patch pawn deplacement
     for (int i = 0; i < index; i++) {
       patchs.addLast(patchs.removeFirst());
     }
-    
+
     // Get the choosen patch
     return patchs.removeFirst();
   }
-  
+
   public Patch getPatch(int index) {
     int i = 0;
     for (var patch : patchs) {
-      if (i++ == index) return patch;
+      if (i++ == index)
+        return patch;
     }
     throw new ArrayIndexOutOfBoundsException(index);
   }
-  
+
   /**
    * Better string format for all patchs than the default Collection.toString().
    */
@@ -303,12 +304,13 @@ public class Game {
     var builder = new StringBuilder();
     int i = 0;
     for (var patch : patchs) {
-      if (i++ == PATCH_AVAILABLE) builder.append("(inaccessible)\n\n");
+      if (i++ == PATCH_AVAILABLE)
+        builder.append("(inaccessible)\n\n");
       builder.append(patch).append('\n');
     }
     return builder.toString();
   }
-  
+
   @Override
   public String toString() {
     var b = new StringBuilder("-- GAME --\n\n");
@@ -320,7 +322,7 @@ public class Game {
     b.append(players[1]);
     return b.toString();
   }
-  
+
   public static void main(String[] args) {
     // Test
     System.out.println(instance());
