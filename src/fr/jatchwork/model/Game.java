@@ -304,11 +304,10 @@ public class Game {
     var builder = new StringBuilder();
     int i = 0;
     for (var patch : patchs) {
-      if (i++ == PATCH_AVAILABLE)
-        builder.append("(inaccessible)\n\n");
-      builder.append(patch).append('\n');
+      if (i++ == PATCH_AVAILABLE) builder.insert(0, "(inaccessible)\n\n");
+      builder.insert(0, '\n').insert(0, patch);
     }
-    return builder.toString();
+    return builder.substring(0, builder.length()-1);
   }
 
   @Override
