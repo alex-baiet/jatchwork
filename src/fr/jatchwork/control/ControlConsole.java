@@ -3,6 +3,7 @@ package fr.jatchwork.control;
 import java.util.Scanner;
 
 import fr.jatchwork.model.Game;
+import fr.jatchwork.model.Player;
 import fr.jatchwork.view.ViewConsole;
 
 public class ControlConsole {
@@ -25,7 +26,15 @@ public class ControlConsole {
       ViewConsole.displayPatchs();
     }
     case "1", "2", "3" -> {
-      Game.instance().playing().buyPatch(Integer.parseInt(input));
+      Player player = Game.instance().playing();
+      int toBuy = Integer.parseInt(input);
+      if (player.canBuyPatch(toBuy)) {
+        player.buyPatch(toBuy);
+      } else {
+        System.out.printf(
+            "You can't buy the selected patch, you need %d more button(s) to afford it\n",
+            Game.instance().getPatch(toBuy).buttonCost() - player.buttonCount());
+      }
     }
     case "e" -> {
       Game.instance().playing().endTurn();

@@ -16,6 +16,8 @@ public class Player {
   
   public int position() { return position; }
   
+  public int buttonCount() { return buttonCount; }
+  
   /**
    * End the turn of a player.
    */
@@ -35,6 +37,14 @@ public class Player {
     }
   }
   
+  /**
+   * Return true if the player has enough buttons to buy the selected patch.
+   * @param numPatch
+   */
+  public boolean canBuyPatch(int numPatch) {
+    return Game.instance().getPatch(numPatch).buttonCost() <= buttonCount;
+  }
+
   /**
    * Buy a patch and place it the the player's quilt board.
    * @param numPatch Numero of the patch to bought.
