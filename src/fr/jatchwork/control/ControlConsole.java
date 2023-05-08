@@ -8,7 +8,11 @@ import fr.jatchwork.view.ViewConsole;
 
 public class ControlConsole {
   private static final Scanner scanner = new Scanner(System.in);
-  
+
+  /**
+   * Display a dialog and wait for input to choose the version of the game.
+   * @return Choosen version.
+   */
   public static int chooseVersion() {
     System.out.println("Which version of the game do you want to play ?");
     System.out.println("1. Base version");
@@ -16,6 +20,9 @@ public class ControlConsole {
     return scanner.nextInt();
   }
 
+  /**
+   * Wait for input for the main game loop.
+   */
   public static void manageInput() {
     String input = scanner.next();
     switch (input) {
@@ -23,7 +30,7 @@ public class ControlConsole {
       ViewConsole.displayGame();
     }
     case "p" -> {
-      ViewConsole.displayPatchs();
+      ViewConsole.displayPatches();
     }
     case "0", "1", "2" -> {
       Player player = Game.instance().playing();

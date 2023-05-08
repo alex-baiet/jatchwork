@@ -14,9 +14,9 @@ public final class ViewConsole {
   }
 
   /**
-   * Display the list of all available patchs.
+   * Display the list of all available patches.
    */
-  public static void displayPatchs() {
+  public static void displayPatches() {
     System.out.println(Game.instance().patchesToString());
   }
 
@@ -34,6 +34,9 @@ public final class ViewConsole {
     System.out.println("- q (quit) : Stop the game and return to console");
   }
 
+  /**
+   * Display the final scores and the winner.
+   */
   public static void displayScores() {
     Game game = Game.instance();
     System.out.println("\n-- RESULTS --\n");
@@ -55,7 +58,7 @@ public final class ViewConsole {
     System.out.println(Game.instance().player(0).position());
     displayGame();
     System.out.println("############################################################");
-    displayPatchs();
+    displayPatches();
     System.out.println("############################################################");
     displayMenu();
   }

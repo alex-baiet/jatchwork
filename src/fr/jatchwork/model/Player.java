@@ -7,16 +7,31 @@ public class Player {
   private int position = 0;
   private boolean bonusFull = false;
   
+  /**
+   * Create a new player
+   * @param num His number, only used for display
+   * @param quiltBoardSize Width and height of his quilt board
+   * @param buttonCount Number of starting buttons
+   */
   public Player(int num, int quiltBoardSize, int buttonCount) {
     this.num = num;
     board = new QuiltBoard(quiltBoardSize);
     this.buttonCount = buttonCount;
   }
   
+  /**
+   * Number of the player, used only for display. This is not an identifier.
+   */
   public int numero() { return num; }
   
+  /**
+   * Current position on the time board.
+   */
   public int position() { return position; }
-  
+
+  /**
+   * Current number of button the player has.
+   */
   public int buttonCount() { return buttonCount; }
   
   /**
@@ -48,6 +63,11 @@ public class Player {
     return Game.instance().getPatch(numPatch).buttonCost() <= buttonCount;
   }
   
+  /**
+   * Return true if the patch can be placed somewhere on the quilt board.
+   * @param numPatch Number of the patch to test
+   * @return True if there is available space, false otherwise.
+   */
   public boolean canPlacePatch(int numPatch) {
     return board.findSpace(Game.instance().getPatch(numPatch)) != null;
   }
@@ -70,21 +90,35 @@ public class Player {
     if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
     move(patch.timeCost());
   }
-  
+
+  /**
+   * Buy a patch and place it automatically on the quiltboard.
+   * @param numPatch Patch to buy.
+   */
   public void buyPatch(int numPatch) {
     Patch patch = Game.instance().getPatch(numPatch);
     Coord coord = board.findSpace(patch);
     if (coord == null) throw new RuntimeException("No place available to place patch.");
     buyPatch(numPatch, coord.x(), coord.y());
   }
-  
+
+  /**
+   * Add a patch to the quilt board.
+   * @param patch To add to the quilt board
+   * @param x Where horizontally
+   * @param y Where vertically
+   */
   private void addPatch(Patch patch, int x, int y) {
     board.add(patch, x, y);
     if (board.remainingSpace() == 0) {
       bonusFull = Game.instance().getBonusFull();
     }
   }
-  
+
+  /**
+   * The current score of the player.
+   * @return The player's score
+   */
   public int score() {
     return buttonCount - board.remainingSpace() * 2 + (bonusFull ? 7 : 0);
   }

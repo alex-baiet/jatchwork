@@ -29,14 +29,13 @@ public class Game {
   }
 
   /**
-   * Generate all patchs for phase 1 only. There is 2 type of patch, each with 20
+   * Generate all patches for phase 1 only. There is 2 type of patch, each with 20
    * duplicates.
-   * 
-   * @return The list of new patchs
+   * @return The list of generated patches
    */
-  private static ArrayDeque<Patch> generatePatchs1() {
+  private static ArrayDeque<Patch> generatePatches1() {
     // Init values
-    var patchs = new ArrayDeque<Patch>();
+    var patches = new ArrayDeque<Patch>();
     var patch1 = new Patch(4, 3, 1, """
         ##
         ##
@@ -49,174 +48,178 @@ public class Game {
     int remains2 = 20;
     var rand = new Random();
 
-    // Shuffle patchs in the deque
+    // Shuffle patches in the deque
     while (remains1 > 0 && remains2 > 0) {
       var value = rand.nextInt(remains1 + remains2);
       if (value < remains1) {
-        patchs.add(patch1);
+        patches.add(patch1);
         remains1--;
       } else {
-        patchs.add(patch2);
+        patches.add(patch2);
         remains2--;
       }
     }
-    return patchs;
+    return patches;
   }
 
-  private static ArrayDeque<Patch> generatePatchs2() {
+  /**
+   * Generate all patches for phase 2 and 3.
+   * @return The list of generated patches.
+   */
+  private static ArrayDeque<Patch> generatePatches2() {
     // Init values
-    var patchs = new ArrayList<Patch>(33);
+    var patches = new ArrayList<Patch>(33);
 
-    // Patchs with 1 button
-    patchs.add(new Patch(1, 2, 0, """
+    // Patches with 1 button
+    patches.add(new Patch(1, 2, 0, """
         ##
         """));
-    patchs.add(new Patch(2, 2, 0, """
+    patches.add(new Patch(2, 2, 0, """
         ###
         """));
-    patchs.add(new Patch(3, 3, 1, """
+    patches.add(new Patch(3, 3, 1, """
         ####
         """));
-    patchs.add(new Patch(1, 7, 1, """
+    patches.add(new Patch(1, 7, 1, """
         #####
         """));
-    patchs.add(new Patch(3, 1, 0, """
+    patches.add(new Patch(3, 1, 0, """
         #.
         ##
         """));
-    patchs.add(new Patch(1, 3, 0, """
+    patches.add(new Patch(1, 3, 0, """
         #.
         ##
         """));
-    patchs.add(new Patch(2, 3, 1, """
+    patches.add(new Patch(2, 3, 1, """
         .##
         ##.
         """));
-    patchs.add(new Patch(6, 7, 3, """
+    patches.add(new Patch(6, 7, 3, """
         ##.
         .##
         """));
-    patchs.add(new Patch(2, 4, 1, """
+    patches.add(new Patch(2, 4, 1, """
         ..#
         ###
         """));
-    patchs.add(new Patch(6, 4, 2, """
+    patches.add(new Patch(6, 4, 2, """
         ..#
         ###
         """));
-    patchs.add(new Patch(5, 6, 2, """
+    patches.add(new Patch(5, 6, 2, """
         ##
         ##
         """));
-    patchs.add(new Patch(2, 2, 0, """
+    patches.add(new Patch(2, 2, 0, """
         .#.
         ###
         """));
-    patchs.add(new Patch(2, 1, 0, """
+    patches.add(new Patch(2, 1, 0, """
         #.#
         ###
         """));
-    patchs.add(new Patch(3, 2, 1, """
+    patches.add(new Patch(3, 2, 1, """
         .###
         ##..
         """));
-    patchs.add(new Patch(3, 10, 2, """
+    patches.add(new Patch(3, 10, 2, """
         ...#
         ####
         """));
-    patchs.add(new Patch(2, 2, 0, """
+    patches.add(new Patch(2, 2, 0, """
         ##.
         ###
         """));
-    patchs.add(new Patch(4, 3, 1, """
+    patches.add(new Patch(4, 3, 1, """
         ..#.
         ####
         """));
-    patchs.add(new Patch(4, 7, 2, """
+    patches.add(new Patch(4, 7, 2, """
         .##.
         ####
         """));
-    patchs.add(new Patch(5, 1, 1, """
+    patches.add(new Patch(5, 1, 1, """
         #.#
         ###
         """));
-    patchs.add(new Patch(5, 10, 3, """
+    patches.add(new Patch(5, 10, 3, """
         ##..
         ####
         """));
-    patchs.add(new Patch(2, 4, 0, """
+    patches.add(new Patch(2, 4, 0, """
         ###.
         .###
         """));
-    patchs.add(new Patch(6, 3, 2, """
+    patches.add(new Patch(6, 3, 2, """
         .#.
         ###
         #.#
         """));
-    patchs.add(new Patch(4, 5, 2, """
+    patches.add(new Patch(4, 5, 2, """
         .#.
         ###
         .#.
         """));
-    patchs.add(new Patch(3, 0, 1, """
+    patches.add(new Patch(3, 0, 1, """
         ..#.
         ####
         ..#.
         """));
-    patchs.add(new Patch(1, 2, 0, """
+    patches.add(new Patch(1, 2, 0, """
         ..#.
         ####
           .#..
         """));
-    patchs.add(new Patch(3, 2, 0, """
+    patches.add(new Patch(3, 2, 0, """
         #.#
         ###
         #.#
         """));
-    patchs.add(new Patch(4, 10, 3, """
+    patches.add(new Patch(4, 10, 3, """
         ..#
         .##
         ##.
         """));
-    patchs.add(new Patch(3, 5, 1, """
+    patches.add(new Patch(3, 5, 1, """
         .##.
         ####
         .##.
         """));
-    patchs.add(new Patch(5, 5, 2, """
+    patches.add(new Patch(5, 5, 2, """
         .#.
         .#.
         ###
         """));
-    patchs.add(new Patch(2, 1, 0, """
+    patches.add(new Patch(2, 1, 0, """
         ...#
         ####
         #...
         """));
-    patchs.add(new Patch(4, 1, 1, """
+    patches.add(new Patch(4, 1, 1, """
         ..#..
         #####
         ..#..
         """));
-    patchs.add(new Patch(6, 8, 3, """
+    patches.add(new Patch(6, 8, 3, """
         ##.
         ##.
         .##
         """));
-    patchs.add(new Patch(2, 7, 2, """
+    patches.add(new Patch(2, 7, 2, """
         #...
         ####
         #...
         """));
     
-    Collections.shuffle(patchs);
-    return new ArrayDeque<>(patchs);
+    Collections.shuffle(patches);
+    return new ArrayDeque<>(patches);
   }
 
   private final Player[] players;
   private Player playing;
   private final TimeBoard timeBoard;
-  private ArrayDeque<Patch> patchs;
+  private ArrayDeque<Patch> patches;
   private boolean bonusFullGiven = false;
 
   private Game(int phase) {
@@ -226,8 +229,8 @@ public class Game {
         new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
         new int[] { 20, 26, 32, 44, 50 });
     switch (phase) {
-    case 1 -> patchs = generatePatchs1();
-    case 2 -> patchs = generatePatchs2();
+    case 1 -> patches = generatePatches1();
+    case 2 -> patches = generatePatches2();
     default -> throw new IllegalArgumentException("Unexpected phase: " + phase);
     }
   }
@@ -272,16 +275,16 @@ public class Game {
   }
 
   /**
-   * All available patchs in order.
+   * All available patches in order.
    */
-  public Collection<Patch> patchs() {
-    return Collections.unmodifiableCollection(patchs);
+  public Collection<Patch> patches() {
+    return Collections.unmodifiableCollection(patches);
   }
 
   /**
-   * Move the pawn and take (remove) a patch from the available patchs.
+   * Move the pawn and take (remove) a patch from the available patches.
    * 
-   * @param index Index of the patchs to take, must be < to PATCH_AVAILABLE
+   * @param index Index of the patches to take, must be < to PATCH_AVAILABLE
    * @return Wanted patch
    */
   public Patch buyPatch(int index) {
@@ -291,16 +294,21 @@ public class Game {
 
     // Simulate the patch pawn deplacement
     for (int i = 0; i < index; i++) {
-      patchs.addLast(patchs.removeFirst());
+      patches.addLast(patches.removeFirst());
     }
 
     // Get the choosen patch
-    return patchs.removeFirst();
+    return patches.removeFirst();
   }
 
+  /**
+   * Get the patch at index from the neutral pawn
+   * @param index
+   * @return
+   */
   public Patch getPatch(int index) {
     int i = 0;
-    for (var patch : patchs) {
+    for (var patch : patches) {
       if (i++ == index)
         return patch;
     }
@@ -320,12 +328,12 @@ public class Game {
   }
 
   /**
-   * Better string format for all patchs than the default Collection.toString().
+   * Better string format for all patches than the default Collection.toString().
    */
   public String patchesToString() {
     var builder = new StringBuilder();
     int i = 0;
-    for (var patch : patchs) {
+    for (var patch : patches) {
       if (i == PATCH_AVAILABLE) builder.insert(0, "(inaccessible)\n\n");
       builder.insert(0, '\n').insert(0, patch);
       builder.insert(0, '\n').insert(0, i).insert(0, "n°");

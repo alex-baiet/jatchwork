@@ -26,7 +26,7 @@ public class TimeBoard {
       leathers[pos] = true;
     }
   }
-  
+
   /**
    * Size of the board.
    */
@@ -62,7 +62,7 @@ public class TimeBoard {
     }
     return count;
   }
-  
+
   @Override
   public String toString() {
     var builder = new StringBuilder();
