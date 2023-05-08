@@ -1,6 +1,7 @@
 package fr.jatchwork.model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
@@ -64,7 +65,7 @@ public class Game {
 
   private static ArrayDeque<Patch> generatePatchs2() {
     // Init values
-    var patchs = new ArrayDeque<Patch>();
+    var patchs = new ArrayList<Patch>(33);
 
     // Patchs with 1 button
     patchs.add(new Patch(1, 2, 0, """
@@ -207,7 +208,9 @@ public class Game {
         ####
         #...
         """));
-    return patchs;
+    
+    Collections.shuffle(patchs);
+    return new ArrayDeque<>(patchs);
   }
 
   private final Player[] players;
