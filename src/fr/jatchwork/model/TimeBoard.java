@@ -33,7 +33,7 @@ public class TimeBoard {
    */
   public int containsIncome(int start, int end) {
     int count = 0;
-    for (int i = start+1; i <= end; i++) {
+    for (int i = start+1; i <= end && i < size(); i++) {
       if (incomes[i]) count++;
     }
     return count;

@@ -15,9 +15,12 @@ public class Main {
     ViewConsole.displayMenu();
 
     // Main game loop
-    while (true) {
+    while (!Game.instance().finished()) {
       ControlConsole.manageInput();
     }
+    
+    ViewConsole.displayGame();
+    ViewConsole.displayScores();
   }
 
 }

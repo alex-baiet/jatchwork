@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Game {
@@ -221,7 +222,8 @@ public class Game {
   private Game(int phase) {
     players = new Player[] { new Player(1, 7, 5), new Player(2, 7, 5) };
     playing = players[0];
-    timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
+    timeBoard = new TimeBoard(2, new int[] { });
+//    timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
     switch (phase) {
     case 1 -> patchs = generatePatchs1();
     case 2 -> patchs = generatePatchs2();
@@ -237,6 +239,17 @@ public class Game {
    */
   public Player player(int i) {
     return players[i];
+  }
+  
+  /**
+   * State of the game.
+   * @return True if both players can't play, false otherwise.
+   */
+  public boolean finished() {
+    for (Player player : players) {
+      if (player.position() < timeBoard.size()-1) return false;
+    }
+    return true;
   }
 
   /**

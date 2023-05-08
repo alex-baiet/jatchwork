@@ -2,8 +2,11 @@ package fr.jatchwork.control;
 
 import java.util.Scanner;
 
+import fr.jatchwork.model.Coord;
 import fr.jatchwork.model.Game;
+import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Player;
+import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.view.ViewConsole;
 
 public class ControlConsole {

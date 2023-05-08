@@ -34,7 +34,7 @@ public class Player {
     // Move player
     if (max >= position) {
       int moveCount = max - position + 1;
-      move(moveCount);
+      moveCount = move(moveCount);
       buttonCount += moveCount;
     }
   }
@@ -94,13 +94,17 @@ public class Player {
   /**
    * Move the player on the time board.
    * @param tileCount
+   * @return The real number of movement made by the player.
    */
-  private void move(int tileCount) {
+  private int move(int tileCount) {
     var timeBoard = Game.instance().timeBoard();
     var incomes = timeBoard.containsIncome(position, position + tileCount);
     buttonCount += incomes * board.buttonIncome();
+    if (position + tileCount >= timeBoard.size()) {
+      tileCount -= timeBoard.size() - position - 1;
+    }
     position += tileCount;
-    if (position >= timeBoard.size()) position = timeBoard.size() - 1;
+    return tileCount;
   }
   
   public static void main(String[] args) {
