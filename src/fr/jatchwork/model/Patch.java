@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Represent a piece of patch.
  * 
- * @param shape The user shold be able to access a tile using a (x, y)
+ * @param shape The user should be able to access a tile using a (x, y)
  *              coordinate like shape.get(x).get(y)
  */
 public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Boolean>> shape) {
