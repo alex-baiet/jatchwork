@@ -77,11 +77,16 @@ public class Player {
   @Override
   public String toString() {
     var b = new StringBuilder();
-    b.append("-- PLAYER ").append(num).append(" --\n\n");
-    b.append("buttons : ").append(buttonCount).append('\n');
-    b.append("buttons income : ").append(board.buttonIncome()).append("\n");
-    b.append(board);
-    return b.toString();
+    b.append("-- PLAYER ").append(num).append(" --\n");
+    
+    var lines = board.toString().split("\n");
+    for (int i = 0; i < lines.length || i < 3; i++) {
+      if (i < lines.length) b.append(lines[i]);
+      if (i == 2) b.append("\tbuttons : ").append(buttonCount);
+      if (i == 3) b.append("\tbuttons income : ").append(board.buttonIncome());
+      b.append('\n');
+    }
+    return b.substring(0, b.length() - 1);
   }
 
   /**

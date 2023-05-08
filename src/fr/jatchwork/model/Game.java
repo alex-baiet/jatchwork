@@ -301,7 +301,7 @@ public class Game {
       builder.insert(0, '\n').insert(0, patch);
       builder.insert(0, '\n').insert(0, i).insert(0, "n°");
     }
-    return builder.substring(0, builder.length()-1);
+    return builder.substring(0, builder.length()-2);
   }
 
   @Override
@@ -311,7 +311,7 @@ public class Game {
     b.append(timeBoard).append('\n');
     b.append(" ".repeat(players[1].position())).append("|p2\n\n");
     b.append("*o are button incomes\n\n");
-    b.append(players[0]);
+    b.append(players[0]).append("\n\n");
     b.append(players[1]);
     return b.toString();
   }

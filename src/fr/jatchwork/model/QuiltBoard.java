@@ -42,7 +42,7 @@ public class QuiltBoard {
     var builder = new StringBuilder();
     builder.append('|');
     for (int i = 0; i < board.length; i++) {
-      builder.append('-');
+      builder.append('=');
     }
     builder.append("|\n");
     return builder.toString();
@@ -79,7 +79,7 @@ public class QuiltBoard {
     for (int y = 0; y < board.length; y++) {
       builder.append('|');
       for (int x = 0; x < board[y].length; x++) {
-        builder.append(board[x][y] ? '#' : ' ');
+        builder.append(board[x][y] ? '#' : '.');
       }
       builder.append("|\n");
     }
