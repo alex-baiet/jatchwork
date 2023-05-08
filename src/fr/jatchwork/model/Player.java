@@ -33,7 +33,9 @@ public class Player {
     }
     // Move player
     if (max >= position) {
-      move(max - position + 1);
+      int moveCount = max - position + 1;
+      move(moveCount);
+      buttonCount += moveCount;
     }
   }
   
