@@ -5,18 +5,25 @@ package fr.jatchwork.model;
  */
 public class TimeBoard {
   private final boolean[] incomes;
+  private final boolean[] leathers;
 
   /**
    * Create a new TimeBoard
    * @param size
-   * @param incomesPositions
+   * @param incomesPos
    */
-  public TimeBoard(int size, int[] incomesPositions) {
+  public TimeBoard(int size, int[] incomesPos, int[] leatherPatchPos) {
     incomes = new boolean[size];
+    leathers = new boolean[size];
     
     // Add button incomes on the board
-    for (int pos : incomesPositions) {
+    for (int pos : incomesPos) {
       incomes[pos] = true;
+    }
+    
+    // Add leather patches on the board
+    for (int pos : leatherPatchPos) {
+      leathers[pos] = true;
     }
   }
   
@@ -39,18 +46,37 @@ public class TimeBoard {
     return count;
   }
   
+  /**
+   * Get leathers patches between the two position, and remove them from the board.
+   * @param start Where the movement start
+   * @param end Where the movement end
+   * @return Number of leathers found
+   */
+  public int getLeathers(int start, int end) {
+    int count = 0;
+    for (int i = start+1; i <= end && i < size(); i++) {
+      if (leathers[i]) {
+        count++;
+        leathers[i] = false;
+      }
+    }
+    return count;
+  }
+  
   @Override
   public String toString() {
     var builder = new StringBuilder();
     for (int i = 0; i < size(); i++) {
-      builder.append(incomes[i] ? 'o' : '=');
+      if (incomes[i]) builder.append('o');
+      else if (leathers[i]) builder.append('#');
+      else builder.append('=');
     }
     return builder.toString();
   }
   
   public static void main(String[] args) {
     // Test
-    var board = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
+    var board = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 }, new int[] { 20, 26, 32, 44, 50 });
     
     System.out.println(board);
     

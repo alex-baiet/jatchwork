@@ -12,7 +12,9 @@ import java.util.Objects;
  *              coordinate like shape.get(x).get(y)
  */
 public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Boolean>> shape) {
-
+  /** @brief A leather patch, gathered from the timeboard. */
+  public static final Patch LEATHER = new Patch(0, 0, 0, "#");
+  
   public Patch {
     // Check all parameter validity
     if (timeCost < 0)

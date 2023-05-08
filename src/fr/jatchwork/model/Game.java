@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Random;
 
 public class Game {
@@ -222,8 +221,9 @@ public class Game {
   private Game(int phase) {
     players = new Player[] { new Player(1, 7, 5), new Player(2, 7, 5) };
     playing = players[0];
-    timeBoard = new TimeBoard(2, new int[] { });
-//    timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
+    timeBoard = new TimeBoard(54,
+        new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
+        new int[] { 20, 26, 32, 44, 50 });
     switch (phase) {
     case 1 -> patchs = generatePatchs1();
     case 2 -> patchs = generatePatchs2();
@@ -309,13 +309,14 @@ public class Game {
   /**
    * Better string format for all patchs than the default Collection.toString().
    */
-  public String patchsToString() {
+  public String patchesToString() {
     var builder = new StringBuilder();
     int i = 0;
     for (var patch : patchs) {
-      if (i++ == PATCH_AVAILABLE) builder.insert(0, "(inaccessible)\n\n");
+      if (i == PATCH_AVAILABLE) builder.insert(0, "(inaccessible)\n\n");
       builder.insert(0, '\n').insert(0, patch);
       builder.insert(0, '\n').insert(0, i).insert(0, "n°");
+      i++;
     }
     return builder.substring(0, builder.length()-2);
   }
@@ -340,8 +341,8 @@ public class Game {
     System.out.println(game.player(0));
     System.out.println(game.player(1));
     System.out.println(game.timeBoard());
-    System.out.println(game.patchsToString());
+    System.out.println(game.patchesToString());
     System.out.println(game.buyPatch(2));
-    System.out.println(game.patchsToString());
+    System.out.println(game.patchesToString());
   }
 }

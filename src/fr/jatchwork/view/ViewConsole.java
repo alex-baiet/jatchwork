@@ -17,7 +17,7 @@ public final class ViewConsole {
    * Display the list of all available patchs.
    */
   public static void displayPatchs() {
-    System.out.println(Game.instance().patchsToString());
+    System.out.println(Game.instance().patchesToString());
   }
 
   /**

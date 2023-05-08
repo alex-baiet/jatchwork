@@ -2,11 +2,8 @@ package fr.jatchwork.control;
 
 import java.util.Scanner;
 
-import fr.jatchwork.model.Coord;
 import fr.jatchwork.model.Game;
-import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Player;
-import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.view.ViewConsole;
 
 public class ControlConsole {
@@ -28,7 +25,7 @@ public class ControlConsole {
     case "p" -> {
       ViewConsole.displayPatchs();
     }
-    case "1", "2", "3" -> {
+    case "0", "1", "2" -> {
       Player player = Game.instance().playing();
       int toBuy = Integer.parseInt(input);
       if (player.canBuyPatch(toBuy)) {

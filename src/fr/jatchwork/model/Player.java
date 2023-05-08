@@ -57,12 +57,13 @@ public class Player {
     Game game = Game.instance();
     // Buy the patch
     Patch patch = game.buyPatch(numPatch);
+
+    // Place on the quiltboard
+    board.add(patch, x, y);
+
     buttonCount -= patch.buttonCost();
     if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
     move(patch.timeCost());
-    
-    // Place on the quiltboard
-    board.add(patch, x, y);
   }
   
   public void buyPatch(int numPatch) {
@@ -98,8 +99,18 @@ public class Player {
    */
   private int move(int tileCount) {
     var timeBoard = Game.instance().timeBoard();
+    
+    // Button incomes
     var incomes = timeBoard.containsIncome(position, position + tileCount);
     buttonCount += incomes * board.buttonIncome();
+    
+    // Leathers patches
+    var leathers = timeBoard.getLeathers(position, position + tileCount);
+    for (int i = 0; i < leathers; i++) {
+      Coord pos = board.findSpace(Patch.LEATHER);
+      board.add(Patch.LEATHER, pos.x(), pos.y());
+    }
+    
     if (position + tileCount >= timeBoard.size()) {
       tileCount -= timeBoard.size() - position - 1;
     }
