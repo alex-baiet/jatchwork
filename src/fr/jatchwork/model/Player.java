@@ -47,6 +47,10 @@ public class Player {
   public boolean canBuyPatch(int numPatch) {
     return Game.instance().getPatch(numPatch).buttonCost() <= buttonCount;
   }
+  
+  public boolean canPlacePatch(int numPatch) {
+    return board.findSpace(Game.instance().getPatch(numPatch)) != null;
+  }
 
   /**
    * Buy a patch and place it the the player's quilt board.
@@ -142,5 +146,7 @@ public class Player {
     p.addPatch(Patch.LEATHER, 0, 0);
     System.out.println(p);
     System.out.println("Score : " + p.score());
+    System.out.println(p.canBuyPatch(0));
+    p.buyPatch(0);
   }
 }

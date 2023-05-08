@@ -28,13 +28,17 @@ public class ControlConsole {
     case "0", "1", "2" -> {
       Player player = Game.instance().playing();
       int toBuy = Integer.parseInt(input);
-      if (player.canBuyPatch(toBuy)) {
-        player.buyPatch(toBuy);
-      } else {
+      if (!player.canBuyPatch(toBuy)) {
         System.out.printf(
             "You can't buy the selected patch, you need %d more button(s) to afford it\n",
             Game.instance().getPatch(toBuy).buttonCost() - player.buttonCount());
+        break;
       }
+      if (!player.canPlacePatch(toBuy)) {
+        System.out.println("There is not enough space in the quiltboard to place the patch\n");
+        break;
+      }
+      player.buyPatch(toBuy);
     }
     case "e" -> {
       Game.instance().playing().endTurn();
