@@ -5,6 +5,7 @@ public class Player {
   private final QuiltBoard board;
   private int buttonCount;
   private int position = 0;
+  private boolean bonusFull = false;
   
   public Player(int num, int quiltBoardSize, int buttonCount) {
     this.num = num;
@@ -59,7 +60,7 @@ public class Player {
     Patch patch = game.buyPatch(numPatch);
 
     // Place on the quiltboard
-    board.add(patch, x, y);
+    addPatch(patch, x, y);
 
     buttonCount -= patch.buttonCost();
     if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
@@ -73,8 +74,15 @@ public class Player {
     buyPatch(numPatch, coord.x(), coord.y());
   }
   
+  private void addPatch(Patch patch, int x, int y) {
+    board.add(patch, x, y);
+    if (board.remainingSpace() == 0) {
+      bonusFull = Game.instance().getBonusFull();
+    }
+  }
+  
   public int score() {
-    return buttonCount - board.remainingSpace() * 2;
+    return buttonCount - board.remainingSpace() * 2 + (bonusFull ? 7 : 0);
   }
   
   @Override
@@ -83,10 +91,11 @@ public class Player {
     b.append("-- PLAYER ").append(num).append(" --\n");
     
     var lines = board.toString().split("\n");
-    for (int i = 0; i < lines.length || i < 3; i++) {
+    for (int i = 0; i < lines.length || i < 5; i++) {
       if (i < lines.length) b.append(lines[i]);
       if (i == 2) b.append("\tbuttons : ").append(buttonCount);
       if (i == 3) b.append("\tbuttons income : ").append(board.buttonIncome());
+      if (i == 4 && bonusFull) b.append("\tBonus full quilt board : 7 points");
       b.append('\n');
     }
     return b.substring(0, b.length() - 1);
@@ -119,17 +128,19 @@ public class Player {
   }
   
   public static void main(String[] args) {
+    Game.initGame(1);
     Game game = Game.instance();
-    game.player(1).move(10);
-    Player player = game.player(0);
-    player.buttonCount = 20;
-    System.out.println(player);
-    player.buyPatch(2, 0, 0);
-    System.out.println(player);
-    player.buyPatch(0, 2, 0);
-    System.out.println(player);
-    player.endTurn();
-    System.out.println(player);
-    System.out.println("Player score : " + player.score());
+    Player p = game.playing();
+    for (int x = 0; x < p.board.size(); x++) {
+      for (int y = 0; y < p.board.size(); y++) {
+        if (x == 0 && y == 0) continue;
+        p.addPatch(Patch.LEATHER, x, y);
+      }
+    }
+    System.out.println(p);
+    System.out.println("Score : " + p.score());
+    p.addPatch(Patch.LEATHER, 0, 0);
+    System.out.println(p);
+    System.out.println("Score : " + p.score());
   }
 }

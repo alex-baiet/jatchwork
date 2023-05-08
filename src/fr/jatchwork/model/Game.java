@@ -217,6 +217,7 @@ public class Game {
   private Player playing;
   private final TimeBoard timeBoard;
   private ArrayDeque<Patch> patchs;
+  private boolean bonusFullGiven = false;
 
   private Game(int phase) {
     players = new Player[] { new Player(1, 7, 5), new Player(2, 7, 5) };
@@ -304,6 +305,18 @@ public class Game {
         return patch;
     }
     throw new ArrayIndexOutOfBoundsException(index);
+  }
+  
+  /**
+   * Get the bonus for completing a quiltboard.
+   * @return True if no player already took it, false otherwise.
+   */
+  public boolean getBonusFull() {
+    if (!bonusFullGiven) {
+      bonusFullGiven = true;
+      return true;
+    }
+    return false;
   }
 
   /**
