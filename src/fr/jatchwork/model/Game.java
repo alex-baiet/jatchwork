@@ -4,9 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
-import java.util.Scanner;
-
-import fr.jatchwork.control.ControlConsole;
 
 public class Game {
   public static final int PLAYER_COUNT = 2;
@@ -18,31 +15,25 @@ public class Game {
    * The only instance of the game.
    */
   public static Game instance() {
-    if (instance == null) {
-      instance = new Game();
-      instance.askUserForVersion();
-    }
     return instance;
   }
 
-  private void askUserForVersion() {
-      switch (ControlConsole.chooseVersion()) {
-      case 1 -> patchs = generatePatchs();
-      case 2 -> patchs = generateAllPatches();
-      default -> {
-        System.out.println("Invalid choice, defaulting to base version.");
-        patchs = generatePatchs();
-      }
-    }
+  /**
+   * Create the instance if it does not exists.
+   * @param phase The current phase to init the game.
+   */
+  public static void initGame(int phase) {
+    if (instance != null) throw new RuntimeException("An instance of Game already exist.");
+    instance = new Game(phase);
   }
 
   /**
    * Generate all patchs for phase 1 only. There is 2 type of patch, each with 20
    * duplicates.
    * 
-   * @return
+   * @return The list of new patchs
    */
-  private static ArrayDeque<Patch> generatePatchs() {
+  private static ArrayDeque<Patch> generatePatchs1() {
     // Init values
     var patchs = new ArrayDeque<Patch>();
     var patch1 = new Patch(4, 3, 1, """
@@ -71,7 +62,7 @@ public class Game {
     return patchs;
   }
 
-  private static ArrayDeque<Patch> generateAllPatches() {
+  private static ArrayDeque<Patch> generatePatchs2() {
     // Init values
     var patchs = new ArrayDeque<Patch>();
 
@@ -224,13 +215,15 @@ public class Game {
   private final TimeBoard timeBoard;
   private ArrayDeque<Patch> patchs;
 
-  private Game() {
+  private Game(int phase) {
     players = new Player[] { new Player(1, 7, 5), new Player(2, 7, 5) };
     playing = players[0];
     timeBoard = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 });
-    // Generate patchs
-    // TODO: all phase have different implementation of generating patchs, find a
-    // solution better than hard-coding
+    switch (phase) {
+    case 1 -> patchs = generatePatchs1();
+    case 2 -> patchs = generatePatchs2();
+    default -> throw new IllegalArgumentException("Unexpected phase: " + phase);
+    }
   }
 
   /**
@@ -306,6 +299,7 @@ public class Game {
     for (var patch : patchs) {
       if (i++ == PATCH_AVAILABLE) builder.insert(0, "(inaccessible)\n\n");
       builder.insert(0, '\n').insert(0, patch);
+      builder.insert(0, '\n').insert(0, i).insert(0, "n°");
     }
     return builder.substring(0, builder.length()-1);
   }
