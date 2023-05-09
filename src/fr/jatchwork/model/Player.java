@@ -164,23 +164,4 @@ public class Player {
     position += tileCount;
     return tileCount;
   }
-  
-  public static void main(String[] args) {
-    Game.initGame(1);
-    Game game = Game.instance();
-    Player p = game.playing();
-    for (int x = 0; x < p.board.size(); x++) {
-      for (int y = 0; y < p.board.size(); y++) {
-        if (x == 0 && y == 0) continue;
-        p.addPatch(Patch.LEATHER, x, y);
-      }
-    }
-    System.out.println(p);
-    System.out.println("Score : " + p.score());
-    p.addPatch(Patch.LEATHER, 0, 0);
-    System.out.println(p);
-    System.out.println("Score : " + p.score());
-    System.out.println(p.canBuyPatch(0));
-    p.buyPatch(0);
-  }
 }

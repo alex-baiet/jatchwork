@@ -51,15 +51,4 @@ public final class ViewConsole {
       System.out.println("Draw ! no winner.");
     }
   }
-
-  /** Only for test */
-  public static void main(String[] args) {
-    Game.instance().player(0).buyPatch(0, 0, 0);
-    System.out.println(Game.instance().player(0).position());
-    displayGame();
-    System.out.println("############################################################");
-    displayPatches();
-    System.out.println("############################################################");
-    displayMenu();
-  }
 }

@@ -73,15 +73,4 @@ public class TimeBoard {
     }
     return builder.toString();
   }
-  
-  public static void main(String[] args) {
-    // Test
-    var board = new TimeBoard(54, new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 }, new int[] { 20, 26, 32, 44, 50 });
-    
-    System.out.println(board);
-    
-    System.out.println("Income count between 30 and 33 : " + board.containsIncome(30, 33));
-    System.out.println("Income count between 5 and 15 : " + board.containsIncome(5, 15));
-    System.out.println("Income count between 34 and 41 : " + board.containsIncome(34, 41));
-  }
 }

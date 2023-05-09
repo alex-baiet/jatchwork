@@ -125,28 +125,4 @@ public class QuiltBoard {
         && x >= 0
         && y >= 0;
   }
-
-  public static void main(String[] args) {
-    QuiltBoard board = new QuiltBoard(7);
-    System.out.println(board);
-    
-    var p = new Patch(2, 3, 1, """
-        ##.
-        .##
-        ##.
-        """);
-    board.add(p, 0, 0);
-    
-    System.out.println(board);
-
-    var p2 = new Patch(2, 3, 3, """
-        .#.
-        ###
-        .#.
-        """);
-    board.add(p2, 1, 2);
-    
-    System.out.println(board);
-    System.out.println("buttonIncome : " + board.buttonIncome());
-  }
 }

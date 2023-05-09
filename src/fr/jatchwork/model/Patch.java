@@ -176,15 +176,4 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
     }
     return Collections.unmodifiableList(result);
   }
-
-  public static void main(String[] args) {
-    // To test patch
-    Patch p = new Patch(4, 3, 1, """
-        ##.
-        .##
-        ##.
-        """);
-    System.out.println(p);
-  }
-
 }

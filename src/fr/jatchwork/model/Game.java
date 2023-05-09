@@ -347,23 +347,11 @@ public class Game {
     var b = new StringBuilder("-- GAME --\n\n");
     b.append(" ".repeat(players[0].position())).append("|p1\n");
     b.append(timeBoard).append('\n');
-    b.append(" ".repeat(players[1].position())).append("|p2\n\n");
-    b.append("*o are button incomes\n\n");
+    b.append(" ".repeat(players[1].position())).append("|p2\n");
+    b.append("*o are button incomes\n");
+    b.append("*# are leather patches\n\n");
     b.append(players[0]).append("\n\n");
     b.append(players[1]);
     return b.toString();
-  }
-
-  public static void main(String[] args) {
-    // Test
-    System.out.println(instance());
-    System.out.println(instance());
-    var game = instance();
-    System.out.println(game.player(0));
-    System.out.println(game.player(1));
-    System.out.println(game.timeBoard());
-    System.out.println(game.patchesToString());
-    System.out.println(game.buyPatch(2));
-    System.out.println(game.patchesToString());
   }
 }
