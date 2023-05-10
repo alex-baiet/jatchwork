@@ -230,7 +230,7 @@ public class Game {
         new int[] { 20, 26, 32, 44, 50 });
     switch (phase) {
     case 1 -> patches = generatePatches1();
-    case 2 -> patches = generatePatches2();
+    case 2, 3 -> patches = generatePatches2();
     default -> throw new IllegalArgumentException("Unexpected phase: " + phase);
     }
   }

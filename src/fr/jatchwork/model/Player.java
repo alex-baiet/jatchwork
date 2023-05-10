@@ -97,7 +97,7 @@ public class Player {
    */
   public void buyPatch(int numPatch) {
     Patch patch = Game.instance().getPatch(numPatch);
-    Coord coord = board.findSpace(patch);
+    Vector coord = board.findSpace(patch);
     if (coord == null) throw new RuntimeException("No place available to place patch.");
     buyPatch(numPatch, coord.x(), coord.y());
   }
@@ -154,7 +154,7 @@ public class Player {
     // Leathers patches
     var leathers = timeBoard.getLeathers(position, position + tileCount);
     for (int i = 0; i < leathers; i++) {
-      Coord pos = board.findSpace(Patch.LEATHER);
+      Vector pos = board.findSpace(Patch.LEATHER);
       board.add(Patch.LEATHER, pos.x(), pos.y());
     }
     

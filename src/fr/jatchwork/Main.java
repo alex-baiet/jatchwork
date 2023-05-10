@@ -1,8 +1,12 @@
 package fr.jatchwork;
 
+import java.awt.Color;
+
 import fr.jatchwork.control.ControlConsole;
 import fr.jatchwork.model.Game;
 import fr.jatchwork.view.ViewConsole;
+import fr.umlv.zen5.Application;
+import fr.umlv.zen5.ApplicationContext;
 
 public class Main {
   /**
@@ -14,16 +18,34 @@ public class Main {
     int version = ControlConsole.chooseVersion();
     Game.initGame(version);
 
-    ViewConsole.displayGame();
-    ViewConsole.displayMenu();
+    switch (version) {
+    case 1, 2 -> {
+      // Console version
+      ViewConsole.displayGame();
+      ViewConsole.displayMenu();
 
-    // Main game loop
-    while (!Game.instance().finished()) {
-      ControlConsole.manageInput();
+      // Main game loop
+      while (!Game.instance().finished()) {
+        ControlConsole.manageInput();
+      }
+      
+      ViewConsole.displayGame();
+      ViewConsole.displayScores();
     }
-    
-    ViewConsole.displayGame();
-    ViewConsole.displayScores();
+    case 3, 4 -> {
+      // Graphical version
+      Application.run(Color.BLACK, Main::run);
+    }
+    default ->
+      throw new IllegalArgumentException("Unexpected value: " + version);
+    }
+  }
+  
+  private static void run(ApplicationContext context) {
+    while (true) {
+      var event = context.pollOrWaitEvent(200);
+      System.out.println(event);
+    }
   }
 
 }

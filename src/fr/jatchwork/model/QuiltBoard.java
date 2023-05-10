@@ -89,10 +89,10 @@ public class QuiltBoard {
    * @param patch What to place
    * @return Coord containing the position where the patch can be inserted. Return null if no space where found.
    */
-  public Coord findSpace(Patch patch) {
+  public Vector findSpace(Patch patch) {
     for (int x = 0; x < size(); x++) {
       for (int y = 0; y < size(); y++) {
-        if (fit(patch, x, y)) return new Coord(x, y);
+        if (fit(patch, x, y)) return new Vector(x, y);
       }
     }
     return null;

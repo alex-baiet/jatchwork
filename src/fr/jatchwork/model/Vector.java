@@ -5,6 +5,6 @@ package fr.jatchwork.model;
  * @param x Horizontal position
  * @param y Vertical position
  */
-public record Coord(int x, int y) {
+public record Vector(int x, int y) {
 
 }
