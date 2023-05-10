@@ -3,6 +3,7 @@ package fr.jatchwork;
 import java.awt.Color;
 
 import fr.jatchwork.control.ControlConsole;
+import fr.jatchwork.control.ControlWindow;
 import fr.jatchwork.model.Game;
 import fr.jatchwork.view.ViewConsole;
 import fr.umlv.zen5.Application;
@@ -43,8 +44,7 @@ public class Main {
   
   private static void run(ApplicationContext context) {
     while (true) {
-      var event = context.pollOrWaitEvent(200);
-      System.out.println(event);
+      ControlWindow.manageInput(context);
     }
   }
 
