@@ -6,6 +6,7 @@ import fr.jatchwork.control.ControlConsole;
 import fr.jatchwork.control.ControlWindow;
 import fr.jatchwork.model.Game;
 import fr.jatchwork.view.ViewConsole;
+import fr.jatchwork.view.ViewWindow;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 
@@ -43,8 +44,10 @@ public class Main {
   }
   
   private static void run(ApplicationContext context) {
+    ViewWindow.setScreenInfo(context.getScreenInfo());
     while (true) {
       ControlWindow.manageInput(context);
+      context.renderFrame(ViewWindow::displayAll);
     }
   }
 

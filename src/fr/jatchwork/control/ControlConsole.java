@@ -14,10 +14,15 @@ public class ControlConsole {
    * @return Choosen version.
    */
   public static int chooseVersion() {
-    System.out.println("Which version of the game do you want to play ?");
-    System.out.println("1. Base version");
-    System.out.println("2. Full version");
-    return scanner.nextInt();
+    while (true) {
+      System.out.println("Which version of the game do you want to play ?");
+      System.out.println("1. Base version");
+      System.out.println("2. Full version");
+      System.out.println("3. Graphical version");
+      //System.out.println("4. Custom version");
+      int version = scanner.nextInt();
+      if (version >=1 && version <= 3) return version;
+    }
   }
 
   /**
