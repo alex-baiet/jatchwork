@@ -2,9 +2,9 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.util.Random;
 
+import fr.jatchwork.model.Patch;
+import fr.jatchwork.model.Vector;
 import fr.umlv.zen5.ScreenInfo;
 
 public class ViewWindow {
@@ -25,12 +25,9 @@ public class ViewWindow {
    * Update the window view.
    */
   public static void displayAll(Graphics2D graphics) {
-    Random r = new Random();
     graphics.setColor(Color.WHITE);
-    graphics.clearRect(0, 0, 0, 0);
-    Rectangle rect = new Rectangle(r.nextInt(200), r.nextInt(200), 4, 4);
-    graphics.drawRect(r.nextInt(200), r.nextInt(200), 2, 2);
-    graphics.fillRect(r.nextInt(200), r.nextInt(200), 2, 2);
-    //graphics.draw(rect);
+    graphics.drawString("Display is empty for now :/", width() / 2, height() / 2);
   }
+  
+  private ViewWindow() { }
 }

@@ -46,6 +46,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * 
    * @param x Horizontal position
    * @param y Vertical position
+   * @return True if occuped, false otherwise.
    */
   public boolean getTile(int x, int y) {
     if (x < 0 || y < 0 || x >= shape.size() || y >= shape.get(0).size())

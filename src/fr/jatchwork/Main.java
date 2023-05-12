@@ -45,9 +45,10 @@ public class Main {
   
   private static void run(ApplicationContext context) {
     ViewWindow.setScreenInfo(context.getScreenInfo());
+
     while (true) {
-      ControlWindow.manageInput(context);
       context.renderFrame(ViewWindow::displayAll);
+      ControlWindow.manageInput(context);
     }
   }
 
