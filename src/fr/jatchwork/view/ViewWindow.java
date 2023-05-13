@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import fr.jatchwork.model.Patch;
+import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.model.Vector;
 import fr.umlv.zen5.ScreenInfo;
 

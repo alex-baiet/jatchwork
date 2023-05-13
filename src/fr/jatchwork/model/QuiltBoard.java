@@ -1,6 +1,7 @@
 package fr.jatchwork.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuiltBoard {
   /** How is currently filled the board. */
@@ -23,6 +24,12 @@ public class QuiltBoard {
    * How many empty tiles remains
    */
   public int remainingSpace() { return remainingSpace; }
+  
+  /**
+   * List of all patches inside the quilt board.
+   * @return Copy of list of patches
+   */
+  public List<PatchCoord> patches() { return List.copyOf(patches); }
 
   /**
    * Add a patch to the quilt board.
@@ -32,7 +39,7 @@ public class QuiltBoard {
    */
   public void add(Patch patch, int x, int y) {
     if (!fit(patch, x, y)) throw new RuntimeException("The patch did not fit in the quilt board.");
-    patches.add(new PatchCoord(patch, x, y));
+    patches.add(new PatchCoord(patch, new Vector(x, y)));
     buttonIncome += patch.buttonIncome();
     for (int xp = 0; xp < patch.width(); xp++) {
       for (int yp = 0; yp < patch.height(); yp++) {

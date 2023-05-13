@@ -6,6 +6,6 @@ package fr.jatchwork.model;
  * @param x Horizontal position
  * @param y Vertical position
  */
-public record PatchCoord(Patch patch, int x, int y) {
+public record PatchCoord(Patch patch, Vector pos) {
   
 }
