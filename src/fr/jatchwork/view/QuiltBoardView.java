@@ -7,7 +7,7 @@ import fr.jatchwork.model.PatchCoord;
 import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.model.Vector;
 
-public class QuiltBoardView {
+final class QuiltBoardView {
   private static final int BORDER_OUT_SIZE = 4;
   private static final int BORDER_IN_SIZE = 2;
   private static final Color BORDER_COLOR = Color.WHITE;
@@ -27,7 +27,6 @@ public class QuiltBoardView {
     graphics.fillRect(pos.x(), pos.y(), size, size);
     
     // Draw outside borders
-    graphics.setColor(BORDER_COLOR);
     drawTwoBorder(graphics, pos, 0, size, BORDER_OUT_SIZE); // top and left
     drawTwoBorder(graphics, pos, board.size(), size, BORDER_OUT_SIZE); // bottom and right
     
@@ -52,19 +51,8 @@ public class QuiltBoardView {
    */
   private static void drawTwoBorder(Graphics2D graphics, Vector pos, int squarePos, int length, int width) {
     int square = ViewWindow.squareSize();
-    // Draw horizontal border
-    graphics.fillRect(
-        pos.x() - width / 2,
-        pos.y() + squarePos * square - width / 2,
-        length + width,
-        width);
-
-    // Draw vertical border
-    graphics.fillRect(
-        pos.x() + squarePos * square - width / 2,
-        pos.y() - width / 2,
-        width,
-        length + width);
+    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, squarePos * square), length, width, true);
+    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(squarePos * square, 0), length, width, false);
   }
 
   private QuiltBoardView() { }

@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Vector;
 
-public final class PatchView {
+final class PatchView {
   private static final Color COLOR = Color.GRAY;
   private static final Color BORDER = Color.WHITE;
   private static final int BORDER_SIZE = 4;
@@ -36,29 +36,16 @@ public final class PatchView {
       }
     }
 
-    // Draw horizontal borders
-    graphics.setColor(BORDER);
-    for (int x = 0; x < patch.width(); x++) {
-      for (int y = 0; y <= patch.height(); y++) {
-        if (patch.getTile(x, y - 1) ^ patch.getTile(x, y)) {
-          graphics.fillRect(
-              pos.x() + x * square - BORDER_SIZE / 2,
-              pos.y() + y * square - BORDER_SIZE / 2,
-              square + BORDER_SIZE,
-              BORDER_SIZE);
-        }
-      }
-    }
-
-    // Draw vertical borders
+    // Draw borders
     for (int x = 0; x <= patch.width(); x++) {
-      for (int y = 0; y < patch.height(); y++) {
-        if (patch.getTile(x - 1, y) ^ patch.getTile(x, y)) {
-          graphics.fillRect(
-              pos.x() + x * square - BORDER_SIZE / 2,
-              pos.y() + y * square - BORDER_SIZE / 2,
-              BORDER_SIZE,
-              square + BORDER_SIZE);
+      for (int y = 0; y <= patch.height(); y++) {
+        // Horizontal borders
+        if (x < patch.width() && patch.getTile(x, y - 1) ^ patch.getTile(x, y)) {
+          ViewWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, true);
+        }
+        // Vertical borders
+        if (y < patch.height() && patch.getTile(x - 1, y) ^ patch.getTile(x, y)) {
+          ViewWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, false);
         }
       }
     }
