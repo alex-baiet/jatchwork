@@ -3,6 +3,7 @@ package fr.jatchwork.view;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import fr.jatchwork.model.Game;
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
 import fr.umlv.zen5.ScreenInfo;

@@ -31,7 +31,7 @@ public record Vector(int x, int y) {
    * @param n The multiplier
    * @return The product
    */
-  public Vector multiply(int n) {
-    return new Vector(x * n, y * n);
+  public Vector multiply(float n) {
+    return new Vector((int)(x * n), (int)(y * n));
   }
 }

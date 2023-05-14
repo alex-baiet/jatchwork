@@ -2,7 +2,6 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.Iterator;
 
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
@@ -12,11 +11,13 @@ final class TimeBoardView {
   /** Maximum number of square horizontally */
   private static final int MAX_SQUARE_COUNT = 10;
   private static final Color MAIN_COLOR = Color.DARK_GRAY;
-  private static final Color BORDER_COLOR = Color.GRAY;
-  private static final Color BORDER_PATH_COLOR = Color.WHITE;
+
   private static final int BORDER_WIDTH = 2;
+  private static final Color BORDER_COLOR = Color.GRAY;
+
   private static final int BORDER_PATH_WIDTH = 4;
-  
+  private static final Color BORDER_PATH_COLOR = Color.WHITE;
+
   /**
    * Draw the time board in a zig-zag format.
    * @param graphics Window's graphics
@@ -24,27 +25,38 @@ final class TimeBoardView {
    * @param Where to draw the top left corner
    */
   public static void drawTimeBoard(Graphics2D graphics, TimeBoard board, Vector pos) {
+    // Draw squares and fill color
+    for (int i = 0; i < board.size(); i++) {
+      drawSquare(graphics, squarePos(pos, i));
+    }
+
+    // Draw path delimiter borders
+    for (int i = 0; i < board.size(); i++) {
+      drawPathBorders(graphics, squarePos(pos, i), i, board.size());
+    }
+
+    // Draw buttons
+    for (int i = 1; i < board.size(); i++) {
+      if (board.containsIncome(i-1, i) > 0) {
+        ButtonView.drawButton(graphics, getBetweenSquarePos(pos, i));
+      }
+    }
+  }
+  
+  /**
+   * Get the position of a square.
+   * @param basePos Top left corner of the time board
+   * @param i Index of square
+   * @return Top left corner of the square in pixel
+   */
+  private static Vector squarePos(Vector basePos, int i) {
+    int ysquare = i / MAX_SQUARE_COUNT;
+    int xsquare = i % MAX_SQUARE_COUNT;
+    boolean reversed = ysquare % 2 == 1;
     int square = ViewWindow.squareSize();
-
-    for (int i = 0; i < board.size(); i++) {
-      int ysquare = i / MAX_SQUARE_COUNT;
-      int xsquare = i % MAX_SQUARE_COUNT;
-      boolean reversed = ysquare % 2 == 1;
-      drawSquare(graphics, pos.add(
-          reversed ? (MAX_SQUARE_COUNT - xsquare - 1) * square : xsquare * square,
-          ysquare * square));
-    }
-
-    for (int i = 0; i < board.size(); i++) {
-      int ysquare = i / MAX_SQUARE_COUNT;
-      int xsquare = i % MAX_SQUARE_COUNT;
-      boolean reversed = ysquare % 2 == 1;
-
-      drawPathBorders(graphics, pos.add(
-          reversed ? (MAX_SQUARE_COUNT - xsquare - 1) * square : xsquare * square,
-          ysquare * square),
-          i, board.size());
-    }
+    return basePos.add(
+        reversed ? (MAX_SQUARE_COUNT - xsquare - 1) * square : xsquare * square,
+        ysquare * square);
   }
   
   /**
@@ -103,6 +115,17 @@ final class TimeBoardView {
       ViewWindow.drawLine(graphics, BORDER_PATH_COLOR, pos.add(square, 0), square, BORDER_PATH_WIDTH, false);
     }
   }
-  
+
+  /**
+   * Get the position between given square and the previous one.
+   * @param basePos 
+   * @param i
+   * @return Centered position on the line between the two squares
+   */
+  private static Vector getBetweenSquarePos(Vector basePos, int i) {
+    int square = ViewWindow.squareSize();
+    return squarePos(basePos, i).add(squarePos(basePos, i-1)).add(square, square).multiply(0.5f);
+  }
+
   private TimeBoardView() { }
 }
