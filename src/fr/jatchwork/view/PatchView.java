@@ -41,11 +41,11 @@ final class PatchView {
       for (int y = 0; y <= patch.height(); y++) {
         // Horizontal borders
         if (x < patch.width() && patch.getTile(x, y - 1) ^ patch.getTile(x, y)) {
-          ViewWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, true);
+          HelpWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, true);
         }
         // Vertical borders
         if (y < patch.height() && patch.getTile(x - 1, y) ^ patch.getTile(x, y)) {
-          ViewWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, false);
+          HelpWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, false);
         }
       }
     }

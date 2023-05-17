@@ -34,7 +34,7 @@ final class ButtonView {
     
     // Thread
     for (int i = 0; i < 2; i++) {
-      ViewWindow.drawLine(graphics, BORDER_COLOR,
+      HelpWindow.drawLine(graphics, BORDER_COLOR,
           pos.add(-THREAD_SIZE / 2 + THREAD_SIZE * i, -THREAD_SIZE / 2),
           THREAD_SIZE, THREAD_THICKNESS, false);
     }

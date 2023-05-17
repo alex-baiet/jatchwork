@@ -14,6 +14,16 @@ final class QuiltBoardView {
   private static final Color MAIN_COLOR = Color.DARK_GRAY;
   
   /**
+   * Get the size of a board on the screen
+   * @param board
+   * @return Size in pixels
+   */
+  public static Vector size(QuiltBoard board) {
+    int size = board.size() * ViewWindow.squareSize();
+    return new Vector(size, size);
+  }
+
+  /**
    * Draw a quilt board on the window
    * @param graphics Window's graphics
    * @param board What to draw
@@ -51,8 +61,8 @@ final class QuiltBoardView {
    */
   private static void drawTwoBorder(Graphics2D graphics, Vector pos, int squarePos, int length, int width) {
     int square = ViewWindow.squareSize();
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, squarePos * square), length, width, true);
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(squarePos * square, 0), length, width, false);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, squarePos * square), length, width, true);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(squarePos * square, 0), length, width, false);
   }
 
   private QuiltBoardView() { }

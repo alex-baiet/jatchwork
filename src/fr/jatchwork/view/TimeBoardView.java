@@ -74,13 +74,13 @@ final class TimeBoardView {
     
     // Draw borders
     // top
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos, square, BORDER_WIDTH, true);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos, square, BORDER_WIDTH, true);
     // left
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos, square, BORDER_WIDTH, false);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos, square, BORDER_WIDTH, false);
     // bottom
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, square), square, BORDER_WIDTH, true);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, square), square, BORDER_WIDTH, true);
     // right
-    ViewWindow.drawLine(graphics, BORDER_COLOR, pos.add(square, 0), square, BORDER_WIDTH, false);
+    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(square, 0), square, BORDER_WIDTH, false);
   }
   
   /**
@@ -96,23 +96,23 @@ final class TimeBoardView {
     int direction = (i / MAX_SQUARE_COUNT) % 2;
     // top
     if (i == 0 || i % MAX_SQUARE_COUNT != 0) {
-      ViewWindow.drawLine(graphics, BORDER_PATH_COLOR, pos, square, BORDER_PATH_WIDTH, true);
+      HelpWindow.drawLine(graphics, BORDER_PATH_COLOR, pos, square, BORDER_PATH_WIDTH, true);
     }
     // left
     if (direction == 0 && i % MAX_SQUARE_COUNT == 0 ||
         direction == 1 && (i % MAX_SQUARE_COUNT == MAX_SQUARE_COUNT-1 || i == count-1)) {
-      ViewWindow.drawLine(graphics, BORDER_PATH_COLOR, pos, square, BORDER_PATH_WIDTH, false);
+      HelpWindow.drawLine(graphics, BORDER_PATH_COLOR, pos, square, BORDER_PATH_WIDTH, false);
     }
 
     // bottom
     if (i == count-1 || i % MAX_SQUARE_COUNT != MAX_SQUARE_COUNT - 1) {
-      ViewWindow.drawLine(graphics, BORDER_PATH_COLOR, pos.add(0, square), square, BORDER_PATH_WIDTH, true);
+      HelpWindow.drawLine(graphics, BORDER_PATH_COLOR, pos.add(0, square), square, BORDER_PATH_WIDTH, true);
     }
 
     // right
     if (direction == 1 && i % MAX_SQUARE_COUNT == 0 ||
         direction == 0 && (i % MAX_SQUARE_COUNT == MAX_SQUARE_COUNT-1 || i == count-1)) {
-      ViewWindow.drawLine(graphics, BORDER_PATH_COLOR, pos.add(square, 0), square, BORDER_PATH_WIDTH, false);
+      HelpWindow.drawLine(graphics, BORDER_PATH_COLOR, pos.add(square, 0), square, BORDER_PATH_WIDTH, false);
     }
   }
 

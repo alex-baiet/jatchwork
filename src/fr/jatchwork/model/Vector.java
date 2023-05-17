@@ -6,6 +6,7 @@ package fr.jatchwork.model;
  * @param y Vertical position
  */
 public record Vector(int x, int y) {
+  public static final Vector ZERO = new Vector(0, 0);
 
   /**
    * Make the sum of two vectors.

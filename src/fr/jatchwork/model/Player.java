@@ -122,7 +122,9 @@ public class Player {
   public int score() {
     return buttonCount - board.remainingSpace() * 2 + (bonusFull ? 7 : 0);
   }
-  
+
+  public QuiltBoard board() { return board; }
+
   @Override
   public String toString() {
     var b = new StringBuilder();
