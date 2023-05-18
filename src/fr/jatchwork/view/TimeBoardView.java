@@ -126,6 +126,18 @@ final class TimeBoardView {
     int square = ViewWindow.squareSize();
     return squarePos(basePos, i).add(squarePos(basePos, i-1)).add(square, square).multiply(0.5f);
   }
+  
+  /**
+   * Get the size of the board on the screen.
+   * @param board
+   * @return Size in pixel
+   */
+  public static Vector size(TimeBoard board) {
+    int square = ViewWindow.squareSize();
+    return new Vector(
+        (board.size() < MAX_SQUARE_COUNT ? board.size() : MAX_SQUARE_COUNT) * square,
+        ((board.size()-1) / MAX_SQUARE_COUNT + 1) * square);
+  }
 
   private TimeBoardView() { }
 }

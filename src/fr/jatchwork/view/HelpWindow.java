@@ -1,7 +1,9 @@
 package fr.jatchwork.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
@@ -16,6 +18,8 @@ final class HelpWindow {
   public static final Vector ALIGN_TOP_RIGHT = new Vector(1, -1);
   public static final Vector ALIGN_BOTTOM_LEFT = new Vector(-1, 1);
   public static final Vector ALIGN_BOTTOM_RIGHT = new Vector(1, 1);
+  
+  private static final int DEFAULT_FONT_SIZE = 12;
 
   /**
    * Get a position aligned in a 2D space.
@@ -65,6 +69,39 @@ final class HelpWindow {
         pos.y() - thickness / 2,
         thickness + ( horizontal ? length : 0),
         thickness + (!horizontal ? length : 0));
+  }
+
+  /**
+   * Draw a text on the screen.
+   * @param Graphics2D graphics
+   * @param string Text to draw
+   * @param font Font of the text
+   * @param pos Position in pixels
+   */
+  public static void drawText(Graphics2D graphics, String string, Font font, Vector pos) {
+    graphics.setFont(font);
+    graphics.drawString(
+        string,
+        pos.x(),
+        pos.y() + pointToPixel(font.getSize() - DEFAULT_FONT_SIZE));
+  }
+
+  /**
+   * Convert pixel size into point size.
+   * @param pixelSize
+   * @return Converted value
+   */
+  public static int pixelToPoint(int pixelSize) {
+    return (int)(72.0f * (float)pixelSize / Toolkit.getDefaultToolkit().getScreenResolution());
+  }
+
+  /**
+   * Convert point size to pixel size
+   * @param pointSize
+   * @return Converted value
+   */
+  public static int pointToPixel(int pointSize) {
+    return pointSize * Toolkit.getDefaultToolkit().getScreenResolution() / 72;
   }
 
 }

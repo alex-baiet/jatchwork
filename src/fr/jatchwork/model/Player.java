@@ -35,6 +35,12 @@ public class Player {
   public int buttonCount() { return buttonCount; }
   
   /**
+   * Number of button gained at each "button income" of the time board.
+   * @return Button income
+   */
+  public int buttonIncome() { return board.buttonIncome(); }
+
+  /**
    * End the turn of a player.
    */
   public void endTurn() {
