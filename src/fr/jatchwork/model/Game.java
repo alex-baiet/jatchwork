@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-public class Game {
+public final class Game {
   public static final int PLAYER_COUNT = 2;
   public static final int PATCH_AVAILABLE = 3;
 

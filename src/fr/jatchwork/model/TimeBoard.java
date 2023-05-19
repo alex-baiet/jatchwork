@@ -3,7 +3,7 @@ package fr.jatchwork.model;
 /**
  * Board representing the time, on which players move their pawns.
  */
-public class TimeBoard {
+public final class TimeBoard {
   private final boolean[] incomes;
   private final boolean[] leathers;
 

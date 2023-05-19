@@ -6,7 +6,7 @@ import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Player;
 import fr.jatchwork.view.ViewConsole;
 
-public class ControlConsole {
+public final class ControlConsole {
   private static final Scanner scanner = new Scanner(System.in);
 
   /**

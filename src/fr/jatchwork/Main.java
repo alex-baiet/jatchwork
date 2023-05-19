@@ -10,7 +10,7 @@ import fr.jatchwork.view.ViewWindow;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 
-public class Main {
+public final class Main {
   /**
    * The function called when starting the program.
    * @param args List of command line arguments. Not used.

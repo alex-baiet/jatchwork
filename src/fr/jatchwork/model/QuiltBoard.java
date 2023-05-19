@@ -3,7 +3,7 @@ package fr.jatchwork.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuiltBoard {
+public final class QuiltBoard {
   /** How is currently filled the board. */
   private final boolean[][] board;
   private int remainingSpace;

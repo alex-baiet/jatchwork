@@ -1,6 +1,6 @@
 package fr.jatchwork.model;
 
-public class Player {  
+public final class Player {  
   private final int num;
   private final QuiltBoard board;
   private int buttonCount;

@@ -9,7 +9,7 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.KeyboardKey;
 
-public class ControlWindow {
+public final class ControlWindow {
 
   // Temporary default patch for test, to delete
   private static Patch selectedPatch = null;
