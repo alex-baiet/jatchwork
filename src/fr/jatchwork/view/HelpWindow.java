@@ -104,4 +104,15 @@ final class HelpWindow {
     return pointSize * Toolkit.getDefaultToolkit().getScreenResolution() / 72;
   }
 
+  public static void drawRect(Graphics2D graphics, Rect rect, int borderSize, Color borderColor, Color fillColor) {
+    graphics.setColor(borderColor);
+    // TODO: to optimize the draw, use drawRect in a loop instead to draw the border
+    graphics.fillRect(rect.x(), rect.y(), rect.width(), rect.height());
+    graphics.setColor(fillColor);
+    graphics.fillRect(
+        rect.x() + borderSize,
+        rect.y() + borderSize,
+        rect.width() - borderSize * 2,
+        rect.height() - borderSize * 2);
+  }
 }

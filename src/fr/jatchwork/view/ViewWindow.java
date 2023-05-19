@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import fr.jatchwork.control.ControlWindow;
 import fr.jatchwork.model.Game;
+import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Player;
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
@@ -81,9 +83,50 @@ public final class ViewWindow {
    * @param rect Where to draw
    */
   private static void displayCommon(Graphics2D graphics, Rect rect) {
-    Game game = Game.instance();
-    Vector pos = HelpWindow.align(rect, HelpWindow.ALIGN_TOP, new Vector(40, 40), TimeBoardView.size(game.timeBoard()));
-    TimeBoardView.drawTimeBoard(graphics, game.timeBoard(), pos);
+    final Game game = Game.instance();
+    
+    // Time board
+    final int boardMargin = 40;
+    final Vector boardSize = TimeBoardView.size(game.timeBoard());
+    final Vector posBoard = HelpWindow.align(rect, HelpWindow.ALIGN_TOP, new Vector(boardMargin, boardMargin), boardSize);
+    TimeBoardView.drawTimeBoard(graphics, game.timeBoard(), posBoard);
+    
+    // Selected patch
+    int posY = posBoard.y() + boardSize.y() + boardMargin;
+    final int marginSelected = 20;
+    final int selectedHeight = squareSize * 5 + 4;
+    displayPatchInfo(graphics, new Rect(rect.x() + marginSelected, posY, rect.width() - marginSelected * 2, selectedHeight));
+  }
+  
+  private static void displayPatchInfo(Graphics2D graphics, Rect rect) {
+    final Patch patch = ControlWindow.getSelectedPatch();
+    final int boxBorderSize = 2;
+    final int textSpace = (int)(FONT_SIZE);
+    final Vector marginText = new Vector(20, (rect.height() - FONT_SIZE * 3) / 2);
+    
+    // Draw patch box
+    HelpWindow.drawRect(graphics, new Rect(rect.x(), rect.y(), rect.height(), rect.height()), boxBorderSize, Color.WHITE, Color.DARK_GRAY);
+    
+    Vector textPos = new Vector(rect.x() + rect.height() + marginText.x(), rect.y() + marginText.y());
+    if (patch != null) {
+      // Draw patch
+      PatchView.drawPatchCenter(graphics, patch, new Vector(rect.x() + rect.height() / 2, rect.y() + rect.height() / 2));
+      // Draw informative text
+      graphics.setColor(Color.WHITE);
+      HelpWindow.drawText(graphics, "time cost : " + patch.timeCost(), FONT, textPos);
+      textPos = textPos.add(0, textSpace);
+      HelpWindow.drawText(graphics, "button cost : " + patch.buttonCost(), FONT, textPos);
+      textPos = textPos.add(0, textSpace);
+      HelpWindow.drawText(graphics, "button income : " + patch.buttonIncome(), FONT, textPos);
+    } else {
+      // Draw default informative text
+      graphics.setColor(Color.GRAY);
+      HelpWindow.drawText(graphics, "Select a patch", FONT, textPos);
+      textPos = textPos.add(0, textSpace);
+      HelpWindow.drawText(graphics, "to display its", FONT, textPos);
+      textPos = textPos.add(0, textSpace);
+      HelpWindow.drawText(graphics, "informations", FONT, textPos);
+    }
   }
   
   private ViewWindow() { }
