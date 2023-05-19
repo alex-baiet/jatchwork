@@ -62,7 +62,7 @@ public final class ViewWindow {
   private static void displayPlayer(Graphics2D graphics, Rect rect, Player player) {
     final int titleMarginX = 60;
     final int marginX = 100;
-    final int spaceY = (int)(FONT_SIZE * 1.5f);
+    final int spaceY = (int)(FONT_SIZE * 1.2f);
     int posY = 40;
     HelpWindow.drawText(graphics, "Player " + player.numero(), FONT_TITLE, rect.pos().add(titleMarginX, posY));
     
@@ -71,9 +71,11 @@ public final class ViewWindow {
       HelpWindow.drawText(graphics, "YOUR TURN", FONT_ACTION, rect.pos().add(titleMarginX, posY));
     }
     
-    HelpWindow.drawText(graphics, "buttons : " + player.buttonCount(), FONT, rect.pos().add(marginX, posY += 120));
-    HelpWindow.drawText(graphics, "income : " + player.buttonIncome(), FONT, rect.pos().add(marginX, posY += spaceY));
-    HelpWindow.drawText(graphics, "score : " + player.score(), FONT, rect.pos().add(marginX, posY += spaceY));
+    HelpWindow.drawText(graphics,
+        "buttons : " + player.buttonCount() +
+        "\nincome : " + player.buttonIncome() +
+        "\nscore : " + player.score(),
+        FONT, rect.pos().add(marginX, posY += 120), spaceY);
 
     Vector pos = HelpWindow.align(rect, HelpWindow.ALIGN_BOTTOM, new Vector(40, 40), QuiltBoardView.size(player.board()));
     QuiltBoardView.drawQuiltBoard(graphics, player.board(), pos);
@@ -120,19 +122,15 @@ public final class ViewWindow {
       PatchView.drawPatchCenter(graphics, patch, new Vector(rect.x() + rect.height() / 2, rect.y() + rect.height() / 2));
       // Draw informative text
       graphics.setColor(Color.WHITE);
-      HelpWindow.drawText(graphics, "time cost : " + patch.timeCost(), FONT, textPos);
-      textPos = textPos.add(0, textSpace);
-      HelpWindow.drawText(graphics, "button cost : " + patch.buttonCost(), FONT, textPos);
-      textPos = textPos.add(0, textSpace);
-      HelpWindow.drawText(graphics, "button income : " + patch.buttonIncome(), FONT, textPos);
+      HelpWindow.drawText(graphics,
+          "time cost : " + patch.timeCost() +
+          "\nbutton cost : " + patch.buttonCost() +
+          "\nbutton income : " + patch.buttonIncome(),
+          FONT, textPos, textSpace);
     } else {
       // Draw default informative text
       graphics.setColor(Color.GRAY);
-      HelpWindow.drawText(graphics, "Select a patch", FONT, textPos);
-      textPos = textPos.add(0, textSpace);
-      HelpWindow.drawText(graphics, "to display its", FONT, textPos);
-      textPos = textPos.add(0, textSpace);
-      HelpWindow.drawText(graphics, "informations", FONT, textPos);
+      HelpWindow.drawText(graphics, "Select a patch\nto display its\ninformations", FONT, textPos, textSpace);
     }
   }
   
