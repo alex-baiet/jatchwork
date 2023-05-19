@@ -2,6 +2,7 @@ package fr.jatchwork.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class QuiltBoard {
   /** How is currently filled the board. */
@@ -38,6 +39,7 @@ public final class QuiltBoard {
    * @param y Where vertically
    */
   public void add(Patch patch, int x, int y) {
+    Objects.requireNonNull(patch);
     if (!fit(patch, x, y)) throw new RuntimeException("The patch did not fit in the quilt board.");
     patches.add(new PatchCoord(patch, new Vector(x, y)));
     buttonIncome += patch.buttonIncome();
@@ -79,6 +81,7 @@ public final class QuiltBoard {
    * @return True if insertion is possibl, false else.
    */
   public boolean fit(Patch patch, int x, int y) {
+    Objects.requireNonNull(patch);
     for (int xp = 0; xp < patch.width(); xp++) {
       for (int yp = 0; yp < patch.height(); yp++) {
         if (patch.getTile(xp, yp)
@@ -97,6 +100,7 @@ public final class QuiltBoard {
    * @return Coord containing the position where the patch can be inserted. Return null if no space where found.
    */
   public Vector findSpace(Patch patch) {
+    Objects.requireNonNull(patch);
     for (int x = 0; x < size(); x++) {
       for (int y = 0; y < size(); y++) {
         if (fit(patch, x, y)) return new Vector(x, y);

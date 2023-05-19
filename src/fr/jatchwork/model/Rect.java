@@ -1,5 +1,7 @@
 package fr.jatchwork.model;
 
+import java.util.Objects;
+
 public record Rect(int x, int y, int width, int height) {
   public Vector pos() { return new Vector(x, y); }
   
@@ -11,6 +13,7 @@ public record Rect(int x, int y, int width, int height) {
    * @return True if inside, false if not
    */
   public boolean isInside(Vector pos) {
+    Objects.requireNonNull(pos);
     return pos.x() >= x
         && pos.y() >= y
         && pos.x() < x + width

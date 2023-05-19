@@ -1,6 +1,7 @@
 package fr.jatchwork.control;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
@@ -31,6 +32,7 @@ public final class ControlWindow {
   }
   
   public static void manageInput(ApplicationContext context) {
+    Objects.requireNonNull(context);
     Event event = context.pollOrWaitEvent(Long.MAX_VALUE);
     System.out.println(event);
     

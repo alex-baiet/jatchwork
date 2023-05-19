@@ -1,5 +1,7 @@
 package fr.jatchwork.model;
 
+import java.util.Objects;
+
 /**
  * A 2D Coordinate used to place patch on the quiltboard.
  * @param x Horizontal position
@@ -14,6 +16,7 @@ public record Vector(int x, int y) {
    * @return Sum of vectors
    */
   public Vector add(Vector v) {
+    Objects.requireNonNull(v);
     return new Vector(x + v.x, y + v.y);
   }
 

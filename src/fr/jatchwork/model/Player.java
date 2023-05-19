@@ -1,5 +1,7 @@
 package fr.jatchwork.model;
 
+import java.util.Objects;
+
 public final class Player {  
   private final int num;
   private final QuiltBoard board;
@@ -115,6 +117,7 @@ public final class Player {
    * @param y Where vertically
    */
   private void addPatch(Patch patch, int x, int y) {
+    Objects.requireNonNull(patch);
     board.add(patch, x, y);
     if (board.remainingSpace() == 0) {
       bonusFull = Game.instance().getBonusFull();

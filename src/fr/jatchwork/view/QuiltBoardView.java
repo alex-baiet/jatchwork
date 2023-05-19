@@ -2,6 +2,7 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 import fr.jatchwork.model.PatchCoord;
 import fr.jatchwork.model.QuiltBoard;
@@ -19,6 +20,7 @@ final class QuiltBoardView {
    * @return Size in pixels
    */
   public static Vector size(QuiltBoard board) {
+    Objects.requireNonNull(board);
     int size = board.size() * ViewWindow.squareSize();
     return new Vector(size, size);
   }
@@ -30,6 +32,9 @@ final class QuiltBoardView {
    * @param pos Where to draw the top left corner
    */
   public static void drawQuiltBoard(Graphics2D graphics, QuiltBoard board, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(board);
+    Objects.requireNonNull(pos);
     // Fill main color
     int square = ViewWindow.squareSize();
     int size = board.size() * square;
@@ -60,6 +65,8 @@ final class QuiltBoardView {
    * @param width Stroke width
    */
   private static void drawTwoBorder(Graphics2D graphics, Vector pos, int squarePos, int length, int width) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(pos);
     int square = ViewWindow.squareSize();
     HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, squarePos * square), length, width, true);
     HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(squarePos * square, 0), length, width, false);

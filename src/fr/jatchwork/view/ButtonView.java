@@ -2,6 +2,7 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 import fr.jatchwork.model.Vector;
 
@@ -19,6 +20,8 @@ final class ButtonView {
    * @param pos Position of the center of the button.
    */
   public static void drawButton(Graphics2D graphics, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(pos);
     int radius = (int)(ViewWindow.squareSize() * RADIUS_COEF) / 2;
     // Border
     graphics.setColor(BORDER_COLOR);

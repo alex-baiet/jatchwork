@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.util.Objects;
 
 import fr.jatchwork.control.Button;
 import fr.jatchwork.model.Rect;
@@ -31,6 +32,10 @@ final class HelpWindow {
    * @return The aligned position
    */
   public static Vector align(Rect dest, Vector alignment, Vector margin, Vector size) {
+    Objects.requireNonNull(dest);
+    Objects.requireNonNull(alignment);
+    Objects.requireNonNull(margin);
+    Objects.requireNonNull(size);
     return new Vector(
         alignLine(dest.x(), dest.width(), alignment.x(), margin.x(), size.x()),
         alignLine(dest.y(), dest.height(), alignment.y(), margin.y(), size.y()));
@@ -64,6 +69,9 @@ final class HelpWindow {
    * @param horizontal Should we draw the line horizontally of vertically
    */
   public static void drawLine(Graphics2D graphics, Color color, Vector pos, int length, int thickness, boolean horizontal) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(color);
+    Objects.requireNonNull(pos);
     graphics.setColor(color);
     graphics.fillRect(
         pos.x() - thickness / 2,
@@ -80,6 +88,10 @@ final class HelpWindow {
    * @param pos Position in pixels
    */
   public static void drawText(Graphics2D graphics, String string, Font font, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(string);
+    Objects.requireNonNull(font);
+    Objects.requireNonNull(pos);
     graphics.setFont(font);
     graphics.drawString(
         string,
@@ -96,6 +108,10 @@ final class HelpWindow {
    * @param Space between lines
    */
   public static void drawText(Graphics2D graphics, String string, Font font, Vector pos, int lineSpace) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(string);
+    Objects.requireNonNull(font);
+    Objects.requireNonNull(pos);
     int i = 0;
     for (String line : string.split("\n")) {
       drawText(graphics, line, font, pos.add(0, i++ * lineSpace));
@@ -133,6 +149,8 @@ final class HelpWindow {
   }
   
   public static void drawButton(Graphics2D graphics, Button button) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(button);
     drawRect(graphics, button.rect(), 2, Color.WHITE, Color.DARK_GRAY);
   }
 }

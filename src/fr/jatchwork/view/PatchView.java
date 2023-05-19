@@ -2,6 +2,7 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Rect;
@@ -21,6 +22,10 @@ final class PatchView {
    * @param pos Where to draw the top left corner, border excluded
    */
   public static void drawPatch(Graphics2D graphics, Patch patch, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(patch);
+    Objects.requireNonNull(pos);
+
     graphics.setColor(COLOR);
     int square = ViewWindow.squareSize();
 
@@ -59,6 +64,10 @@ final class PatchView {
    * @param pos Where to draw the center
    */
   public static void drawPatchCenter(Graphics2D graphics, Patch patch, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(patch);
+    Objects.requireNonNull(pos);
+
     int square = ViewWindow.squareSize();
     drawPatch(
         graphics,
@@ -67,6 +76,10 @@ final class PatchView {
   }
   
   public static void drawPatchInside(Graphics2D graphics, Patch patch, Rect rect) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(patch);
+    Objects.requireNonNull(rect);
+
     drawPatchCenter(graphics, patch, rect.pos().add(rect.size().multiply(0.5f)));
   }
 }

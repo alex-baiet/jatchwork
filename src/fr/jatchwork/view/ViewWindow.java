@@ -3,6 +3,7 @@ package fr.jatchwork.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 import fr.jatchwork.control.Button;
 import fr.jatchwork.control.ControlWindow;
@@ -36,6 +37,7 @@ public final class ViewWindow {
    * Update the window view.
    */
   public static void displayAll(Graphics2D graphics) {
+    Objects.requireNonNull(graphics);
     Game game = Game.instance();
     graphics.clearRect(0, 0, width(), height());
 
@@ -60,6 +62,9 @@ public final class ViewWindow {
    * @param player Player to draw
    */
   private static void displayPlayer(Graphics2D graphics, Rect rect, Player player) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rect);
+    Objects.requireNonNull(player);
     final int titleMarginX = 60;
     final int marginX = 100;
     final int spaceY = (int)(FONT_SIZE * 1.2f);
@@ -87,6 +92,8 @@ public final class ViewWindow {
    * @param rect Where to draw
    */
   private static void displayCommon(Graphics2D graphics, Rect rect) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rect);
     final Game game = Game.instance();
     
     // Time board
@@ -108,6 +115,8 @@ public final class ViewWindow {
   }
   
   private static void displayPatchInfo(Graphics2D graphics, Rect rect) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rect);
     final Patch patch = ControlWindow.getSelectedPatch();
     final int boxBorderSize = 2;
     final int textSpace = (int)(FONT_SIZE);
@@ -135,6 +144,8 @@ public final class ViewWindow {
   }
   
   private static void displayPatchList(Graphics2D graphics, Rect rect) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rect);
     final Game game = Game.instance();
     final int butSize = rect.width() / 3;
     Button[] buttons = ControlWindow.patchButtons();

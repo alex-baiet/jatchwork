@@ -146,6 +146,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * Transform a 2D array to an immutable list (used for constructor)
    */
   private static List<List<Boolean>> toImmutable(boolean[][] shape) {
+    Objects.requireNonNull(shape);
     var result = new ArrayList<List<Boolean>>();
     for (var line : shape) {
       var copy = new ArrayList<Boolean>();
@@ -165,6 +166,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * ..#
    */
   private static List<List<Boolean>> toImmutable(String text) {
+    Objects.requireNonNull(text);
     var result = new ArrayList<List<Boolean>>();
     var lines = text.split("\n");
     // Construct shape by reading text column by column, not line by line

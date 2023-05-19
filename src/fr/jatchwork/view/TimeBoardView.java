@@ -2,6 +2,7 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
@@ -25,6 +26,10 @@ final class TimeBoardView {
    * @param Where to draw the top left corner
    */
   public static void drawTimeBoard(Graphics2D graphics, TimeBoard board, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(board);
+    Objects.requireNonNull(pos);
+
     // Draw squares and fill color
     for (int i = 0; i < board.size(); i++) {
       drawSquare(graphics, squarePos(pos, i));
@@ -50,6 +55,7 @@ final class TimeBoardView {
    * @return Top left corner of the square in pixel
    */
   private static Vector squarePos(Vector basePos, int i) {
+    Objects.requireNonNull(basePos);
     int ysquare = i / MAX_SQUARE_COUNT;
     int xsquare = i % MAX_SQUARE_COUNT;
     boolean reversed = ysquare % 2 == 1;
@@ -67,6 +73,8 @@ final class TimeBoardView {
    * @param count Count of squares inside the time board
    */
   private static void drawSquare(Graphics2D graphics, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(pos);
     int square = ViewWindow.squareSize();
     // Fill the square with color
     graphics.setColor(MAIN_COLOR);
@@ -91,6 +99,9 @@ final class TimeBoardView {
    * @param count Total number of square
    */
   private static void drawPathBorders(Graphics2D graphics, Vector pos, int i, int count) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(pos);
+
     int square = ViewWindow.squareSize();
     // direction of the line
     int direction = (i / MAX_SQUARE_COUNT) % 2;
@@ -123,6 +134,7 @@ final class TimeBoardView {
    * @return Centered position on the line between the two squares
    */
   private static Vector getBetweenSquarePos(Vector basePos, int i) {
+    Objects.requireNonNull(basePos);
     int square = ViewWindow.squareSize();
     return squarePos(basePos, i).add(squarePos(basePos, i-1)).add(square, square).multiply(0.5f);
   }
@@ -133,6 +145,7 @@ final class TimeBoardView {
    * @return Size in pixel
    */
   public static Vector size(TimeBoard board) {
+    Objects.requireNonNull(board);
     int square = ViewWindow.squareSize();
     return new Vector(
         (board.size() < MAX_SQUARE_COUNT ? board.size() : MAX_SQUARE_COUNT) * square,

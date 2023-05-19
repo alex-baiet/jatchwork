@@ -1,5 +1,7 @@
 package fr.jatchwork.model;
 
+import java.util.Objects;
+
 /**
  * Board representing the time, on which players move their pawns.
  */
@@ -13,6 +15,10 @@ public final class TimeBoard {
    * @param incomesPos
    */
   public TimeBoard(int size, int[] incomesPos, int[] leatherPatchPos) {
+    Objects.requireNonNull(size);
+    Objects.requireNonNull(incomesPos);
+    Objects.requireNonNull(leatherPatchPos);
+
     incomes = new boolean[size];
     leathers = new boolean[size];
     
