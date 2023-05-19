@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import fr.jatchwork.model.Patch;
+import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 
 final class PatchView {
@@ -63,5 +64,9 @@ final class PatchView {
         graphics,
         patch,
         pos.add(-square * patch.width() / 2, -square * patch.height() / 2));
+  }
+  
+  public static void drawPatchInside(Graphics2D graphics, Patch patch, Rect rect) {
+    drawPatchCenter(graphics, patch, rect.pos().add(rect.size().multiply(0.5f)));
   }
 }

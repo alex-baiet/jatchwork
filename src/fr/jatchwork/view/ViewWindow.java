@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import fr.jatchwork.control.Button;
 import fr.jatchwork.control.ControlWindow;
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
@@ -19,7 +20,7 @@ public final class ViewWindow {
   private static final Font FONT_ACTION = new Font("Arial", Font.BOLD, HelpWindow.pixelToPoint(60));
   
   private static ScreenInfo info;
-  private static int squareSize = 1;
+  private static int squareSize;
 
   public static int width() { return (int)info.getWidth(); }
   public static int height() { return (int)info.getHeight(); }
@@ -36,9 +37,10 @@ public final class ViewWindow {
    */
   public static void displayAll(Graphics2D graphics) {
     Game game = Game.instance();
-    graphics.setColor(Color.WHITE);
+    graphics.clearRect(0, 0, width(), height());
 
     // Draw separators
+    graphics.setColor(Color.WHITE);
     for (int i = 1; i < 3; i++) {
       HelpWindow.drawLine(graphics, Color.WHITE, new Vector(width() / 3 * i, 0), height(), 4, false);
     }
@@ -96,6 +98,11 @@ public final class ViewWindow {
     final int marginSelected = 20;
     final int selectedHeight = squareSize * 5 + 4;
     displayPatchInfo(graphics, new Rect(rect.x() + marginSelected, posY, rect.width() - marginSelected * 2, selectedHeight));
+    
+    // Patch list
+    posY += selectedHeight;
+    final int choiceHeight = squareSize * 4 + 4;
+    displayPatchList(graphics, new Rect(rect.x(), posY, rect.width(), choiceHeight));
   }
   
   private static void displayPatchInfo(Graphics2D graphics, Rect rect) {
@@ -126,6 +133,24 @@ public final class ViewWindow {
       HelpWindow.drawText(graphics, "to display its", FONT, textPos);
       textPos = textPos.add(0, textSpace);
       HelpWindow.drawText(graphics, "informations", FONT, textPos);
+    }
+  }
+  
+  private static void displayPatchList(Graphics2D graphics, Rect rect) {
+    final Game game = Game.instance();
+    final int butSize = rect.width() / 3;
+    Button[] buttons = ControlWindow.patchButtons();
+    for (int i = 0; i < buttons.length; i++) {
+      // Draw button patch
+      buttons[i].setRect(new Rect(
+          rect.x() + butSize * i,
+          rect.y(),
+          butSize,
+          rect.height()));
+      HelpWindow.drawButton(graphics, buttons[i]);
+      
+      // Draw patch inside button
+      PatchView.drawPatchInside(graphics, game.getPatch(i), buttons[i].rect());
     }
   }
   

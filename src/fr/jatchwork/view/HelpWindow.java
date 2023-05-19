@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
+import fr.jatchwork.control.Button;
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 
@@ -87,6 +88,21 @@ final class HelpWindow {
   }
 
   /**
+   * Draw a text on the screen.
+   * @param Graphics2D graphics
+   * @param string Text to draw
+   * @param font Font of the text
+   * @param pos Position in pixels
+   * @param Space between lines
+   */
+  public static void drawText(Graphics2D graphics, String string, Font font, Vector pos, int lineSpace) {
+    int i = 0;
+    for (String line : string.split("\n")) {
+      drawText(graphics, line, font, pos.add(0, i++ * lineSpace));
+    }
+  }
+
+  /**
    * Convert pixel size into point size.
    * @param pixelSize
    * @return Converted value
@@ -114,5 +130,9 @@ final class HelpWindow {
         rect.y() + borderSize,
         rect.width() - borderSize * 2,
         rect.height() - borderSize * 2);
+  }
+  
+  public static void drawButton(Graphics2D graphics, Button button) {
+    drawRect(graphics, button.rect(), 2, Color.WHITE, Color.DARK_GRAY);
   }
 }
