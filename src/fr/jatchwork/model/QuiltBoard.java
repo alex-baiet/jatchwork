@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Used to place patch for a player.
+ * Also compute button income and score.
+ */
 public final class QuiltBoard {
   /** How is currently filled the board. */
   private final boolean[][] board;
   private int remainingSpace;
   private int buttonIncome;
   private final ArrayList<PatchCoord> patches = new ArrayList<>();
-  
+
+  /**
+   * Create a new quilt board.
+   * @param size Number of column and line
+   */
   public QuiltBoard(int size) {
     board = new boolean[size][size];
     remainingSpace = size * size;
@@ -18,11 +26,13 @@ public final class QuiltBoard {
 
   /**
    * Width and height of the quilt board.
+   * @return Size of the board
    */
   public int size() { return board.length; }
   
   /**
-   * How many empty tiles remains
+   * How many empty squares remains
+   * @return Total empty squares
    */
   public int remainingSpace() { return remainingSpace; }
   
@@ -54,7 +64,7 @@ public final class QuiltBoard {
 
   /**
    * Number of button earned per button income case.
-   * @return
+   * @return Total income
    */
   public int buttonIncome() {
     return buttonIncome;
@@ -62,6 +72,7 @@ public final class QuiltBoard {
 
   /**
    * Used to draw the top and bottom line of the quilt board.
+   * @return Generated String
    */
   private String line() {
     var builder = new StringBuilder();
@@ -78,7 +89,7 @@ public final class QuiltBoard {
    * @param patch What to test
    * @param x Where horizontally
    * @param y Where vertically
-   * @return True if insertion is possibl, false else.
+   * @return True if insertion is possible, false else.
    */
   public boolean fit(Patch patch, int x, int y) {
     Objects.requireNonNull(patch);
@@ -97,7 +108,7 @@ public final class QuiltBoard {
   /**
    * Get a coordinate where patch can be inserted.
    * @param patch What to place
-   * @return Coord containing the position where the patch can be inserted. Return null if no space where found.
+   * @return Coordinate containing the position where the patch can be inserted. Return null if no space where found.
    */
   public Vector findSpace(Patch patch) {
     Objects.requireNonNull(patch);
@@ -129,6 +140,7 @@ public final class QuiltBoard {
   
   /**
    * True if position is inside the quilt board.
+   * @return boolean
    */
   private boolean isInside(int x, int y) {
     return x < board.length

@@ -2,9 +2,24 @@ package fr.jatchwork.model;
 
 import java.util.Objects;
 
+/**
+ * Represent a rectangle.
+ * @param x X position
+ * @param y Y position
+ * @param width Width
+ * @param height Height
+ */
 public record Rect(int x, int y, int width, int height) {
+  /**
+   * Position of the rectangle.
+   * @return X and Y position
+   */
   public Vector pos() { return new Vector(x, y); }
   
+  /**
+   * Size of the rectangle.
+   * @return Width and height of the rectangle
+   */
   public Vector size() { return new Vector(width, height); }
   
   /**

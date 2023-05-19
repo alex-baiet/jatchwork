@@ -2,6 +2,9 @@ package fr.jatchwork.model;
 
 import java.util.Objects;
 
+/**
+ * A player and all his data.
+ */
 public final class Player {  
   private final int num;
   private final QuiltBoard board;
@@ -23,16 +26,19 @@ public final class Player {
   
   /**
    * Number of the player, used only for display. This is not an identifier.
+   * @return Numero
    */
   public int numero() { return num; }
   
   /**
    * Current position on the time board.
+   * @return Current position
    */
   public int position() { return position; }
 
   /**
    * Current number of button the player has.
+   * @return Total count
    */
   public int buttonCount() { return buttonCount; }
   
@@ -65,7 +71,8 @@ public final class Player {
   
   /**
    * Return true if the player has enough buttons to buy the selected patch.
-   * @param numPatch
+   * @param numPatch Patch to buy
+   * @return True if it can be bought
    */
   public boolean canBuyPatch(int numPatch) {
     return Game.instance().getPatch(numPatch).buttonCost() <= buttonCount;
@@ -132,6 +139,10 @@ public final class Player {
     return buttonCount - board.remainingSpace() * 2 + (bonusFull ? 7 : 0);
   }
 
+  /**
+   * The quilt board of the player.
+   * @return Actual quilt board
+   */
   public QuiltBoard board() { return board; }
 
   @Override

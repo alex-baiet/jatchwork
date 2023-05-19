@@ -6,14 +6,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Contains all data of the current game.
+ */
 public final class Game {
+  /** Number of player. */
   public static final int PLAYER_COUNT = 2;
+  /** Number of patches available to be bought */
   public static final int PATCH_AVAILABLE = 3;
 
   private static Game instance = null;
 
   /**
    * The only instance of the game.
+   * @return The instance
    */
   public static Game instance() {
     return instance;
@@ -21,7 +27,7 @@ public final class Game {
 
   /**
    * Create the instance if it does not exists.
-   * @param phase The current phase to init the game.
+   * @param phase The current phase to initialize the game.
    */
   public static void initGame(int phase) {
     if (instance != null) throw new RuntimeException("An instance of Game already exist.");
@@ -222,6 +228,10 @@ public final class Game {
   private ArrayDeque<Patch> patches;
   private boolean bonusFullGiven = false;
 
+  /**
+   * Create a new game data.
+   * @param phase Version chosen by the user
+   */
   private Game(int phase) {
     players = new Player[] { new Player(1, 9, 5), new Player(2, 9, 5) };
     playing = players[0];
@@ -258,6 +268,7 @@ public final class Game {
 
   /**
    * Player which is the turn.
+   * @return Player
    */
   public Player playing() {
     Player opponent = players[0] == playing ? players[1] : players[0];
@@ -269,6 +280,7 @@ public final class Game {
 
   /**
    * Get the time board of the game.
+   * @return TimeBoard
    */
   public TimeBoard timeBoard() {
     return timeBoard;
@@ -276,6 +288,7 @@ public final class Game {
 
   /**
    * All available patches in order.
+   * @return Unmodifiable collection of patches
    */
   public Collection<Patch> patches() {
     return Collections.unmodifiableCollection(patches);
@@ -283,8 +296,7 @@ public final class Game {
 
   /**
    * Move the pawn and take (remove) a patch from the available patches.
-   * 
-   * @param index Index of the patches to take, must be < to PATCH_AVAILABLE
+   * @param index Index of the patches to take, must be superior to PATCH_AVAILABLE
    * @return Wanted patch
    */
   public Patch buyPatch(int index) {
@@ -303,8 +315,8 @@ public final class Game {
 
   /**
    * Get the patch at index from the neutral pawn
-   * @param index
-   * @return
+   * @param index Index of the patch
+   * @return Patch at given index
    */
   public Patch getPatch(int index) {
     int i = 0;
@@ -316,7 +328,7 @@ public final class Game {
   }
   
   /**
-   * Get the bonus for completing a quiltboard.
+   * Get the bonus for completing a quilt board.
    * @return True if no player already took it, false otherwise.
    */
   public boolean getBonusFull() {
@@ -329,6 +341,7 @@ public final class Game {
 
   /**
    * Better string format for all patches than the default Collection.toString().
+   * @return Generated string
    */
   public String patchesToString() {
     var builder = new StringBuilder();

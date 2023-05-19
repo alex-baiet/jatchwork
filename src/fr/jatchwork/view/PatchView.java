@@ -8,6 +8,9 @@ import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 
+/**
+ * Contains methods to draw patches.
+ */
 final class PatchView {
   private static final Color COLOR = Color.GRAY;
   private static final Color BORDER = Color.WHITE;
@@ -75,6 +78,12 @@ final class PatchView {
         pos.add(-square * patch.width() / 2, -square * patch.height() / 2));
   }
   
+  /**
+   * Draw a patch to fit inside a box, centered.
+   * @param graphics Window's graphics
+   * @param patch To draw
+   * @param rect The box to draw the patch
+   */
   public static void drawPatchInside(Graphics2D graphics, Patch patch, Rect rect) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(patch);

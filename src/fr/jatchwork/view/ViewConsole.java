@@ -51,4 +51,6 @@ public final class ViewConsole {
       System.out.println("Draw ! no winner.");
     }
   }
+
+  private ViewConsole() { }
 }

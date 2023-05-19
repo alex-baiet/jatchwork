@@ -11,8 +11,9 @@ public final class TimeBoard {
 
   /**
    * Create a new TimeBoard
-   * @param size
-   * @param incomesPos
+   * @param size Number of squares
+   * @param incomesPos Position of all incomes
+   * @param leatherPatchPos Position of all leather patches
    */
   public TimeBoard(int size, int[] incomesPos, int[] leatherPatchPos) {
     Objects.requireNonNull(size);
@@ -35,6 +36,7 @@ public final class TimeBoard {
 
   /**
    * Size of the board.
+   * @return Size
    */
   public int size() { return incomes.length; }
 

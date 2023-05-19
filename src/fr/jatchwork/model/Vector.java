@@ -22,8 +22,8 @@ public record Vector(int x, int y) {
 
   /**
    * Make the sum of two vectors.
-   * @param x
-   * @param y
+   * @param x X vector value
+   * @param y Y vector value
    * @return Sum of vectors
    */
   public Vector add(int x, int y) {

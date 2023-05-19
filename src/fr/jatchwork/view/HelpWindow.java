@@ -10,6 +10,9 @@ import fr.jatchwork.control.Button;
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 
+/**
+ * Contains various functions to draw on a window.
+ */
 final class HelpWindow {
   public static final Vector ALIGN_CENTER = new Vector(0, 0);
   public static final Vector ALIGN_LEFT = new Vector(-1, 0);
@@ -136,6 +139,14 @@ final class HelpWindow {
     return pointSize * Toolkit.getDefaultToolkit().getScreenResolution() / 72;
   }
 
+  /**
+   * Draw a rectangle with a border.
+   * @param graphics Window's graphics
+   * @param rect Position and size
+   * @param borderSize Thickness of the border
+   * @param borderColor Border color
+   * @param fillColor Color inside the rectangle
+   */
   public static void drawRect(Graphics2D graphics, Rect rect, int borderSize, Color borderColor, Color fillColor) {
     graphics.setColor(borderColor);
     // TODO: to optimize the draw, use drawRect in a loop instead to draw the border
@@ -147,7 +158,12 @@ final class HelpWindow {
         rect.width() - borderSize * 2,
         rect.height() - borderSize * 2);
   }
-  
+
+  /**
+   * Draw a button (the clickable button, not the currency)
+   * @param graphics Window's graphics
+   * @param button Button to draw
+   */
   public static void drawButton(Graphics2D graphics, Button button) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(button);

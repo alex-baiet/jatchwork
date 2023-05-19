@@ -8,6 +8,9 @@ import fr.jatchwork.model.PatchCoord;
 import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.model.Vector;
 
+/**
+ * Contains methods to manage visually quilt boards.
+ */
 final class QuiltBoardView {
   private static final int BORDER_OUT_SIZE = 4;
   private static final int BORDER_IN_SIZE = 2;

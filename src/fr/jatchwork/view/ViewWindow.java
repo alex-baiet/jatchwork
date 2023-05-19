@@ -14,6 +14,9 @@ import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 import fr.umlv.zen5.ScreenInfo;
 
+/**
+ * Manage display for windowed versions.
+ */
 public final class ViewWindow {
   private static final int FONT_SIZE = 40;
   private static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
@@ -23,10 +26,28 @@ public final class ViewWindow {
   private static ScreenInfo info;
   private static int squareSize;
 
+  /**
+   * Width of the window.
+   * @return Width
+   */
   public static int width() { return (int)info.getWidth(); }
+
+  /**
+   * Height of the window
+   * @return height
+   */
   public static int height() { return (int)info.getHeight(); }
+
+  /**
+   * Size of a square for patches, time board and quilt board.
+   * @return Square's size.
+   */
   public static int squareSize() { return squareSize; }
 
+  /**
+   * Give information about the window to initialize ViewWindow.
+   * @param info Contains all required informations for initialization
+   */
   public static void setScreenInfo(ScreenInfo info) {
     ViewWindow.info = info;
     
@@ -35,6 +56,7 @@ public final class ViewWindow {
 
   /**
    * Update the window view.
+   * @param graphics Window's graphics
    */
   public static void displayAll(Graphics2D graphics) {
     Objects.requireNonNull(graphics);
@@ -113,7 +135,12 @@ public final class ViewWindow {
     final int choiceHeight = squareSize * 4 + 4;
     displayPatchList(graphics, new Rect(rect.x(), posY, rect.width(), choiceHeight));
   }
-  
+
+  /**
+   * Draw patch information section.
+   * @param graphics Window's graphics
+   * @param rect Where to draw
+   */
   private static void displayPatchInfo(Graphics2D graphics, Rect rect) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(rect);
@@ -142,7 +169,12 @@ public final class ViewWindow {
       HelpWindow.drawText(graphics, "Select a patch\nto display its\ninformations", FONT, textPos, textSpace);
     }
   }
-  
+
+  /**
+   * Draw section for the list of patches
+   * @param graphics Window's graphics
+   * @param rect Where to draw and size of the section
+   */
   private static void displayPatchList(Graphics2D graphics, Rect rect) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(rect);

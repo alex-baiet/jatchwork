@@ -7,14 +7,22 @@ import java.util.Objects;
 
 /**
  * Represent a piece of patch.
- * 
- * @param shape The user should be able to access a tile using a (x, y)
- *              coordinate like shape.get(x).get(y)
+ * @param timeCost How much tile the player need to move to buy this patch
+ * @param buttonCost The price of the patch in buttons
+ * @param buttonIncome The amount of button gained on each button income tile
+ * @param shape Shape of the patch
  */
 public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Boolean>> shape) {
-  /** @brief A leather patch, gathered from the timeboard. */
+  /** A leather patch, gathered from the time board. */
   public static final Patch LEATHER = new Patch(0, 0, 0, "#");
   
+  /**
+   * Create a new patch.
+   * @param timeCost How much tile the player need to move to buy this patch
+   * @param buttonCost The price of the patch in buttons
+   * @param buttonIncome The amount of button gained on each button income tile
+   * @param shape Shape of the patch
+   */
   public Patch {
     // Check all parameter validity
     if (timeCost < 0)
@@ -33,10 +41,24 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
     }
   }
 
+  /**
+   * Create a new patch.
+   * @param timeCost How much tile the player need to move to buy this patch
+   * @param buttonCost The price of the patch in buttons
+   * @param buttonIncome The amount of button gained on each button income tile
+   * @param shape Shape of the patch
+   */
   public Patch(int timeCost, int buttonCost, int buttonIncome, boolean[][] shape) {
     this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
   }
 
+  /**
+   * Create a new patch.
+   * @param timeCost How much tile the player need to move to buy this patch
+   * @param buttonCost The price of the patch in buttons
+   * @param buttonIncome The amount of button gained on each button income tile
+   * @param shape Shape of the patch. Use '#' to fill a square and '.' to let a square empty.
+   */
   public Patch(int timeCost, int buttonCost, int buttonIncome, String shape) {
     this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
   }
@@ -56,6 +78,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
 
   /**
    * The horizontal size of a patch.
+   * @return Width
    */
   public int width() {
     return shape.size();
@@ -63,6 +86,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
 
   /**
    * The vertical size of a patch.
+   * @return Height
    */
   public int height() {
     return shape.get(0).size();
@@ -95,9 +119,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
 
   /**
    * Returns a new patch which is a 90 degree clockwise rotation of this patch.
-   * 
-   * @return A new patch object representing the 90 degree clockwise rotation of
-   *         this patch.
+   * @return A new patch object representing the 90 degree clockwise rotation of this patch.
    */
   public Patch rotate() {
     int width = shape.size();
@@ -115,9 +137,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
 
   /**
    * Returns a new patch which is a horizontally flipped version of this patch.
-   * 
-   * @return A new patch object representing the horizontally flipped version of
-   *         this patch.
+   * @return A new patch object representing the horizontally flipped version of this patch.
    */
   public Patch flipHorizontally() {
     List<List<Boolean>> newShape = new ArrayList<>();
@@ -131,11 +151,8 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
 
   /**
    * Returns a new patch which is a vertically flipped version of this patch.
-   * 
-   * @return A new patch object representing the vertically flipped version of
-   *         this patch.
+   * @return A new patch object representing the vertically flipped version of this patch.
    */
-
   public Patch flipVertically() {
     List<List<Boolean>> newShape = new ArrayList<>(shape);
     Collections.reverse(newShape);
@@ -143,7 +160,9 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
   }
 
   /**
-   * Transform a 2D array to an immutable list (used for constructor)
+   * Transform a 2D array to an immutable list (used for constructor).
+   * @param shape Shape of the patch
+   * @return Shape in a matrix format
    */
   private static List<List<Boolean>> toImmutable(boolean[][] shape) {
     Objects.requireNonNull(shape);
@@ -159,11 +178,9 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
   }
 
   /**
-   * Transforme a text to a matrix The text format should look like that
-   * (watch declaration for better display) :
-   * ##.
-   * .##
-   * ..#
+   * Transform a text to a matrix. Use a '#' to fill a square and '.' to let a square empty.
+   * @param text Shape of the patch
+   * @return Shape in a matrix format
    */
   private static List<List<Boolean>> toImmutable(String text) {
     Objects.requireNonNull(text);

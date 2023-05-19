@@ -10,6 +10,9 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.KeyboardKey;
 
+/**
+ * Manage input on the windowed versions.
+ */
 public final class ControlWindow {
 
   // Temporary default patch for test, to delete
@@ -21,16 +24,32 @@ public final class ControlWindow {
       new Button(() -> selectPatch(2)),
   };
 
+  /**
+   * The selected patch from the instance of Game.
+   * @return Patch
+   */
   public static Patch getSelectedPatch() { return selectedPatch; }
 
+  /**
+   * Change the selected patch.
+   * @param i Index of the new selected patch
+   */
   public static void selectPatch(int i) {
     selectedPatch = Game.instance().getPatch(i);
   }
-  
+
+  /**
+   * Buttons used to display and select patches
+   * @return List of buttons
+   */
   public static Button[] patchButtons() {
     return Arrays.copyOf(patchButtons, patchButtons.length);
   }
-  
+
+  /**
+   * Wait for the next input then do an action according to it.
+   * @param context Window's context
+   */
   public static void manageInput(ApplicationContext context) {
     Objects.requireNonNull(context);
     Event event = context.pollOrWaitEvent(Long.MAX_VALUE);

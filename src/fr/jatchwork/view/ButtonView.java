@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import fr.jatchwork.model.Vector;
 
+/**
+ * To draw a button (not a clickable button but the currency in this game).
+ */
 final class ButtonView {
   private static final float RADIUS_COEF = 0.8f;
   private static final int BORDER_THICKNESS = 2;
@@ -15,7 +18,7 @@ final class ButtonView {
   private static final Color MAIN_COLOR = Color.BLUE;
   
   /**
-   * Draw a button.
+   * Draw a button (the currency).
    * @param graphics Window's graphics
    * @param pos Position of the center of the button.
    */

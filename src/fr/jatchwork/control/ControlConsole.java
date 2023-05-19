@@ -6,6 +6,9 @@ import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Player;
 import fr.jatchwork.view.ViewConsole;
 
+/**
+ * Manage input on the console versions.
+ */
 public final class ControlConsole {
   private static final Scanner scanner = new Scanner(System.in);
 
@@ -64,4 +67,6 @@ public final class ControlConsole {
     };
     ViewConsole.displayMenu();
   }
+
+  private ControlConsole() { }
 }

@@ -10,6 +10,9 @@ import fr.jatchwork.view.ViewWindow;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 
+/**
+ * Contains the entry of the program.
+ */
 public final class Main {
   /**
    * The function called when starting the program.
@@ -43,6 +46,10 @@ public final class Main {
     }
   }
   
+  /**
+   * Executed to run the application in a window.
+   * @param context Window's context
+   */
   private static void run(ApplicationContext context) {
     ViewWindow.setScreenInfo(context.getScreenInfo());
 
@@ -52,4 +59,5 @@ public final class Main {
     }
   }
 
+  private Main() { }
 }

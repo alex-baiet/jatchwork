@@ -7,6 +7,9 @@ import java.util.Objects;
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
 
+/**
+ * Contains methods to manage time board visually.
+ */
 final class TimeBoardView {
   
   /** Maximum number of square horizontally */
