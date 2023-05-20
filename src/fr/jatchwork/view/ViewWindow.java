@@ -19,7 +19,7 @@ import fr.umlv.zen5.ScreenInfo;
  */
 public final class ViewWindow {
   private static final int FONT_SIZE = 40;
-  private static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
+  public static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
   private static final Font FONT_TITLE = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(80));
   private static final Font FONT_ACTION = new Font("Arial", Font.BOLD, HelpWindow.pixelToPoint(60));
   
@@ -134,6 +134,9 @@ public final class ViewWindow {
     posY += selectedHeight;
     final int choiceHeight = squareSize * 4 + 4;
     displayPatchList(graphics, new Rect(rect.x(), posY, rect.width(), choiceHeight));
+    
+    // End turn button
+    drawBtnEndTurn(graphics, rect);
   }
 
   /**
@@ -193,6 +196,20 @@ public final class ViewWindow {
       // Draw patch inside button
       PatchView.drawPatchInside(graphics, game.getPatch(i), buttons[i].rect());
     }
+  }
+  
+  private static void drawBtnEndTurn(Graphics2D graphics, Rect rectSection) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rectSection);
+    
+    // Define button position
+    final Vector size = new Vector(rectSection.width() / 2, 80);
+    final Vector pos = HelpWindow.align(rectSection, HelpWindow.ALIGN_BOTTOM, new Vector(0, 40), size);
+    Button btn = ControlWindow.btnEndTurn();
+    btn.setRect(new Rect(pos.x(), pos.y(), size.x(), size.y()));
+
+    // Draw button and its text
+    HelpWindow.drawButton(graphics, btn);
   }
   
   private ViewWindow() { }

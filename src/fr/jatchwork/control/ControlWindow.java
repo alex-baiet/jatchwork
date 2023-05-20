@@ -1,11 +1,13 @@
 package fr.jatchwork.control;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Objects;
 
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Vector;
+import fr.jatchwork.view.ViewWindow;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.Event.Action;
@@ -24,6 +26,10 @@ public final class ControlWindow {
       new Button(() -> selectPatch(1)),
       new Button(() -> selectPatch(2)),
   };
+
+  private static Button btnEndTurn = new Button(
+      () -> Game.instance().playing().endTurn(),
+      null, "End turn", ViewWindow.FONT, Color.WHITE);
 
   /**
    * The selected patch from the instance of Game.
@@ -46,6 +52,12 @@ public final class ControlWindow {
   public static Button[] patchButtons() {
     return Arrays.copyOf(patchButtons, patchButtons.length);
   }
+
+  /**
+   * The button to end the turn of the current player.
+   * @return Button
+   */
+  public static Button btnEndTurn() { return btnEndTurn; }
 
   /**
    * Wait for the next input then do an action according to it.

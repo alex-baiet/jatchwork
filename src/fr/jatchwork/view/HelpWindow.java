@@ -2,6 +2,7 @@ package fr.jatchwork.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.util.Objects;
@@ -91,8 +92,8 @@ final class HelpWindow {
    * @param pos Position in pixels
    */
   public static void drawText(Graphics2D graphics, String string, Font font, Vector pos) {
+    if (string == null || string.isEmpty()) return;
     Objects.requireNonNull(graphics);
-    Objects.requireNonNull(string);
     Objects.requireNonNull(font);
     Objects.requireNonNull(pos);
     graphics.setFont(font);
@@ -100,6 +101,24 @@ final class HelpWindow {
         string,
         pos.x(),
         pos.y() + pointToPixel(font.getSize() - DEFAULT_FONT_SIZE));
+  }
+
+  /**
+   * Draw a text centered inside a box
+   * @param Graphics2D graphics
+   * @param string Text to draw
+   * @param font Font of the text
+   * @param rect Box to center the text in
+   */
+  public static void drawTextCenter(Graphics2D graphics, String string, Font font, Rect rect) {
+    if (string == null || string.isEmpty()) return;
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(font);
+    Objects.requireNonNull(rect);
+
+    FontMetrics metrics = graphics.getFontMetrics(font);
+    Vector size = new Vector(metrics.stringWidth(string), metrics.getHeight());
+    drawText(graphics, string, font, rect.pos().add(rect.size().sub(size).multiply(0.5f)));
   }
 
   /**
@@ -111,8 +130,8 @@ final class HelpWindow {
    * @param Space between lines
    */
   public static void drawText(Graphics2D graphics, String string, Font font, Vector pos, int lineSpace) {
+    if (string == null || string.isEmpty()) return;
     Objects.requireNonNull(graphics);
-    Objects.requireNonNull(string);
     Objects.requireNonNull(font);
     Objects.requireNonNull(pos);
     int i = 0;
@@ -167,6 +186,10 @@ final class HelpWindow {
   public static void drawButton(Graphics2D graphics, Button button) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(button);
+    // Draw button box
     drawRect(graphics, button.rect(), 2, Color.WHITE, Color.DARK_GRAY);
+    // Draw button label
+    graphics.setColor(button.textColor());
+    drawTextCenter(graphics, button.text(), button.font(), button.rect());
   }
 }

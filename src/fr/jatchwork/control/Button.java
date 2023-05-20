@@ -1,5 +1,7 @@
 package fr.jatchwork.control;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,18 +42,32 @@ public final class Button {
   private Rect rect;
   private boolean active = true;
   private Runnable handler;
+  private String text;
+  private Font font;
+  private Color textColor;
 
   /**
    * Create a new Button.
    * @param rect The rectangle covered by the button on the window.
    * @param handler task to execute when clicked
    */
-  public Button(Rect rect, Runnable handler) {
-    Objects.requireNonNull(rect);
+  public Button(Runnable handler, Rect rect, String text, Font font, Color textColor) {
     Objects.requireNonNull(handler);
-    this.rect = rect;
     this.handler = handler;
+    this.rect = rect;
+    this.text = text;
+    this.font = font;
+    this.textColor = textColor;
     buttons.add(this);
+  }
+
+  /**
+   * Create a new Button.
+   * @param handler task to execute when clicked
+   * @param rect The rectangle covered by the button on the window.
+   */
+  public Button(Runnable handler, Rect rect) {
+    this(handler, rect, null, null, null);
   }
 
   /**
@@ -59,7 +75,7 @@ public final class Button {
    * @param handler Task to execute when clicked
    */
   public Button(Runnable handler) {
-    this(new Rect(0, 0, 0, 0), handler);
+    this(handler, null, null, null, null);
   }
 
   /**
@@ -74,8 +90,7 @@ public final class Button {
    * @param handler The new task
    */
   public void setHandler(Runnable handler) {
-    Objects.requireNonNull(handler);
-    this.handler = handler;
+    this.handler = Objects.requireNonNull(handler);
   }
 
   /**
@@ -89,7 +104,16 @@ public final class Button {
    * @param rect New rectangle
    */
   public void setRect(Rect rect) {
-    Objects.requireNonNull(rect);
     this.rect = rect;
   }
+  
+  public String text() { return text; }
+  
+  public Font font() { return font; }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Color textColor() { return textColor; }
 }
