@@ -8,6 +8,7 @@ import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Vector;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
+import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
 
 /**
@@ -52,9 +53,14 @@ public final class ControlWindow {
    */
   public static void manageInput(ApplicationContext context) {
     Objects.requireNonNull(context);
-    Event event = context.pollOrWaitEvent(Long.MAX_VALUE);
+    Event event;
+    do {
+      event = context.pollOrWaitEvent(Long.MAX_VALUE);
+      // Movement of mouse is forbidden because of a graphical bug
+    } while (event.getAction() == Action.POINTER_MOVE);
+
     System.out.println(event);
-    
+
     switch (event.getAction()) {
     case POINTER_DOWN -> {
       var pos = event.getLocation();
