@@ -186,10 +186,12 @@ final class HelpWindow {
   public static void drawButton(Graphics2D graphics, Button button) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(button);
+    // Draw only if button is active
+    if (!button.active()) return;
     // Draw button box
     drawRect(graphics, button.rect(), 2, Color.WHITE, Color.DARK_GRAY);
     // Draw button label
-    graphics.setColor(button.textColor());
+    graphics.setColor(Color.WHITE);
     drawTextCenter(graphics, button.text(), button.font(), button.rect());
   }
 }

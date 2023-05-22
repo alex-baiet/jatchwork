@@ -1,6 +1,5 @@
 package fr.jatchwork.control;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,20 +43,18 @@ public final class Button {
   private Runnable handler;
   private String text;
   private Font font;
-  private Color textColor;
 
   /**
    * Create a new Button.
    * @param rect The rectangle covered by the button on the window.
    * @param handler task to execute when clicked
    */
-  public Button(Runnable handler, Rect rect, String text, Font font, Color textColor) {
+  public Button(Runnable handler, Rect rect, String text, Font font) {
     Objects.requireNonNull(handler);
     this.handler = handler;
     this.rect = rect;
     this.text = text;
     this.font = font;
-    this.textColor = textColor;
     buttons.add(this);
   }
 
@@ -67,7 +64,7 @@ public final class Button {
    * @param rect The rectangle covered by the button on the window.
    */
   public Button(Runnable handler, Rect rect) {
-    this(handler, rect, null, null, null);
+    this(handler, rect, null, null);
   }
 
   /**
@@ -75,8 +72,14 @@ public final class Button {
    * @param handler Task to execute when clicked
    */
   public Button(Runnable handler) {
-    this(handler, null, null, null, null);
+    this(handler, null, null, null);
   }
+
+  /**
+   * Is the button is currently activated and usable.
+   * @return True if usable, false otherwise
+   */
+  public boolean active() { return active; }
 
   /**
    * Activate or deactivate the button.
@@ -114,6 +117,4 @@ public final class Button {
   public void setText(String text) {
     this.text = text;
   }
-
-  public Color textColor() { return textColor; }
 }

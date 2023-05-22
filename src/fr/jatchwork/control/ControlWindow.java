@@ -1,6 +1,5 @@
 package fr.jatchwork.control;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -21,16 +20,39 @@ public final class ControlWindow {
   // Temporary default patch for test, to delete
   private static Patch selectedPatch = null;
 
-  private static Button[] patchButtons = new Button[] {
+  private static final Button[] patchButtons = new Button[] {
       new Button(() -> selectPatch(0)),
       new Button(() -> selectPatch(1)),
       new Button(() -> selectPatch(2)),
   };
 
-  private static Button btnEndTurn = new Button(
+  private static final Button btnEndTurn = new Button(
       () -> Game.instance().playing().endTurn(),
-      null, "End turn", ViewWindow.FONT, Color.WHITE);
+      null, "End turn", ViewWindow.FONT);
 
+  private static final PlayerButtons[] playerBtns = new PlayerButtons[] {
+      new PlayerButtons(
+          new Button(
+              () -> { },
+              null, "Rotate", ViewWindow.FONT),
+          new Button(
+              () -> { },
+              null, "Flip", ViewWindow.FONT),
+          new Button(
+              () -> { },
+              null, "Buy patch", ViewWindow.FONT)),
+      new PlayerButtons(
+          new Button(
+              () -> { },
+              null, "Rotate", ViewWindow.FONT),
+          new Button(
+              () -> { },
+              null, "Flip", ViewWindow.FONT),
+          new Button(
+              () -> { },
+              null, "Buy patch", ViewWindow.FONT)),
+  };
+  
   /**
    * The selected patch from the instance of Game.
    * @return Patch
@@ -58,6 +80,8 @@ public final class ControlWindow {
    * @return Button
    */
   public static Button btnEndTurn() { return btnEndTurn; }
+
+  public static PlayerButtons playerBtn(int i) { return playerBtns[i]; }
 
   /**
    * Wait for the next input then do an action according to it.

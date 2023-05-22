@@ -1,7 +1,6 @@
 package fr.jatchwork.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Objects;
 
@@ -25,8 +24,6 @@ final class TimeBoardView {
 
   private static final int BORDER_PATH_WIDTH = 4;
   private static final Color BORDER_PATH_COLOR = Color.WHITE;
-  
-  private static final Font PLAYER_FONT = new Font("Arial", Font.PLAIN, 20);
 
   /**
    * Draw the time board in a zig-zag format.

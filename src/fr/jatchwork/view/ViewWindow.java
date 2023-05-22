@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import fr.jatchwork.control.Button;
 import fr.jatchwork.control.ControlWindow;
+import fr.jatchwork.control.PlayerButtons;
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Player;
@@ -85,6 +86,7 @@ public final class ViewWindow {
    * @param graphics Window's graphics
    * @param rect Where to draw
    * @param player Player to draw
+   * @param titleColor Color of the title
    */
   private static void displayPlayer(Graphics2D graphics, Rect rect, Player player, Color titleColor) {
     Objects.requireNonNull(graphics);
@@ -94,23 +96,51 @@ public final class ViewWindow {
     final int marginX = 100;
     final int spaceY = (int)(FONT_SIZE * 1.2f);
     int posY = 40;
+    
+    // Title
     graphics.setColor(titleColor);
     HelpWindow.drawText(graphics, "Player " + player.numero(), FONT_TITLE, rect.pos().add(titleMarginX, posY));
-    
+
+    // "Your turn" text
     graphics.setColor(Color.WHITE);
     posY += 100;
     if (Game.instance().playing() == player) {
       HelpWindow.drawText(graphics, "YOUR TURN", FONT_ACTION, rect.pos().add(titleMarginX, posY));
     }
-    
+
+    // Player statistics
     HelpWindow.drawText(graphics,
         "buttons : " + player.buttonCount() +
         "\nincome : " + player.buttonIncome() +
         "\nscore : " + player.score(),
         FONT, rect.pos().add(marginX, posY += 120), spaceY);
 
+    // Quilt board
+    final int boardWidth = QuiltBoardView.size(player.board()).x();
     Vector pos = HelpWindow.align(rect, HelpWindow.ALIGN_BOTTOM, new Vector(40, 40), QuiltBoardView.size(player.board()));
     QuiltBoardView.drawQuiltBoard(graphics, player.board(), pos);
+    
+    // Buttons
+    final int marginBtn = 20;
+    final int heightBtn = 60;
+    pos = pos.add(0, -(marginBtn + heightBtn) * 2);
+    displayPlayerBtns(
+        graphics,
+        ControlWindow.playerBtn(player.numero()-1),
+        new Rect(pos.x(), pos.y(), boardWidth, heightBtn),
+        marginBtn);
+  }
+  
+  private static void displayPlayerBtns(Graphics2D graphics, PlayerButtons btns, Rect rect, int margin) {
+    final int widthBtn = (rect.width() - margin) / 2;
+    // Define buttons positions and size
+    btns.buy().setRect(new Rect(rect.x(), rect.y(), rect.width(), rect.height()));
+    btns.rotate().setRect(new Rect(rect.x(), rect.y() + margin + rect.height(), widthBtn, rect.height()));
+    btns.flip().setRect(new Rect(rect.x() + widthBtn + margin, rect.y() + margin + rect.height(), widthBtn, rect.height()));
+    // Draw buttons
+    HelpWindow.drawButton(graphics, btns.rotate());
+    HelpWindow.drawButton(graphics, btns.flip());
+    HelpWindow.drawButton(graphics, btns.buy());
   }
 
   /**
