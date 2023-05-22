@@ -38,8 +38,6 @@ final class TimeBoardView {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(board);
     Objects.requireNonNull(pos);
-    
-    int square = ViewWindow.squareSize();
 
     // Draw squares and fill color
     for (int i = 0; i < board.size(); i++) {
@@ -59,22 +57,42 @@ final class TimeBoardView {
     }
 
     // Draw patches
-    final int leatherSize = (int)(square * 0.8f);
+    drawPatches(graphics, pos, board);
+
+    // Draw players
+    drawPlayers(graphics, pos);
+  }
+  
+  /**
+   * Draw patches on the board.
+   * @param graphics Window's graphics
+   * @param boardPos Position of the board on the window
+   * @param board The board being drawn
+   */
+  private static void drawPatches(Graphics2D graphics, Vector boardPos, TimeBoard board) {
+    final int leatherSize = (int)(ViewWindow.squareSize() * 0.8f);
     for (int i = 1; i < board.size(); i++) {
       if (board.containsLeathers(i-1, i) > 0) {
-        Vector posl = getBetweenSquarePos(pos, i).add(-leatherSize/2, -leatherSize/2);
+        Vector posl = getBetweenSquarePos(boardPos, i).add(-leatherSize/2, -leatherSize/2);
         Rect rect = new Rect(posl.x(), posl.y(), leatherSize, leatherSize);
         HelpWindow.drawRect(graphics, rect, 2, Color.WHITE, Color.GRAY);
       }
     }
+  }
 
-    // Draw players
+  /**
+   * Draw players on the time board.
+   * @param graphics Window's graphics
+   * @param boardPos Position of the board
+   */
+  private static void drawPlayers(Graphics2D graphics, Vector boardPos) {
+    final int square = ViewWindow.squareSize();
     final Game game = Game.instance();
     final int sizePlayer = (int)(square * 0.4f);
     final int margin = (square/2 - sizePlayer) / 2;
     for (int i = 0; i < Game.PLAYER_COUNT; i++) {
       Player player = game.player(i);
-      Vector posSquare = squarePos(pos, player.position());
+      Vector posSquare = squarePos(boardPos, player.position());
       Vector posPlayer = HelpWindow.align(
           new Rect(posSquare.x(), posSquare.y(), square, square),
           i == 0 ? HelpWindow.ALIGN_TOP : HelpWindow.ALIGN_BOTTOM,
