@@ -55,6 +55,22 @@ public final class TimeBoard {
   }
   
   /**
+   * Count leathers patches between the two position.
+   * @param start Where the movement start
+   * @param end Where the movement end
+   * @return Number of leathers found
+   */
+  public int containsLeathers(int start, int end) {
+    int count = 0;
+    for (int i = start+1; i <= end && i < size(); i++) {
+      if (leathers[i]) {
+        count++;
+      }
+    }
+    return count;
+  }
+  
+  /**
    * Get leathers patches between the two position, and remove them from the board.
    * @param start Where the movement start
    * @param end Where the movement end

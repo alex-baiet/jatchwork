@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Objects;
 
+import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
 
@@ -49,6 +50,18 @@ final class TimeBoardView {
         ButtonView.drawButton(graphics, getBetweenSquarePos(pos, i));
       }
     }
+    
+    // Draw patches
+    final int leatherSize = (int)(ViewWindow.squareSize() * 0.8f);
+    for (int i = 1; i < board.size(); i++) {
+      if (board.containsLeathers(i-1, i) > 0) {
+        Vector posl = getBetweenSquarePos(pos, i).add(-leatherSize/2, -leatherSize/2);
+        Rect rect = new Rect(posl.x(), posl.y(), leatherSize, leatherSize);
+        HelpWindow.drawRect(graphics, rect, 2, Color.WHITE, Color.GRAY);
+      }
+    }
+    
+    // Draw players
   }
   
   /**
