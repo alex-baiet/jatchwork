@@ -18,6 +18,9 @@ import fr.umlv.zen5.ScreenInfo;
  * Manage display for windowed versions.
  */
 public final class ViewWindow {
+  public static final Color PLAYER1_COLOR = Color.CYAN;
+  public static final Color PLAYER2_COLOR = Color.GREEN;
+  
   private static final int FONT_SIZE = 40;
   public static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
   private static final Font FONT_TITLE = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(80));
@@ -70,8 +73,8 @@ public final class ViewWindow {
     }
 
     // Draw players
-    displayPlayer(graphics, new Rect(0, 0, width() / 3, height()), game.player(0));
-    displayPlayer(graphics, new Rect(width() * 2 / 3, 0, width() / 3, height()), game.player(1));
+    displayPlayer(graphics, new Rect(0, 0, width() / 3, height()), game.player(0), PLAYER1_COLOR);
+    displayPlayer(graphics, new Rect(width() * 2 / 3, 0, width() / 3, height()), game.player(1), PLAYER2_COLOR);
 
     // Draw center
     displayCommon(graphics, new Rect(width() / 3, 0, width() / 3, height()));
@@ -83,7 +86,7 @@ public final class ViewWindow {
    * @param rect Where to draw
    * @param player Player to draw
    */
-  private static void displayPlayer(Graphics2D graphics, Rect rect, Player player) {
+  private static void displayPlayer(Graphics2D graphics, Rect rect, Player player, Color titleColor) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(rect);
     Objects.requireNonNull(player);
@@ -91,8 +94,10 @@ public final class ViewWindow {
     final int marginX = 100;
     final int spaceY = (int)(FONT_SIZE * 1.2f);
     int posY = 40;
+    graphics.setColor(titleColor);
     HelpWindow.drawText(graphics, "Player " + player.numero(), FONT_TITLE, rect.pos().add(titleMarginX, posY));
     
+    graphics.setColor(Color.WHITE);
     posY += 100;
     if (Game.instance().playing() == player) {
       HelpWindow.drawText(graphics, "YOUR TURN", FONT_ACTION, rect.pos().add(titleMarginX, posY));

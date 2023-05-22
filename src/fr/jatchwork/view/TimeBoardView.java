@@ -1,9 +1,12 @@
 package fr.jatchwork.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Objects;
 
+import fr.jatchwork.model.Game;
+import fr.jatchwork.model.Player;
 import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.TimeBoard;
 import fr.jatchwork.model.Vector;
@@ -22,6 +25,8 @@ final class TimeBoardView {
 
   private static final int BORDER_PATH_WIDTH = 4;
   private static final Color BORDER_PATH_COLOR = Color.WHITE;
+  
+  private static final Font PLAYER_FONT = new Font("Arial", Font.PLAIN, 20);
 
   /**
    * Draw the time board in a zig-zag format.
@@ -33,6 +38,8 @@ final class TimeBoardView {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(board);
     Objects.requireNonNull(pos);
+    
+    int square = ViewWindow.squareSize();
 
     // Draw squares and fill color
     for (int i = 0; i < board.size(); i++) {
@@ -50,9 +57,9 @@ final class TimeBoardView {
         ButtonView.drawButton(graphics, getBetweenSquarePos(pos, i));
       }
     }
-    
+
     // Draw patches
-    final int leatherSize = (int)(ViewWindow.squareSize() * 0.8f);
+    final int leatherSize = (int)(square * 0.8f);
     for (int i = 1; i < board.size(); i++) {
       if (board.containsLeathers(i-1, i) > 0) {
         Vector posl = getBetweenSquarePos(pos, i).add(-leatherSize/2, -leatherSize/2);
@@ -60,8 +67,22 @@ final class TimeBoardView {
         HelpWindow.drawRect(graphics, rect, 2, Color.WHITE, Color.GRAY);
       }
     }
-    
+
     // Draw players
+    final Game game = Game.instance();
+    final int sizePlayer = (int)(square * 0.4f);
+    final int margin = (square/2 - sizePlayer) / 2;
+    for (int i = 0; i < Game.PLAYER_COUNT; i++) {
+      Player player = game.player(i);
+      Vector posSquare = squarePos(pos, player.position());
+      Vector posPlayer = HelpWindow.align(
+          new Rect(posSquare.x(), posSquare.y(), square, square),
+          i == 0 ? HelpWindow.ALIGN_TOP : HelpWindow.ALIGN_BOTTOM,
+          new Vector(margin, margin),
+          new Vector(sizePlayer, sizePlayer));
+      Rect rectPlayer = new Rect(posPlayer.x(), posPlayer.y(), sizePlayer, sizePlayer);
+      HelpWindow.drawRect(graphics, rectPlayer, 2, Color.WHITE, i == 0 ? ViewWindow.PLAYER1_COLOR : ViewWindow.PLAYER2_COLOR);
+    }
   }
   
   /**
