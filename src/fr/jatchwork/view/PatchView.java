@@ -13,8 +13,10 @@ import fr.jatchwork.model.Vector;
  */
 final class PatchView {
   private static final Color COLOR = Color.GRAY;
-  private static final Color BORDER = Color.WHITE;
   private static final int BORDER_SIZE = 4;
+  private static final Color BORDER_COLOR = Color.WHITE;
+  private static final int BORDER_IN_SIZE = 2;
+  private static final Color BORDER_IN_COLOR = Color.LIGHT_GRAY;
 
   private PatchView() { }
 
@@ -45,16 +47,32 @@ final class PatchView {
       }
     }
 
-    // Draw borders
+    // Draw internal borders
     for (int x = 0; x <= patch.width(); x++) {
       for (int y = 0; y <= patch.height(); y++) {
+        final Vector v = pos.add(x * square, y * square);
+        // Horizontal borders
+        if (x < patch.width() && patch.getTile(x, y - 1) && patch.getTile(x, y)) {
+          HelpWindow.drawLine(graphics, BORDER_IN_COLOR, v, square, BORDER_IN_SIZE, true);
+        }
+        // Vertical borders
+        if (y < patch.height() && patch.getTile(x - 1, y) && patch.getTile(x, y)) {
+            HelpWindow.drawLine(graphics, BORDER_IN_COLOR, v, square, BORDER_IN_SIZE, false);
+        }
+      }
+    }
+
+    // Draw external borders
+    for (int x = 0; x <= patch.width(); x++) {
+      for (int y = 0; y <= patch.height(); y++) {
+        final Vector v = pos.add(x * square, y * square);
         // Horizontal borders
         if (x < patch.width() && patch.getTile(x, y - 1) ^ patch.getTile(x, y)) {
-          HelpWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, true);
+          HelpWindow.drawLine(graphics, BORDER_COLOR, v, square, BORDER_SIZE, true);
         }
         // Vertical borders
         if (y < patch.height() && patch.getTile(x - 1, y) ^ patch.getTile(x, y)) {
-          HelpWindow.drawLine(graphics, BORDER, pos.add(x * square, y * square), square, BORDER_SIZE, false);
+            HelpWindow.drawLine(graphics, BORDER_COLOR, v, square, BORDER_SIZE, false);
         }
       }
     }

@@ -15,6 +15,7 @@ final class QuiltBoardView {
   private static final int BORDER_OUT_SIZE = 4;
   private static final int BORDER_IN_SIZE = 2;
   private static final Color BORDER_COLOR = Color.WHITE;
+  private static final Color BORDER_IN_COLOR = Color.GRAY;
   private static final Color MAIN_COLOR = Color.DARK_GRAY;
   
   /**
@@ -43,16 +44,16 @@ final class QuiltBoardView {
     int size = board.size() * square;
     graphics.setColor(MAIN_COLOR);
     graphics.fillRect(pos.x(), pos.y(), size, size);
-    
-    // Draw outside borders
-    drawTwoBorder(graphics, pos, 0, size, BORDER_OUT_SIZE); // top and left
-    drawTwoBorder(graphics, pos, board.size(), size, BORDER_OUT_SIZE); // bottom and right
-    
+
     // Draw inside borders
-    for (int i = 0; i < board.size(); i++) {
-      drawTwoBorder(graphics, pos, i, size, BORDER_IN_SIZE);
+    for (int i = 1; i < board.size(); i++) {
+      drawTwoBorder(graphics, pos, i, size, BORDER_IN_SIZE, BORDER_IN_COLOR);
     }
-    
+
+    // Draw outside borders
+    drawTwoBorder(graphics, pos, 0, size, BORDER_OUT_SIZE, BORDER_COLOR); // top and left
+    drawTwoBorder(graphics, pos, board.size(), size, BORDER_OUT_SIZE, BORDER_COLOR); // bottom and right
+
     // Draw contained patches
     for (PatchCoord patchCoord : board.patches()) {
       PatchView.drawPatch(graphics, patchCoord.patch(), pos.add(patchCoord.pos().multiply(square)));
@@ -67,12 +68,12 @@ final class QuiltBoardView {
    * @param length Length of the border, equals size of the quilt board
    * @param width Stroke width
    */
-  private static void drawTwoBorder(Graphics2D graphics, Vector pos, int squarePos, int length, int width) {
+  private static void drawTwoBorder(Graphics2D graphics, Vector pos, int squarePos, int length, int width, Color color) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(pos);
     int square = ViewWindow.squareSize();
-    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(0, squarePos * square), length, width, true);
-    HelpWindow.drawLine(graphics, BORDER_COLOR, pos.add(squarePos * square, 0), length, width, false);
+    HelpWindow.drawLine(graphics, color, pos.add(0, squarePos * square), length, width, true);
+    HelpWindow.drawLine(graphics, color, pos.add(squarePos * square, 0), length, width, false);
   }
 
   private QuiltBoardView() { }
