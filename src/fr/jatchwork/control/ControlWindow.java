@@ -89,14 +89,26 @@ public final class ControlWindow {
    */
   public static void manageInput(ApplicationContext context) {
     Objects.requireNonNull(context);
+
+    // Fetch the event
     Event event;
     do {
       event = context.pollOrWaitEvent(Long.MAX_VALUE);
       // Movement of mouse is forbidden because of a graphical bug
     } while (event.getAction() == Action.POINTER_MOVE);
 
-    System.out.println(event);
-
+    // Execute action based on event
+    manageEvent(event);
+    
+    // Update button states
+    updateBtns();
+  }
+  
+  /**
+   * Execute action based on event
+   * @param event User event
+   */
+  private static void manageEvent(Event event) {
     switch (event.getAction()) {
     case POINTER_DOWN -> {
       var pos = event.getLocation();
@@ -109,5 +121,17 @@ public final class ControlWindow {
     }
   }
 
+  /**
+   * Update buttons states, based on current game state.
+   */
+  private static void updateBtns() {
+    final Game game = Game.instance();
+    if (game.finished()) {
+      // Now end turn button while quit the game
+      btnEndTurn.setHandler(() -> System.exit(0));
+      btnEndTurn.setText("Quit game");
+    }
+  }
+  
   private ControlWindow() { }
 }
