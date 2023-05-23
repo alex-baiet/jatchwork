@@ -9,6 +9,8 @@ import java.util.Objects;
  * Also compute button income and score.
  */
 public final class QuiltBoard {
+  private static final int BONUS_SIZE = 7;
+  
   /** How is currently filled the board. */
   private final boolean[][] board;
   private int remainingSpace;
@@ -119,7 +121,35 @@ public final class QuiltBoard {
     }
     return null;
   }
-  
+
+  /**
+   * Return true if the quilt board is eligible to 7x7 bonus.
+   * @return True if eligible, false otherwise
+   */
+  public boolean fillBonus() {
+    for (int x = 0; x <= size() - BONUS_SIZE; x++) {
+      for (int y = 0; y <= size() - BONUS_SIZE; y++) {
+        if (fillBonus(x, y)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Return true if the quilt board is eligible to 7x7 bonus at a specified position
+   * @return True if eligible, false otherwise
+   */
+  private boolean fillBonus(int x, int y) {
+    for (int xx = 0; xx < BONUS_SIZE; xx++) {
+      for (int yy = 0; yy < BONUS_SIZE; yy++) {
+        if (!board[x + xx][y + yy]) return false;
+      }
+    }
+    return true;
+  }
+
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();

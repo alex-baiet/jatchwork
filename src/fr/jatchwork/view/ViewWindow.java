@@ -112,8 +112,9 @@ public final class ViewWindow {
     HelpWindow.drawText(graphics,
         "buttons : " + player.buttonCount() +
         "\nincome : " + player.buttonIncome() +
-        "\nscore : " + player.score(),
-        FONT, rect.pos().add(marginX, posY += 120), spaceY);
+        "\nscore : " + player.score() +
+        (player.hasBonus() ? "\nbonus 7x7 : +7 points" : ""),
+        FONT, rect.pos().add(marginX, posY += 80), spaceY);
 
     // Quilt board
     final int boardWidth = QuiltBoardView.size(player.board()).x();

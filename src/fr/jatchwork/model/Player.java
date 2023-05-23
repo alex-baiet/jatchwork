@@ -10,7 +10,7 @@ public final class Player {
   private final QuiltBoard board;
   private int buttonCount;
   private int position = 0;
-  private boolean bonusFull = false;
+  private boolean bonus = false;
   
   /**
    * Create a new player
@@ -48,6 +48,12 @@ public final class Player {
    */
   public int buttonIncome() { return board.buttonIncome(); }
 
+  /**
+   * Does the player has the 7x7 bonus.
+   * @return True or false
+   */
+  public boolean hasBonus() { return bonus; }
+  
   /**
    * End the turn of a player.
    */
@@ -126,8 +132,8 @@ public final class Player {
   private void addPatch(Patch patch, int x, int y) {
     Objects.requireNonNull(patch);
     board.add(patch, x, y);
-    if (board.remainingSpace() == 0) {
-      bonusFull = Game.instance().getBonusFull();
+    if (board.fillBonus()) {
+      bonus = Game.instance().getBonusFull();
     }
   }
 
@@ -136,7 +142,7 @@ public final class Player {
    * @return The player's score
    */
   public int score() {
-    return buttonCount - board.remainingSpace() * 2 + (bonusFull ? 7 : 0);
+    return buttonCount - board.remainingSpace() * 2 + (bonus ? 7 : 0);
   }
 
   /**
@@ -155,7 +161,7 @@ public final class Player {
       if (i < lines.length) b.append(lines[i]);
       if (i == 2) b.append("\tbuttons : ").append(buttonCount);
       if (i == 3) b.append("\tbuttons income : ").append(board.buttonIncome());
-      if (i == 4 && bonusFull) b.append("\tBonus full quilt board : 7 points");
+      if (i == 4 && bonus) b.append("\tBonus full quilt board : 7 points");
       b.append('\n');
     }
     return b.substring(0, b.length() - 1);
@@ -177,7 +183,7 @@ public final class Player {
     var leathers = timeBoard.getLeathers(position, position + tileCount);
     for (int i = 0; i < leathers; i++) {
       Vector pos = board.findSpace(Patch.LEATHER);
-      board.add(Patch.LEATHER, pos.x(), pos.y());
+      addPatch(Patch.LEATHER, pos.x(), pos.y());
     }
     
     if (position + tileCount >= timeBoard.size()) {
