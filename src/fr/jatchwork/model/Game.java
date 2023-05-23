@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * Contains all data of the current game.
@@ -264,6 +265,16 @@ public final class Game {
       if (player.position() < timeBoard.size()-1) return false;
     }
     return true;
+  }
+  
+  /**
+   * Get the player with the best score.
+   * @return The player currently winning the game
+   */
+  public Player winningPlayer() {
+    return Stream.of(players)
+        .max((p1, p2) -> Integer.compare(p1.score(), p2.score()))
+        .get();
   }
 
   /**

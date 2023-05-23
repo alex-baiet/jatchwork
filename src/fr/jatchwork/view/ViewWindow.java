@@ -102,13 +102,11 @@ public final class ViewWindow {
     HelpWindow.drawText(graphics, "Player " + player.numero(), FONT_TITLE, rect.pos().add(titleMarginX, posY));
 
     // "Your turn" text
-    graphics.setColor(Color.WHITE);
     posY += 100;
-    if (Game.instance().playing() == player) {
-      HelpWindow.drawText(graphics, "YOUR TURN", FONT_ACTION, rect.pos().add(titleMarginX, posY));
-    }
+    drawPlayerActionTitle(graphics, rect.pos().add(titleMarginX, posY), player);
 
     // Player statistics
+    graphics.setColor(Color.WHITE);
     HelpWindow.drawText(graphics,
         "buttons : " + player.buttonCount() +
         "\nincome : " + player.buttonIncome() +
@@ -130,6 +128,30 @@ public final class ViewWindow {
         ControlWindow.playerBtn(player.numero()-1),
         new Rect(pos.x(), pos.y(), boardWidth, heightBtn),
         marginBtn);
+  }
+  
+  /**
+   * Display informative text under player title.
+   * @param graphics Window's graphics
+   * @param pos Position of the text to draw
+   * @param player Target player
+   */
+  private static void drawPlayerActionTitle(Graphics2D graphics, Vector pos, Player player) {
+    final Game game = Game.instance();
+    if (game.finished()) {
+      if (game.winningPlayer() == player) {
+        graphics.setColor(Color.GREEN);
+        HelpWindow.drawText(graphics, "WINNER", FONT_ACTION, pos);
+      }
+      else {
+        graphics.setColor(Color.RED);
+        HelpWindow.drawText(graphics, "LOSER", FONT_ACTION, pos);
+      }
+    } else if (game.playing() == player) {
+      graphics.setColor(Color.WHITE);
+      HelpWindow.drawText(graphics, "YOUR TURN", FONT_ACTION, pos);
+    }
+
   }
   
   private static void displayPlayerBtns(Graphics2D graphics, PlayerButtons btns, Rect rect, int margin) {
