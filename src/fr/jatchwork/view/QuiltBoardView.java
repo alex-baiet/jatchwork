@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Objects;
 
+import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.PatchCoord;
+import fr.jatchwork.model.PatchSetter;
 import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.model.Vector;
 
@@ -34,8 +36,10 @@ final class QuiltBoardView {
    * @param graphics Window's graphics
    * @param board What to draw
    * @param pos Where to draw the top left corner
+   * @param patchSetter Patch not definitively placed,
+   * Used to view if it can be placed at a position. Can be null
    */
-  public static void drawQuiltBoard(Graphics2D graphics, QuiltBoard board, Vector pos) {
+  public static void drawQuiltBoard(Graphics2D graphics, QuiltBoard board, Vector pos, PatchSetter patchSetter) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(board);
     Objects.requireNonNull(pos);
@@ -57,6 +61,14 @@ final class QuiltBoardView {
     // Draw contained patches
     for (PatchCoord patchCoord : board.patches()) {
       PatchView.drawPatch(graphics, patchCoord.patch(), pos.add(patchCoord.pos().multiply(square)));
+    }
+    
+    // Draw selected patch
+    if (patchSetter != null && patchSetter.position() != null) {
+      PatchView.drawPatch(
+          graphics,
+          patchSetter.patch(),
+          pos.add(patchSetter.position().multiply(square)));
     }
   }
 

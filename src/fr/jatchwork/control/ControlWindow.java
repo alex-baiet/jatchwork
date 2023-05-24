@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
+import fr.jatchwork.model.PatchSetter;
+import fr.jatchwork.model.QuiltBoard;
 import fr.jatchwork.model.Vector;
 import fr.jatchwork.view.ViewWindow;
 import fr.umlv.zen5.ApplicationContext;
@@ -18,7 +20,7 @@ import fr.umlv.zen5.KeyboardKey;
 public final class ControlWindow {
 
   // Temporary default patch for test, to delete
-  private static Patch selectedPatch = null;
+  private static PatchSetter selectedPatch = null;
 
   private static final Button[] patchButtons = new Button[] {
       new Button(() -> selectPatch(0)),
@@ -27,44 +29,70 @@ public final class ControlWindow {
   };
 
   private static final Button btnEndTurn = new Button(
-      () -> Game.instance().playing().endTurn(),
+      () -> {
+        selectedPatch = null;
+        Game.instance().playing().endTurn();
+      },
       null, "End turn", ViewWindow.FONT);
 
-  private static final PlayerButtons[] playerBtns = new PlayerButtons[] {
-      new PlayerButtons(
-          new Button(
-              () -> { },
-              null, "Rotate", ViewWindow.FONT),
-          new Button(
-              () -> { },
-              null, "Flip", ViewWindow.FONT),
-          new Button(
-              () -> { },
-              null, "Buy patch", ViewWindow.FONT)),
-      new PlayerButtons(
-          new Button(
-              () -> { },
-              null, "Rotate", ViewWindow.FONT),
-          new Button(
-              () -> { },
-              null, "Flip", ViewWindow.FONT),
-          new Button(
-              () -> { },
-              null, "Buy patch", ViewWindow.FONT)),
-  };
+  private static final PlayerButtons[] playerBtns = new PlayerButtons[Game.PLAYER_COUNT];
   
+  private static final Button[][][] quiltBoardBtns = new Button[Game.PLAYER_COUNT][QuiltBoard.SIZE][QuiltBoard.SIZE];
+  
+  static {
+    // Buttons player init
+    for (int i = 0; i < Game.PLAYER_COUNT; i++) {
+      playerBtns[i] = new PlayerButtons(
+          new Button(
+              () -> { if (selectedPatch != null) selectedPatch.rotate(); },
+              null, "Rotate", ViewWindow.FONT),
+          new Button(
+              () -> { if (selectedPatch != null) selectedPatch.flip(); },
+              null, "Flip", ViewWindow.FONT),
+          new Button(
+              () -> { /*TODO: buy patch*/ },
+              null, "Buy patch", ViewWindow.FONT));
+    }
+    
+    // Buttons quilt board init
+    for (int i = 0; i < Game.PLAYER_COUNT; i++) {
+      final int icopy = i;
+      for (int x = 0; x < quiltBoardBtns[i].length; x++) {
+        final int xcopy = x;
+        for (int y = 0; y < quiltBoardBtns[i][x].length; y++) {
+          final int ycopy = y;
+          quiltBoardBtns[i][x][y] = new Button(() -> {
+            if (Game.instance().playing() != Game.instance().player(icopy)) return;
+            if (selectedPatch != null) selectedPatch.setPosition(new Vector(xcopy, ycopy));
+          });
+        }
+      }
+    }
+  }
+
   /**
    * The selected patch from the instance of Game.
-   * @return Patch
+   * @return Patch. May be null
    */
-  public static Patch getSelectedPatch() { return selectedPatch; }
+  public static Patch selectedPatch() { return selectedPatch != null ? selectedPatch.patch() : null; }
 
+  /**
+   * Used to place the selected patch on a quilt board.
+   * @return The patch setter
+   */
+  public static PatchSetter patchSetter() { return selectedPatch; }
+
+  public static Button[][] quiltBoardBtns(int i) {
+    return quiltBoardBtns[i];
+  }
+  
   /**
    * Change the selected patch.
    * @param i Index of the new selected patch
    */
   public static void selectPatch(int i) {
-    selectedPatch = Game.instance().getPatch(i);
+    final Game game = Game.instance();
+    selectedPatch = new PatchSetter(game.playing().board(), game.getPatch(i));
   }
 
   /**

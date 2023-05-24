@@ -117,8 +117,8 @@ public final class ViewWindow {
     // Quilt board
     final int boardWidth = QuiltBoardView.size(player.board()).x();
     Vector pos = HelpWindow.align(rect, HelpWindow.ALIGN_BOTTOM, new Vector(40, 40), QuiltBoardView.size(player.board()));
-    QuiltBoardView.drawQuiltBoard(graphics, player.board(), pos);
-    
+    drawQuiltBoard(graphics, player, pos);
+
     // Buttons
     final int marginBtn = 20;
     final int heightBtn = 60;
@@ -128,6 +128,18 @@ public final class ViewWindow {
         ControlWindow.playerBtn(player.numero()-1),
         new Rect(pos.x(), pos.y(), boardWidth, heightBtn),
         marginBtn);
+  }
+  
+  private static void drawQuiltBoard(Graphics2D graphics, Player player, Vector pos) {
+    final var patchSetter = ControlWindow.patchSetter();
+    QuiltBoardView.drawQuiltBoard(graphics, player.board(), pos,
+        patchSetter != null && patchSetter.board() == player.board() ? patchSetter : null);
+    var btns = ControlWindow.quiltBoardBtns(player.numero()-1);
+    for (int x = 0; x < btns.length; x++) {
+      for (int y = 0; y < btns[x].length; y++) {
+        btns[x][y].setRect(new Rect(pos.x() + x * squareSize, pos.y() + y * squareSize, squareSize, squareSize));
+      }
+    }
   }
   
   /**
@@ -205,7 +217,7 @@ public final class ViewWindow {
   private static void displayPatchInfo(Graphics2D graphics, Rect rect) {
     Objects.requireNonNull(graphics);
     Objects.requireNonNull(rect);
-    final Patch patch = ControlWindow.getSelectedPatch();
+    final Patch patch = ControlWindow.selectedPatch();
     final int boxBorderSize = 2;
     final int textSpace = (int)(FONT_SIZE);
     final Vector marginText = new Vector(20, (rect.height() - FONT_SIZE * 3) / 2);

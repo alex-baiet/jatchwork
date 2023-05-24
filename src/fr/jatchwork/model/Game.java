@@ -234,7 +234,7 @@ public final class Game {
    * @param phase Version chosen by the user
    */
   private Game(int phase) {
-    players = new Player[] { new Player(1, 9, 5), new Player(2, 9, 5) };
+    players = new Player[] { new Player(1, QuiltBoard.SIZE, 5), new Player(2, QuiltBoard.SIZE, 5) };
     playing = players[0];
     timeBoard = new TimeBoard(54,
         new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
