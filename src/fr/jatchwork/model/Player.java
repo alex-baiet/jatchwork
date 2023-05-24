@@ -74,14 +74,14 @@ public final class Player {
       buttonCount += moveCount;
     }
   }
-  
+
   /**
    * Return true if the player has enough buttons to buy the selected patch.
-   * @param numPatch Patch to buy
+   * @param patch Patch to buy
    * @return True if it can be bought
    */
-  public boolean canBuyPatch(int numPatch) {
-    return Game.instance().getPatch(numPatch).buttonCost() <= buttonCount;
+  public boolean canBuyPatch(Patch patch) {
+    return patch.buttonCost() <= buttonCount;
   }
   
   /**
@@ -89,8 +89,8 @@ public final class Player {
    * @param numPatch Number of the patch to test
    * @return True if there is available space, false otherwise.
    */
-  public boolean canPlacePatch(int numPatch) {
-    return board.findSpace(Game.instance().getPatch(numPatch)) != null;
+  public boolean canPlacePatch(Patch patch) {
+    return board.findSpace(patch) != null;
   }
 
   /**
@@ -99,13 +99,13 @@ public final class Player {
    * @param x X position in the quiltboard.
    * @param y Y position in the quiltboard.
    */
-  public void buyPatch(int numPatch, int x, int y) {
+  public void buyPatch(int numPatch, Patch patch, Vector pos) {
     Game game = Game.instance();
     // Buy the patch
-    Patch patch = game.buyPatch(numPatch);
+    game.buyPatch(numPatch);
 
     // Place on the quiltboard
-    addPatch(patch, x, y);
+    addPatch(patch, pos);
 
     buttonCount -= patch.buttonCost();
     if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
@@ -120,7 +120,7 @@ public final class Player {
     Patch patch = Game.instance().getPatch(numPatch);
     Vector coord = board.findSpace(patch);
     if (coord == null) throw new RuntimeException("No place available to place patch.");
-    buyPatch(numPatch, coord.x(), coord.y());
+    buyPatch(numPatch, Game.instance().getPatch(numPatch), coord);
   }
 
   /**
@@ -129,9 +129,9 @@ public final class Player {
    * @param x Where horizontally
    * @param y Where vertically
    */
-  private void addPatch(Patch patch, int x, int y) {
+  private void addPatch(Patch patch, Vector pos) {
     Objects.requireNonNull(patch);
-    board.add(patch, x, y);
+    board.add(patch, pos.x(), pos.y());
     if (board.fillBonus()) {
       bonus = Game.instance().getBonusFull();
     }
@@ -183,7 +183,7 @@ public final class Player {
     var leathers = timeBoard.getLeathers(position, position + tileCount);
     for (int i = 0; i < leathers; i++) {
       Vector pos = board.findSpace(Patch.LEATHER);
-      addPatch(Patch.LEATHER, pos.x(), pos.y());
+      addPatch(Patch.LEATHER, pos);
     }
     
     if (position + tileCount >= timeBoard.size()) {

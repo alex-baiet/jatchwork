@@ -339,6 +339,14 @@ public final class Game {
   }
   
   /**
+   * The number of remaining patch to bought in the game.
+   * @return Number of remaining patch
+   */
+  public int patchCount() {
+    return patches.size();
+  }
+  
+  /**
    * Get the bonus for completing a quilt board.
    * @return True if no player already took it, false otherwise.
    */

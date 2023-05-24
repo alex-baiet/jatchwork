@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Objects;
 
-import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.PatchCoord;
 import fr.jatchwork.model.PatchSetter;
 import fr.jatchwork.model.QuiltBoard;

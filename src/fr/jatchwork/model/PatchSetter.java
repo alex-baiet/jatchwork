@@ -9,19 +9,43 @@ public class PatchSetter {
   private final QuiltBoard board;
   private Patch patch;
   private Vector pos;
+  private final int patchNum;
   
-  public PatchSetter(QuiltBoard board, Patch patch) {
+  /**
+   * Create a new patch setter.
+   * @param board Where to place the patch
+   * @param patchNum Number of the patch in the game list
+   */
+  public PatchSetter(QuiltBoard board, int patchNum) {
     Objects.requireNonNull(board);
-    Objects.requireNonNull(patch);
     this.board = board;
-    this.patch = patch;
+    this.patchNum = patchNum;
+    this.patch = Game.instance().getPatch(patchNum);
     this.pos = null;
   }
   
+  /**
+   * Where to place the patch.
+   * @return Quilt board
+   */
   public QuiltBoard board() { return board; }
   
+  /**
+   * The patch to place.
+   * @return Patch
+   */
   public Patch patch() { return patch; }
   
+  /**
+   * Index of the patch in the game patch list.
+   * @return Patch number
+   */
+  public int patchNum() { return patchNum; }
+  
+  /**
+   * The current position of the patch on the quilt board.
+   * @return Position
+   */
   public Vector position() {
     return pos;
   }

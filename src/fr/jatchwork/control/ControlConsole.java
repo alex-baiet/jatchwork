@@ -3,6 +3,7 @@ package fr.jatchwork.control;
 import java.util.Scanner;
 
 import fr.jatchwork.model.Game;
+import fr.jatchwork.model.Patch;
 import fr.jatchwork.model.Player;
 import fr.jatchwork.view.ViewConsole;
 
@@ -41,15 +42,21 @@ public final class ControlConsole {
       ViewConsole.displayPatches();
     }
     case "0", "1", "2" -> {
-      Player player = Game.instance().playing();
+      final Game game = Game.instance();
+      final Player player = game.playing();
       int toBuy = Integer.parseInt(input);
-      if (!player.canBuyPatch(toBuy)) {
-        System.out.printf(
-            "You can't buy the selected patch, you need %d more button(s) to afford it\n",
-            Game.instance().getPatch(toBuy).buttonCost() - player.buttonCount());
+      if (game.patchCount() <= toBuy) {
+        System.out.println("There is not enough patch to buy the selected one.\n");
         break;
       }
-      if (!player.canPlacePatch(toBuy)) {
+      final Patch patch = game.getPatch(toBuy);
+      if (!player.canBuyPatch(patch)) {
+        System.out.printf(
+            "You can't buy the selected patch, you need %d more button(s) to afford it\n\n",
+            patch.buttonCost() - player.buttonCount());
+        break;
+      }
+      if (!player.canPlacePatch(patch)) {
         System.out.println("There is not enough space in the quiltboard to place the patch\n");
         break;
       }
