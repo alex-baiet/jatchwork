@@ -77,6 +77,7 @@ public final class Player {
 
   /**
    * Return true if the player has enough buttons to buy the selected patch.
+   * Does not take in count the remaining place in the quilt board.
    * @param patch Patch to buy
    * @return True if it can be bought
    */

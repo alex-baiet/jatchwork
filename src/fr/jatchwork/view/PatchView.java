@@ -67,13 +67,20 @@ final class PatchView {
       );
   }
   
+  public void setColors(PatchColor colors) {
+    Objects.requireNonNull(colors);
+    fillColor = colors.fillColor();
+    borderColor = colors.borderColor();
+    borderInColor = colors.borderInColor();
+  }
+  
   /**
    * Set the main color of the patch.
    * @param color Color
    */
   public void setFillColor(Color color) {
     Objects.requireNonNull(color);
-
+    fillColor = color;
   }
   
   /**
@@ -82,7 +89,7 @@ final class PatchView {
    */
   public void setBorderColor(Color color) {
     Objects.requireNonNull(color);
-
+    borderColor = color;
   }
 
   /**
@@ -91,7 +98,7 @@ final class PatchView {
    */
   public void setBorderInColor(Color color) {
     Objects.requireNonNull(color);
-
+    borderInColor = color;
   }
   
   /**

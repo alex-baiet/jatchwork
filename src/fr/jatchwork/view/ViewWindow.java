@@ -20,7 +20,7 @@ import fr.umlv.zen5.ScreenInfo;
  */
 public final class ViewWindow {
   public static final Color PLAYER1_COLOR = Color.CYAN;
-  public static final Color PLAYER2_COLOR = Color.GREEN;
+  public static final Color PLAYER2_COLOR = new Color(0x9a39ff); // purple
   
   private static final int FONT_SIZE = 40;
   public static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
@@ -266,8 +266,12 @@ public final class ViewWindow {
       HelpWindow.drawButton(graphics, buttons[i]);
       
       // Draw patch inside button
-      final var view = new PatchView(game.getPatch(i));
+      final Patch patch = game.getPatch(i);
+      final var view = new PatchView(patch);
       view.centerPosition(buttons[i].rect());
+      if (!game.playing().canBuyPatch(patch)) {
+        view.setColors(PatchColor.TRANSPARENT_COLORS);
+      }
       view.draw(graphics);
     }
   }

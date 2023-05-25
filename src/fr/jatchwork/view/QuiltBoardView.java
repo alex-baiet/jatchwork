@@ -66,6 +66,12 @@ final class QuiltBoardView {
     // Draw selected patch
     if (patchSetter != null && patchSetter.position() != null) {
       final var view = new PatchView(patchSetter.patch(), pos.add(patchSetter.position().multiply(square)));
+      // Color depending of if the patch can be placed at current position
+      if (board.fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y())) {
+        view.setColors(PatchColor.TRANSPARENT_COLORS);
+      } else {
+        view.setColors(PatchColor.RED_COLORS);
+      }
       view.draw(graphics);
     }
   }
