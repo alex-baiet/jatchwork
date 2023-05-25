@@ -9,32 +9,113 @@ import fr.jatchwork.model.Rect;
 import fr.jatchwork.model.Vector;
 
 /**
- * Contains methods to draw patches.
+ * Allow construction of a patch visual and its drawing.
  */
 final class PatchView {
-  private static final Color COLOR = Color.GRAY;
   private static final int BORDER_SIZE = 4;
-  private static final Color BORDER_COLOR = Color.WHITE;
   private static final int BORDER_IN_SIZE = 2;
-  private static final Color BORDER_IN_COLOR = Color.LIGHT_GRAY;
-
-  private PatchView() { }
+  
+  private final Patch patch;
+  private Vector pos;
+  private Color fillColor = Color.GRAY;
+  private Color borderColor = Color.WHITE;
+  private Color borderInColor = Color.LIGHT_GRAY;
 
   /**
-   * Draw a patch on the window.
-   * @param graphics Window's graphics
-   * @param patch What to draw
-   * @param pos Where to draw the top left corner, border excluded
+   * Create a new patch.
+   * Position must be set once before call to draw().
+   * @param patch The patch to draw
    */
-  public static void drawPatch(Graphics2D graphics, Patch patch, Vector pos) {
-    Objects.requireNonNull(graphics);
-    Objects.requireNonNull(patch);
-    Objects.requireNonNull(pos);
+  public PatchView(Patch patch) {
+    this(patch, null);
+  }
 
-    graphics.setColor(COLOR);
+  /**
+   * Create a new patch.
+   * @param patch Patch to draw.
+   * @param pos
+   */
+  public PatchView(Patch patch, Vector pos) {
+    this.patch = patch;
+    this.pos = pos;
+  }
+
+  /**
+   * Set the position in the window.
+   * @param pos Where to draw
+   */
+  public void setPosition(Vector pos) {
+    Objects.requireNonNull(pos);
+    this.pos = pos;
+  }
+  
+  /**
+   * Set the position, centered in given rectangle.
+   * @param rect Where to center
+   */
+  public void centerPosition(Rect rect) {
+    Objects.requireNonNull(rect);
+    pos = rect.pos()
+      .add(
+          rect.size().sub(
+              patch.size().multiply(
+                  ViewWindow.squareSize()
+              )
+          ).multiply(
+              0.5f
+          )
+      );
+  }
+  
+  /**
+   * Set the main color of the patch.
+   * @param color Color
+   */
+  public void setFillColor(Color color) {
+    Objects.requireNonNull(color);
+
+  }
+  
+  /**
+   * Set the border color.
+   * @param color Color
+   */
+  public void setBorderColor(Color color) {
+    Objects.requireNonNull(color);
+
+  }
+
+  /**
+   * Set the border color inside.
+   * @param color Color
+   */
+  public void setBorderInColor(Color color) {
+    Objects.requireNonNull(color);
+
+  }
+  
+  /**
+   * Draw the patch.
+   * @param graphics Window's graphics
+   */
+  public void draw(Graphics2D graphics) {
+    Objects.requireNonNull(graphics);
+    if (pos == null) throw new IllegalStateException("setPosition must be called once before draw.");
+
+    graphics.setColor(fillColor);
     int square = ViewWindow.squareSize();
 
-    // Draw main color
+    drawFill(graphics, square);
+    drawBorderIn(graphics, square);
+    drawBorderOut(graphics, square);
+  }
+
+  /**
+   * Draw the main color.
+   * @param graphics Window's graphics
+   * @param square Size of each square of the patch
+   */
+  private void drawFill(Graphics2D graphics, int square) {
     for (int x = 0; x < patch.width(); x++) {
       for (int y = 0; y < patch.height(); y++) {
         if (patch.getTile(x, y)) {
@@ -46,67 +127,49 @@ final class PatchView {
         }
       }
     }
-
-    // Draw internal borders
+  }
+  
+  /**
+   * Draw the borders inside.
+   * @param graphics Window's graphics
+   * @param square Size of each square of the patch
+   */
+  private void drawBorderIn(Graphics2D graphics, int square) {
     for (int x = 0; x <= patch.width(); x++) {
       for (int y = 0; y <= patch.height(); y++) {
         final Vector v = pos.add(x * square, y * square);
         // Horizontal borders
         if (x < patch.width() && patch.getTile(x, y - 1) && patch.getTile(x, y)) {
-          HelpWindow.drawLine(graphics, BORDER_IN_COLOR, v, square, BORDER_IN_SIZE, true);
+          HelpWindow.drawLine(graphics, borderInColor, v, square, BORDER_IN_SIZE, true);
         }
         // Vertical borders
         if (y < patch.height() && patch.getTile(x - 1, y) && patch.getTile(x, y)) {
-            HelpWindow.drawLine(graphics, BORDER_IN_COLOR, v, square, BORDER_IN_SIZE, false);
+            HelpWindow.drawLine(graphics, borderInColor, v, square, BORDER_IN_SIZE, false);
         }
       }
     }
 
-    // Draw external borders
+  }
+  
+  /**
+   * Draw the external borders.
+   * @param graphics Window's graphics
+   * @param square Size of each square of the patch
+   */
+  private void drawBorderOut(Graphics2D graphics, int square) {
     for (int x = 0; x <= patch.width(); x++) {
       for (int y = 0; y <= patch.height(); y++) {
         final Vector v = pos.add(x * square, y * square);
         // Horizontal borders
         if (x < patch.width() && patch.getTile(x, y - 1) ^ patch.getTile(x, y)) {
-          HelpWindow.drawLine(graphics, BORDER_COLOR, v, square, BORDER_SIZE, true);
+          HelpWindow.drawLine(graphics, borderColor, v, square, BORDER_SIZE, true);
         }
         // Vertical borders
         if (y < patch.height() && patch.getTile(x - 1, y) ^ patch.getTile(x, y)) {
-            HelpWindow.drawLine(graphics, BORDER_COLOR, v, square, BORDER_SIZE, false);
+            HelpWindow.drawLine(graphics, borderColor, v, square, BORDER_SIZE, false);
         }
       }
     }
   }
-
-  /**
-   * Draw a patch on the window, centered on given position.
-   * @param graphics Window's graphics
-   * @param patch What to draw
-   * @param pos Where to draw the center
-   */
-  public static void drawPatchCenter(Graphics2D graphics, Patch patch, Vector pos) {
-    Objects.requireNonNull(graphics);
-    Objects.requireNonNull(patch);
-    Objects.requireNonNull(pos);
-
-    int square = ViewWindow.squareSize();
-    drawPatch(
-        graphics,
-        patch,
-        pos.add(-square * patch.width() / 2, -square * patch.height() / 2));
-  }
   
-  /**
-   * Draw a patch to fit inside a box, centered.
-   * @param graphics Window's graphics
-   * @param patch To draw
-   * @param rect The box to draw the patch
-   */
-  public static void drawPatchInside(Graphics2D graphics, Patch patch, Rect rect) {
-    Objects.requireNonNull(graphics);
-    Objects.requireNonNull(patch);
-    Objects.requireNonNull(rect);
-
-    drawPatchCenter(graphics, patch, rect.pos().add(rect.size().multiply(0.5f)));
-  }
 }

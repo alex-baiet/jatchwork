@@ -59,15 +59,14 @@ final class QuiltBoardView {
 
     // Draw contained patches
     for (PatchCoord patchCoord : board.patches()) {
-      PatchView.drawPatch(graphics, patchCoord.patch(), pos.add(patchCoord.pos().multiply(square)));
+      final var view = new PatchView(patchCoord.patch(), pos.add(patchCoord.pos().multiply(square)));
+      view.draw(graphics);
     }
-    
+
     // Draw selected patch
     if (patchSetter != null && patchSetter.position() != null) {
-      PatchView.drawPatch(
-          graphics,
-          patchSetter.patch(),
-          pos.add(patchSetter.position().multiply(square)));
+      final var view = new PatchView(patchSetter.patch(), pos.add(patchSetter.position().multiply(square)));
+      view.draw(graphics);
     }
   }
 

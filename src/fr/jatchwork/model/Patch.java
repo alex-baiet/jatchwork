@@ -75,6 +75,14 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
       return false;
     return shape.get(x).get(y);
   }
+  
+  /**
+   * The size of a patch.
+   * @return Size
+   */
+  public Vector size() {
+    return new Vector(width(), height());
+  }
 
   /**
    * The horizontal size of a patch.

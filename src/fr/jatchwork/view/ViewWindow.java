@@ -228,7 +228,9 @@ public final class ViewWindow {
     Vector textPos = new Vector(rect.x() + rect.height() + marginText.x(), rect.y() + marginText.y());
     if (patch != null) {
       // Draw patch
-      PatchView.drawPatchCenter(graphics, patch, new Vector(rect.x() + rect.height() / 2, rect.y() + rect.height() / 2));
+      final var view = new PatchView(patch);
+      view.centerPosition(new Rect(rect.x(), rect.y(), rect.height(), rect.height()));
+      view.draw(graphics);
       // Draw informative text
       graphics.setColor(Color.WHITE);
       HelpWindow.drawText(graphics,
@@ -264,7 +266,9 @@ public final class ViewWindow {
       HelpWindow.drawButton(graphics, buttons[i]);
       
       // Draw patch inside button
-      PatchView.drawPatchInside(graphics, game.getPatch(i), buttons[i].rect());
+      final var view = new PatchView(game.getPatch(i));
+      view.centerPosition(buttons[i].rect());
+      view.draw(graphics);
     }
   }
   
