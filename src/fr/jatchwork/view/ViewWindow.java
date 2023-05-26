@@ -229,7 +229,7 @@ public final class ViewWindow {
     if (patch != null) {
       // Draw patch
       final var view = new PatchView(patch);
-      view.centerPosition(new Rect(rect.x(), rect.y(), rect.height(), rect.height()));
+      view.fitRect(new Rect(rect.x(), rect.y(), rect.height(), rect.height()));
       view.draw(graphics);
       // Draw informative text
       graphics.setColor(Color.WHITE);
@@ -270,7 +270,7 @@ public final class ViewWindow {
       // Draw patch inside button
       final Patch patch = game.getPatch(i);
       final var view = new PatchView(patch);
-      view.centerPosition(buttons[i].rect());
+      view.fitRect(buttons[i].rect());
       if (!game.playing().canBuyPatch(patch)) {
         view.setColors(PatchColor.TRANSPARENT_COLORS);
       }

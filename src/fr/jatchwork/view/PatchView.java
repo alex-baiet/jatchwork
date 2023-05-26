@@ -20,6 +20,7 @@ final class PatchView {
   private Color fillColor = Color.GRAY;
   private Color borderColor = Color.WHITE;
   private Color borderInColor = Color.LIGHT_GRAY;
+  private int size;
 
   /**
    * Create a new patch.
@@ -38,6 +39,7 @@ final class PatchView {
   public PatchView(Patch patch, Vector pos) {
     this.patch = patch;
     this.pos = pos;
+    this.size = ViewWindow.squareSize();
   }
 
   /**
@@ -59,12 +61,24 @@ final class PatchView {
       .add(
           rect.size().sub(
               patch.size().multiply(
-                  ViewWindow.squareSize()
+                  size
               )
           ).multiply(
               0.5f
           )
       );
+  }
+  
+  /**
+   * Reduce size and update position to fit and be drawn in the center of the rectangle.
+   * @param rect
+   */
+  public void fitRect(Rect rect) {
+    int height = rect.height() / patch.height();
+    int width = rect.width() / patch.width();
+    if (height < size) size = height;
+    if (width < size) size = width;
+    centerPosition(rect);
   }
   
   public void setColors(PatchColor colors) {
@@ -100,7 +114,7 @@ final class PatchView {
     Objects.requireNonNull(color);
     borderInColor = color;
   }
-  
+
   /**
    * Draw the patch.
    * @param graphics Window's graphics
@@ -110,11 +124,10 @@ final class PatchView {
     if (pos == null) throw new IllegalStateException("setPosition must be called once before draw.");
 
     graphics.setColor(fillColor);
-    int square = ViewWindow.squareSize();
 
-    drawFill(graphics, square);
-    drawBorderIn(graphics, square);
-    drawBorderOut(graphics, square);
+    drawFill(graphics, size);
+    drawBorderIn(graphics, size);
+    drawBorderOut(graphics, size);
   }
 
   /**
