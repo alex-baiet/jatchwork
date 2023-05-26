@@ -64,15 +64,7 @@ public final class ControlWindow {
           // Buy button
           new Button(
               () -> {
-                final Game game = Game.instance();
-                final Player player = game.player(ii);
-                if (patchSetter != null
-                    && game.playing() == player
-                    && player.board().fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y()))
-                {
-                  player.buyPatch(patchSetter.patchNum(), patchSetter.patch(), patchSetter.position());
-                  patchSetter = null;
-                }
+                playerBuyPatch(Game.instance().player(ii));
               },
               null, "Buy patch", ViewWindow.FONT));
     }
@@ -189,12 +181,59 @@ public final class ControlWindow {
    */
   private static void updateBtns() {
     final Game game = Game.instance();
+    final Player player = game.playing();
+    if (player.leatherCount() > 0 && patchSetter == null) {
+      // Player must place a leather patch
+      btnEndTurn.setActive(false);
+      for (Button btn : patchButtons) {
+        btn.setActive(false);
+      }
+      patchSetter = new PatchSetter(player.board(), Patch.LEATHER);
+      final var btn = playerBtns[player.numero()-1].buy();
+      btn.setHandler(() -> playerPlaceLeather(btn, player));
+    }
+
     if (game.finished()) {
       // Now end turn button while quit the game
       btnEndTurn.setHandler(() -> System.exit(0));
       btnEndTurn.setText("Quit game");
     }
   }
-  
+
+  /**
+   * Buy a patch.
+   * @param player Player
+   */
+  private static void playerBuyPatch(Player player) {
+    final Game game = Game.instance();
+    if (patchSetter != null
+        && game.playing() == player
+        && player.board().fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y()))
+    {
+      player.buyPatch(patchSetter.patchNum(), patchSetter.patch(), patchSetter.position());
+      patchSetter = null;
+    }
+  }
+
+  /**
+   * Place a leather patch, then change button handler to playerBuyPatch.
+   * @param btnBuy The button clicked
+   * @param player Player
+   */
+  private static void playerPlaceLeather(Button btnBuy, Player player) {
+    if (player.board().fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y())) {
+      player.buyPatch(patchSetter.patch(), patchSetter.position());
+      patchSetter = null;
+      player.removeLeather();
+
+      // Reactivate buttons
+      btnEndTurn.setActive(true);
+      for (Button btn : patchButtons) {
+        btn.setActive(true);
+      }
+      btnBuy.setHandler(() -> playerBuyPatch(player));
+    }
+  }
+
   private ControlWindow() { }
 }

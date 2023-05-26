@@ -255,8 +255,10 @@ public final class ViewWindow {
     Objects.requireNonNull(rect);
     final Game game = Game.instance();
     final int butSize = rect.width() / 3;
-    Button[] buttons = ControlWindow.patchButtons();
+    final Button[] buttons = ControlWindow.patchButtons();
+
     for (int i = 0; i < buttons.length; i++) {
+      if (!buttons[i].active()) continue;
       // Draw button patch
       buttons[i].setRect(new Rect(
           rect.x() + butSize * i,

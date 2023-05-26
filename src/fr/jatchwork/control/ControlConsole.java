@@ -72,6 +72,14 @@ public final class ControlConsole {
       System.out.println("Please enter a choice listed below :\n");
     }
     };
+
+    // Place leather patches
+    final var player = Game.instance().playing();
+    while (player.leatherCount() > 0) {
+      player.buyPatch(Patch.LEATHER);
+      player.removeLeather();
+    }
+
     ViewConsole.displayMenu();
   }
 

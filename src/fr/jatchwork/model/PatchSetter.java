@@ -24,6 +24,15 @@ public class PatchSetter {
     this.pos = null;
   }
   
+  public PatchSetter(QuiltBoard board, Patch patch) {
+    Objects.requireNonNull(board);
+    Objects.requireNonNull(patch);
+    this.board = board;
+    this.patchNum = -1;
+    this.patch = patch;
+    this.pos = null;
+  }
+  
   /**
    * Where to place the patch.
    * @return Quilt board

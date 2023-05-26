@@ -11,7 +11,8 @@ public final class Player {
   private int buttonCount;
   private int position = 0;
   private boolean bonus = false;
-  
+  private int leatherCount = 0;
+
   /**
    * Create a new player
    * @param num His number, only used for display
@@ -55,6 +56,14 @@ public final class Player {
   public boolean hasBonus() { return bonus; }
   
   /**
+   * Number of leather the player can place before ending his turn.
+   * @return Number of leather patch.
+   */
+  public int leatherCount() { return leatherCount; }
+  
+  public void removeLeather() { leatherCount--; }
+  
+  /**
    * End the turn of a player.
    */
   public void endTurn() {
@@ -96,32 +105,54 @@ public final class Player {
 
   /**
    * Buy a patch and place it the the player's quilt board.
-   * @param numPatch Numero of the patch to bought.
-   * @param x X position in the quiltboard.
-   * @param y Y position in the quiltboard.
+   * @param numPatch Number of the patch to buy
+   * @param patch Patch to place
+   * @param pos Position of the patch on the quilt board
    */
   public void buyPatch(int numPatch, Patch patch, Vector pos) {
-    Game game = Game.instance();
-    // Buy the patch
-    game.buyPatch(numPatch);
-
-    // Place on the quiltboard
-    addPatch(patch, pos);
-
-    buttonCount -= patch.buttonCost();
-    if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
-    move(patch.timeCost());
+    Objects.requireNonNull(patch);
+    Objects.requireNonNull(pos);
+    Game.instance().buyPatch(numPatch);
+    buyPatch(patch, pos);
   }
 
   /**
    * Buy a patch and place it automatically on the quiltboard.
-   * @param numPatch Patch to buy.
+   * @param numPatch Patch to buy and place
    */
   public void buyPatch(int numPatch) {
     Patch patch = Game.instance().getPatch(numPatch);
     Vector coord = board.findSpace(patch);
     if (coord == null) throw new RuntimeException("No place available to place patch.");
     buyPatch(numPatch, Game.instance().getPatch(numPatch), coord);
+  }
+
+  /**
+   * Buy a patch and place it automatically on the quilt board.
+   * @param numPatch Patch to buy
+   */
+  public void buyPatch(Patch patch) {
+    Objects.requireNonNull(patch);
+    Vector coord = board.findSpace(patch);
+    if (coord == null) throw new RuntimeException("No place available to place patch.");
+    buyPatch(patch, coord);
+  }
+
+  /**
+   * Buy a patch and place it on the quilt board.
+   * @param patch Patch to place
+   * @param pos Position of the patch in the quilt board
+   */
+  public void buyPatch(Patch patch, Vector pos) {
+    Objects.requireNonNull(patch);
+    Objects.requireNonNull(pos);
+    // Place on the quilt board
+    addPatch(patch, pos);
+
+    // Pay for the patch
+    buttonCount -= patch.buttonCost();
+    if (buttonCount < 0) throw new RuntimeException("Player bought an overpriced patch.");
+    move(patch.timeCost());
   }
 
   /**
@@ -132,6 +163,7 @@ public final class Player {
    */
   private void addPatch(Patch patch, Vector pos) {
     Objects.requireNonNull(patch);
+    Objects.requireNonNull(pos);
     board.add(patch, pos.x(), pos.y());
     if (board.fillBonus()) {
       bonus = Game.instance().getBonusFull();
@@ -175,18 +207,14 @@ public final class Player {
    */
   private int move(int tileCount) {
     var timeBoard = Game.instance().timeBoard();
-    
+
     // Button incomes
     var incomes = timeBoard.containsIncome(position, position + tileCount);
     buttonCount += incomes * board.buttonIncome();
-    
+
     // Leathers patches
-    var leathers = timeBoard.getLeathers(position, position + tileCount);
-    for (int i = 0; i < leathers; i++) {
-      Vector pos = board.findSpace(Patch.LEATHER);
-      addPatch(Patch.LEATHER, pos);
-    }
-    
+    leatherCount += timeBoard.getLeathers(position, position + tileCount);
+
     if (position + tileCount >= timeBoard.size()) {
       tileCount -= timeBoard.size() - position - 1;
     }

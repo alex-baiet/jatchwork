@@ -262,7 +262,7 @@ public final class Game {
    */
   public boolean finished() {
     for (Player player : players) {
-      if (player.position() < timeBoard.size()-1) return false;
+      if (player.position() < timeBoard.size()-1 || player.leatherCount() > 0) return false;
     }
     return true;
   }
@@ -283,6 +283,7 @@ public final class Game {
    */
   public Player playing() {
     Player opponent = players[0] == playing ? players[1] : players[0];
+    if (playing.leatherCount() > 0) return playing;
     if (opponent.position() < playing.position()) {
       playing = opponent;
     }
