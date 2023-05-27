@@ -41,11 +41,12 @@ public final class PatchBuilder {
    */
   private static Patch nextPatch(BufferedReader reader) throws IOException {
     Objects.requireNonNull(reader);
-    String line = reader.readLine();
+    String line;
+    for (line = reader.readLine(); line != null && line.isEmpty(); line = reader.readLine()) { }
     if (line == null) return null;
 
     final var builder = new PatchBuilder();
-    String[] args = line.split(",");
+    String[] args = line.split(" ");
     builder.setTimeCost(Integer.parseInt(args[0]));
     builder.setButtonCost(Integer.parseInt(args[1]));
     builder.setButtonIncome(Integer.parseInt(args[2]));

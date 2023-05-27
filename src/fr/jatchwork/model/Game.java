@@ -266,6 +266,7 @@ public final class Game {
    */
   private Game(int phase, List<Patch> patches) {
     this(phase);
+    Collections.shuffle(patches);
     this.patches = new ArrayDeque<Patch>(Objects.requireNonNull(patches));
   }
 
