@@ -1,6 +1,6 @@
 package fr.jatchwork.control;
 
-public class PlayerButtons {
+public final class PlayerButtons {
   private final Button rotate;
   private final Button flip;
   private final Button buy;

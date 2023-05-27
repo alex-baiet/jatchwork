@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Used to place a patch on a quilt board.
  */
-public class PatchSetter {
+public final class PatchSetter {
   private final QuiltBoard board;
   private Patch patch;
   private Vector pos;
