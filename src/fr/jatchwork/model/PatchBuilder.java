@@ -40,6 +40,7 @@ public final class PatchBuilder {
    * @throws IOException Error when reading the file
    */
   private static Patch nextPatch(BufferedReader reader) throws IOException {
+    Objects.requireNonNull(reader);
     String line = reader.readLine();
     if (line == null) return null;
 

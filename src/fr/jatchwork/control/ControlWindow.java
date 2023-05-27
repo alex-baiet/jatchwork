@@ -165,6 +165,7 @@ public final class ControlWindow {
    * @param event User event
    */
   private static void manageEvent(Event event) {
+    Objects.requireNonNull(event);
     switch (event.getAction()) {
     case POINTER_DOWN -> {
       var pos = event.getLocation();
@@ -207,8 +208,10 @@ public final class ControlWindow {
    * @param player Player
    */
   private static void playerBuyPatch(Player player) {
+    Objects.requireNonNull(player);
     final Game game = Game.instance();
     if (patchSetter != null
+        && patchSetter.position() != null
         && game.playing() == player
         && player.board().fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y()))
     {
@@ -223,7 +226,14 @@ public final class ControlWindow {
    * @param player Player
    */
   private static void playerPlaceLeather(Button btnBuy, Player player) {
-    if (player.board().fit(patchSetter.patch(), patchSetter.position().x(), patchSetter.position().y())) {
+    Objects.requireNonNull(btnBuy);
+    Objects.requireNonNull(player);
+    if (patchSetter.position() != null
+        && player.board().fit(
+            patchSetter.patch(),
+            patchSetter.position().x(),
+            patchSetter.position().y()))
+    {
       player.buyPatch(patchSetter.patch(), patchSetter.position());
       patchSetter = null;
       player.removeLeather();

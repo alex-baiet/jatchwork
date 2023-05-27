@@ -53,8 +53,8 @@ public final class ViewWindow {
    * @param info Contains all required informations for initialization
    */
   public static void setScreenInfo(ScreenInfo info) {
+    Objects.requireNonNull(info);
     ViewWindow.info = info;
-    
     squareSize = (int)info.getWidth() / 40;
   }
 
@@ -131,6 +131,9 @@ public final class ViewWindow {
   }
   
   private static void drawQuiltBoard(Graphics2D graphics, Player player, Vector pos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(player);
+    Objects.requireNonNull(pos);
     final var patchSetter = ControlWindow.patchSetter();
     QuiltBoardView.drawQuiltBoard(graphics, player.board(), pos,
         patchSetter != null && patchSetter.board() == player.board() ? patchSetter : null);
@@ -149,6 +152,9 @@ public final class ViewWindow {
    * @param player Target player
    */
   private static void drawPlayerActionTitle(Graphics2D graphics, Vector pos, Player player) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(pos);
+    Objects.requireNonNull(player);
     final Game game = Game.instance();
     if (game.finished()) {
       if (game.winningPlayer() == player) {
@@ -167,6 +173,9 @@ public final class ViewWindow {
   }
   
   private static void displayPlayerBtns(Graphics2D graphics, PlayerButtons btns, Rect rect, int margin) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(btns);
+    Objects.requireNonNull(rect);
     final int widthBtn = (rect.width() - margin) / 2;
     // Define buttons positions and size
     btns.buy().setRect(new Rect(rect.x(), rect.y(), rect.width(), rect.height()));

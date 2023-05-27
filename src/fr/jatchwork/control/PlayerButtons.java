@@ -1,17 +1,11 @@
 package fr.jatchwork.control;
 
-public final class PlayerButtons {
-  private final Button rotate;
-  private final Button flip;
-  private final Button buy;
+import java.util.Objects;
 
-  public PlayerButtons(Button rotate, Button flip, Button buy) {
-    this.rotate = rotate;
-    this.flip = flip;
-    this.buy = buy;
+public record PlayerButtons(Button rotate, Button flip, Button buy) {
+  public PlayerButtons {
+    Objects.requireNonNull(rotate);
+    Objects.requireNonNull(flip);
+    Objects.requireNonNull(buy);
   }
-
-  public Button rotate() { return rotate; }
-  public Button flip() { return flip; }
-  public Button buy() { return buy; }
 }

@@ -49,7 +49,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * @param shape Shape of the patch
    */
   public Patch(int timeCost, int buttonCost, int buttonIncome, boolean[][] shape) {
-    this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
+    this(timeCost, buttonCost, buttonIncome, toImmutable(Objects.requireNonNull(shape)));
   }
 
   /**
@@ -60,7 +60,7 @@ public record Patch(int timeCost, int buttonCost, int buttonIncome, List<List<Bo
    * @param shape Shape of the patch. Use '#' to fill a square and '.' to let a square empty.
    */
   public Patch(int timeCost, int buttonCost, int buttonIncome, String shape) {
-    this(timeCost, buttonCost, buttonIncome, toImmutable(shape));
+    this(timeCost, buttonCost, buttonIncome, toImmutable(Objects.requireNonNull(shape)));
   }
 
   /**

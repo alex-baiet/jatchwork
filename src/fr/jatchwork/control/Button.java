@@ -107,6 +107,7 @@ public final class Button {
    * @param rect New rectangle
    */
   public void setRect(Rect rect) {
+    Objects.requireNonNull(rect);
     this.rect = rect;
   }
   
@@ -115,6 +116,7 @@ public final class Button {
   public Font font() { return font; }
 
   public void setText(String text) {
+    Objects.requireNonNull(text);
     this.text = text;
   }
 }

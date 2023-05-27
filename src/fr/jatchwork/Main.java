@@ -1,6 +1,7 @@
 package fr.jatchwork;
 
 import java.awt.Color;
+import java.util.Objects;
 
 import fr.jatchwork.control.ControlConsole;
 import fr.jatchwork.control.ControlWindow;
@@ -50,6 +51,7 @@ public final class Main {
    * @param context Window's context
    */
   private static void run(ApplicationContext context) {
+    Objects.requireNonNull(context);
     ViewWindow.setScreenInfo(context.getScreenInfo());
 
     while (true) {

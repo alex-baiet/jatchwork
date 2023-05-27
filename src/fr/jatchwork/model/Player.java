@@ -91,6 +91,7 @@ public final class Player {
    * @return True if it can be bought
    */
   public boolean canBuyPatch(Patch patch) {
+    Objects.requireNonNull(patch);
     return patch.buttonCost() <= buttonCount;
   }
   
@@ -100,6 +101,7 @@ public final class Player {
    * @return True if there is available space, false otherwise.
    */
   public boolean canPlacePatch(Patch patch) {
+    Objects.requireNonNull(patch);
     return board.findSpace(patch) != null;
   }
 

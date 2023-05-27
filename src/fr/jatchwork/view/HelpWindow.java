@@ -167,6 +167,10 @@ final class HelpWindow {
    * @param fillColor Color inside the rectangle
    */
   public static void drawRect(Graphics2D graphics, Rect rect, int borderSize, Color borderColor, Color fillColor) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(rect);
+    Objects.requireNonNull(borderColor);
+    Objects.requireNonNull(fillColor);
     graphics.setColor(borderColor);
     // TODO: to optimize the draw, use drawRect in a loop instead to draw the border
     graphics.fillRect(rect.x(), rect.y(), rect.width(), rect.height());

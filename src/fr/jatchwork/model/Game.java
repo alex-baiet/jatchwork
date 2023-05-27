@@ -266,7 +266,7 @@ public final class Game {
    */
   private Game(int phase, List<Patch> patches) {
     this(phase);
-    this.patches = new ArrayDeque<Patch>(patches);
+    this.patches = new ArrayDeque<Patch>(Objects.requireNonNull(patches));
   }
 
   /**

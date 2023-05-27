@@ -67,6 +67,9 @@ final class TimeBoardView {
    * @param board The board being drawn
    */
   private static void drawPatches(Graphics2D graphics, Vector boardPos, TimeBoard board) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(boardPos);
+    Objects.requireNonNull(board);
     final int leatherSize = (int)(ViewWindow.squareSize() * 0.8f);
     for (int i = 1; i < board.size(); i++) {
       if (board.containsLeathers(i-1, i) > 0) {
@@ -83,6 +86,8 @@ final class TimeBoardView {
    * @param boardPos Position of the board
    */
   private static void drawPlayers(Graphics2D graphics, Vector boardPos) {
+    Objects.requireNonNull(graphics);
+    Objects.requireNonNull(boardPos);
     final int square = ViewWindow.squareSize();
     final Game game = Game.instance();
     final int sizePlayer = (int)(square * 0.4f);

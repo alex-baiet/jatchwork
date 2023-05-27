@@ -16,7 +16,6 @@ public final class TimeBoard {
    * @param leatherPatchPos Position of all leather patches
    */
   public TimeBoard(int size, int[] incomesPos, int[] leatherPatchPos) {
-    Objects.requireNonNull(size);
     Objects.requireNonNull(incomesPos);
     Objects.requireNonNull(leatherPatchPos);
 

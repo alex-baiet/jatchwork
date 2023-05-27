@@ -37,7 +37,7 @@ final class PatchView {
    * @param pos
    */
   public PatchView(Patch patch, Vector pos) {
-    this.patch = patch;
+    this.patch = Objects.requireNonNull(patch);
     this.pos = pos;
     this.size = ViewWindow.squareSize();
   }
@@ -74,6 +74,7 @@ final class PatchView {
    * @param rect
    */
   public void fitRect(Rect rect) {
+    Objects.requireNonNull(rect);
     int height = rect.height() / patch.height();
     int width = rect.width() / patch.width();
     if (height < size) size = height;
@@ -136,6 +137,7 @@ final class PatchView {
    * @param square Size of each square of the patch
    */
   private void drawFill(Graphics2D graphics, int square) {
+    Objects.requireNonNull(graphics);
     for (int x = 0; x < patch.width(); x++) {
       for (int y = 0; y < patch.height(); y++) {
         if (patch.getTile(x, y)) {
@@ -155,6 +157,7 @@ final class PatchView {
    * @param square Size of each square of the patch
    */
   private void drawBorderIn(Graphics2D graphics, int square) {
+    Objects.requireNonNull(graphics);
     for (int x = 0; x <= patch.width(); x++) {
       for (int y = 0; y <= patch.height(); y++) {
         final Vector v = pos.add(x * square, y * square);
@@ -177,6 +180,7 @@ final class PatchView {
    * @param square Size of each square of the patch
    */
   private void drawBorderOut(Graphics2D graphics, int square) {
+    Objects.requireNonNull(graphics);
     for (int x = 0; x <= patch.width(); x++) {
       for (int y = 0; y <= patch.height(); y++) {
         final Vector v = pos.add(x * square, y * square);
