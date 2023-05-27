@@ -1,9 +1,13 @@
 package fr.jatchwork.control;
 
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 import fr.jatchwork.model.Game;
 import fr.jatchwork.model.Patch;
+import fr.jatchwork.model.PatchBuilder;
 import fr.jatchwork.model.Player;
 import fr.jatchwork.view.ViewConsole;
 
@@ -17,16 +21,39 @@ public final class ControlConsole {
    * Display a dialog and wait for input to choose the version of the game.
    * @return Choosen version.
    */
-  public static int chooseVersion() {
-    while (true) {
+  public static int initVersion() {
+    // Ask version
+    int version = 0;
+    while (version < 1 || version > 4) {
       System.out.println("Which version of the game do you want to play ?");
       System.out.println("1. Base version");
       System.out.println("2. Full version");
       System.out.println("3. Graphical version");
-      //System.out.println("4. Custom version");
-      int version = scanner.nextInt();
-      if (version >=1 && version <= 3) return version;
+      System.out.println("4. Custom version");
+      version = scanner.nextInt();
     }
+
+    if (version == 4) {
+      while (Game.instance() == null) {
+        // Ask patches file
+        System.out.println("This version require a file of patches.");
+        System.out.println("Specify the path of this file :");
+        final var path = Path.of(scanner.next());
+        try {
+          Game.initGame(version, PatchBuilder.fromFile(path));
+        } catch (NoSuchFileException e) {
+          System.out.printf("The file %s does not exist or is not a file.\n", e.getMessage());
+        } catch (IOException e) {
+          System.out.println(e.getMessage());
+        } catch (Exception e) {
+          System.out.println("Malformed file. Please fix the file or specify another one.");
+        }
+      }
+    } else {
+      Game.initGame(version);
+    }
+
+    return version;
   }
 
   /**

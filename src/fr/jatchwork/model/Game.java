@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -33,6 +35,16 @@ public final class Game {
   public static void initGame(int phase) {
     if (instance != null) throw new RuntimeException("An instance of Game already exist.");
     instance = new Game(phase);
+  }
+
+  /**
+   * Create the instance if it does not exists.
+   * @param phase The current phase to initialize the game.
+   */
+  public static void initGame(int phase, List<Patch> patches) {
+    Objects.requireNonNull(patches);
+    if (instance != null) throw new RuntimeException("An instance of Game already exist.");
+    instance = new Game(phase, patches);
   }
 
   /**
@@ -242,8 +254,19 @@ public final class Game {
     switch (phase) {
     case 1 -> patches = generatePatches1();
     case 2, 3 -> patches = generatePatches2();
+    case 4 -> { }
     default -> throw new IllegalArgumentException("Unexpected phase: " + phase);
     }
+  }
+  
+  /**
+   * Create a new game data.
+   * @param phase Version chosen by the user
+   * @param patches Custom list of patches
+   */
+  private Game(int phase, List<Patch> patches) {
+    this(phase);
+    this.patches = new ArrayDeque<Patch>(patches);
   }
 
   /**

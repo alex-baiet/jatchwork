@@ -20,8 +20,7 @@ public final class Main {
    */
   public static void main(String[] args) {
     // Choose game version
-    int version = ControlConsole.chooseVersion();
-    Game.initGame(version);
+    int version = ControlConsole.initVersion();
 
     switch (version) {
     case 1, 2 -> {
