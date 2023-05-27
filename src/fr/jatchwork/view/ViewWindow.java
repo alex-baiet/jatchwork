@@ -203,7 +203,8 @@ public final class ViewWindow {
     // Patch list
     posY += selectedHeight;
     final int choiceHeight = squareSize * 4 + 4;
-    displayPatchList(graphics, new Rect(rect.x(), posY, rect.width(), choiceHeight));
+    final Vector margin = new Vector(20, 40);
+    displayPatchList(graphics, new Rect(rect.x() + margin.x(), posY + margin.y(), rect.width() - margin.x() * 2, choiceHeight));
     
     // End turn button
     drawBtnEndTurn(graphics, rect);
@@ -256,6 +257,7 @@ public final class ViewWindow {
     final Game game = Game.instance();
     final int butSize = rect.width() / 3;
     final Button[] buttons = ControlWindow.patchButtons();
+    final int patchMargin = 10;
 
     for (int i = 0; i < buttons.length; i++) {
       if (!buttons[i].active()) continue;
@@ -268,13 +270,16 @@ public final class ViewWindow {
       HelpWindow.drawButton(graphics, buttons[i]);
       
       // Draw patch inside button
-      final Patch patch = game.getPatch(i);
-      final var view = new PatchView(patch);
-      view.fitRect(buttons[i].rect());
-      if (!game.playing().canBuyPatch(patch)) {
-        view.setColors(PatchColor.TRANSPARENT_COLORS);
+      if (game.patchCount() > i) {
+        final Patch patch = game.getPatch(i);
+        final var view = new PatchView(patch);
+        final Rect r = buttons[i].rect();
+        view.fitRect(new Rect(r.x() + patchMargin, r.y() + patchMargin, r.width() - patchMargin * 2, r.height() - patchMargin * 2));
+        if (!game.playing().canBuyPatch(patch)) {
+          view.setColors(PatchColor.TRANSPARENT_COLORS);
+        }
+        view.draw(graphics);
       }
-      view.draw(graphics);
     }
   }
   

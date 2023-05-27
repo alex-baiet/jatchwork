@@ -119,6 +119,7 @@ public final class ControlWindow {
    */
   public static void selectPatch(int i) {
     final Game game = Game.instance();
+    if (game.patchCount() <= i) return;
     patchSetter = new PatchSetter(game.playing().board(), i);
   }
 
@@ -190,6 +191,7 @@ public final class ControlWindow {
       }
       patchSetter = new PatchSetter(player.board(), Patch.LEATHER);
       final var btn = playerBtns[player.numero()-1].buy();
+      btn.setText("Place patch");
       btn.setHandler(() -> playerPlaceLeather(btn, player));
     }
 
@@ -231,6 +233,7 @@ public final class ControlWindow {
       for (Button btn : patchButtons) {
         btn.setActive(true);
       }
+      btnBuy.setText("Buy patch");
       btnBuy.setHandler(() -> playerBuyPatch(player));
     }
   }
