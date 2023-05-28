@@ -40,6 +40,7 @@ public final class Game {
   /**
    * Create the instance if it does not exists.
    * @param phase The current phase to initialize the game.
+   * @param patches All the patches of the game.
    */
   public static void initGame(int phase, List<Patch> patches) {
     Objects.requireNonNull(patches);

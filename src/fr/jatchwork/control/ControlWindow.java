@@ -106,8 +106,8 @@ public final class ControlWindow {
   /**
    * Buttons of each square inside a quilt board.
    * Those are used to position a patch inside the quilt board.
-   * @param i
-   * @return
+   * @param i Index for the player owner
+   * @return All buttons of the quilt board
    */
   public static Button[][] quiltBoardBtns(int i) {
     return quiltBoardBtns[i];
@@ -137,6 +137,11 @@ public final class ControlWindow {
    */
   public static Button btnEndTurn() { return btnEndTurn; }
 
+  /**
+   * The buttons used to flip, rotate and validate placement of patches for a player.
+   * @param i Index of the player
+   * @return The buttons
+   */
   public static PlayerButtons playerBtn(int i) { return playerBtns[i]; }
 
   /**

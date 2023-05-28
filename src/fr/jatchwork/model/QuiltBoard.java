@@ -9,6 +9,7 @@ import java.util.Objects;
  * Also compute button income and score.
  */
 public final class QuiltBoard {
+  /** Default size of a quilt board. */
   public static final int SIZE = 9;
   private static final int BONUS_SIZE = 7;
   

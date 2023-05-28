@@ -24,6 +24,11 @@ public final class PatchSetter {
     this.pos = null;
   }
   
+  /**
+   * Create a new patch setter, not relative to a patch of the game's list.
+   * @param board Where to place the patch
+   * @param patch The patch
+   */
   public PatchSetter(QuiltBoard board, Patch patch) {
     Objects.requireNonNull(board);
     Objects.requireNonNull(patch);
@@ -61,7 +66,7 @@ public final class PatchSetter {
   
   /**
    * Change position of the patch on the quilt board
-   * @param pos
+   * @param pos New position
    */
   public void setPosition(Vector pos) {
     this.pos = pos;

@@ -19,10 +19,13 @@ import fr.umlv.zen5.ScreenInfo;
  * Manage display for windowed versions.
  */
 public final class ViewWindow {
+  /** The main color of player n°1 (cyan). */
   public static final Color PLAYER1_COLOR = Color.CYAN;
+  /** The main color of player n°2 (purple). */
   public static final Color PLAYER2_COLOR = new Color(0x9a39ff); // purple
   
   private static final int FONT_SIZE = 40;
+  /** Default font for every texts. */
   public static final Font FONT = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(FONT_SIZE));
   private static final Font FONT_TITLE = new Font("Arial", Font.PLAIN, HelpWindow.pixelToPoint(80));
   private static final Font FONT_ACTION = new Font("Arial", Font.BOLD, HelpWindow.pixelToPoint(60));
@@ -34,19 +37,19 @@ public final class ViewWindow {
    * Width of the window.
    * @return Width
    */
-  public static int width() { return (int)info.getWidth(); }
+  static int width() { return (int)info.getWidth(); }
 
   /**
    * Height of the window
    * @return height
    */
-  public static int height() { return (int)info.getHeight(); }
+  static int height() { return (int)info.getHeight(); }
 
   /**
    * Size of a square for patches, time board and quilt board.
    * @return Square's size.
    */
-  public static int squareSize() { return squareSize; }
+  static int squareSize() { return squareSize; }
 
   /**
    * Give information about the window to initialize ViewWindow.

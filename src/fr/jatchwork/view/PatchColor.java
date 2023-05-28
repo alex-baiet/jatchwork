@@ -5,6 +5,9 @@ import java.util.Objects;
 
 /**
  * To store a set of color for a patch.
+ * @param fillColor Main color
+ * @param borderColor External Borders color
+ * @param borderInColor Internal borders color
  */
 public record PatchColor(Color fillColor, Color borderColor, Color borderInColor) {
   /**

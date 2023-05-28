@@ -46,8 +46,10 @@ public final class Button {
 
   /**
    * Create a new Button.
-   * @param rect The rectangle covered by the button on the window.
    * @param handler task to execute when clicked
+   * @param rect The rectangle covered by the button on the window
+   * @param text Text of the button
+   * @param font Font for the text
    */
   public Button(Runnable handler, Rect rect, String text, Font font) {
     Objects.requireNonNull(handler);
@@ -111,10 +113,22 @@ public final class Button {
     this.rect = rect;
   }
   
+  /**
+   * Button's text.
+   * @return The text
+   */
   public String text() { return text; }
   
+  /**
+   * Text's font.
+   * @return The font
+   */
   public Font font() { return font; }
 
+  /**
+   * Change the button's text.
+   * @param text New button's text.
+   */
   public void setText(String text) {
     Objects.requireNonNull(text);
     this.text = text;

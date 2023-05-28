@@ -61,6 +61,9 @@ public final class Player {
    */
   public int leatherCount() { return leatherCount; }
   
+  /**
+   * Remove a leather from the leather's counter to place.
+   */
   public void removeLeather() { leatherCount--; }
   
   /**
@@ -97,7 +100,7 @@ public final class Player {
   
   /**
    * Return true if the patch can be placed somewhere on the quilt board.
-   * @param numPatch Number of the patch to test
+   * @param patch Number of the patch to test
    * @return True if there is available space, false otherwise.
    */
   public boolean canPlacePatch(Patch patch) {
@@ -131,7 +134,7 @@ public final class Player {
 
   /**
    * Buy a patch and place it automatically on the quilt board.
-   * @param numPatch Patch to buy
+   * @param patch Patch to buy
    */
   public void buyPatch(Patch patch) {
     Objects.requireNonNull(patch);
