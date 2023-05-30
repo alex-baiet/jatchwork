@@ -61,3 +61,6 @@ local.properties
 
 docs/doc/
 .ignore/
+/classes/
+patchwork.jar
+

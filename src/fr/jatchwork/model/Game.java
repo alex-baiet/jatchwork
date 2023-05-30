@@ -249,13 +249,24 @@ public final class Game {
   private Game(int phase) {
     players = new Player[] { new Player(1, QuiltBoard.SIZE, 5), new Player(2, QuiltBoard.SIZE, 5) };
     playing = players[0];
-    timeBoard = new TimeBoard(54,
-        new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
-        new int[] { 20, 26, 32, 44, 50 });
     switch (phase) {
-    case 1 -> patches = generatePatches1();
-    case 2, 3 -> patches = generatePatches2();
-    case 4 -> { }
+    case 1 -> {
+      patches = generatePatches1();
+      timeBoard = new TimeBoard(54,
+          new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
+          new int[] { });
+    }
+    case 2, 3 -> {
+      patches = generatePatches2();
+      timeBoard = new TimeBoard(54,
+          new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
+          new int[] { 20, 26, 32, 44, 50 });
+    }
+    case 4 -> {
+      timeBoard = new TimeBoard(54,
+          new int[] { 5, 11, 17, 23, 29, 35, 41, 47, 53 },
+          new int[] { 20, 26, 32, 44, 50 });
+    }
     default -> throw new IllegalArgumentException("Unexpected phase: " + phase);
     }
   }

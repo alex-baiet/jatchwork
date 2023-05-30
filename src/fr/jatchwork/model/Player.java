@@ -221,7 +221,7 @@ public final class Player {
     leatherCount += timeBoard.getLeathers(position, position + tileCount);
 
     if (position + tileCount >= timeBoard.size()) {
-      tileCount -= timeBoard.size() - position - 1;
+      tileCount = timeBoard.size() - position - 1;
     }
     position += tileCount;
     return tileCount;
